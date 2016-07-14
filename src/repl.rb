@@ -44,6 +44,8 @@ class DefaultHandler
     if command == "yes"
       response.handle
       response.message "Computer says YES"
+    elsif command == "no"
+      response.handle
     end
   end
 end
