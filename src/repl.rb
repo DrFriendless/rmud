@@ -64,21 +64,25 @@ def handle(command)
   response
 end
 
-cli = HighLine.new
-loop do
-  command = cli.ask "> "
-  response = handle(command)
-  if response.should_quit
-    break
-  end
-  if response.was_handled
-    message = response.get_message
-    if message
-      cli.say message
-    else
-      cli.say "<%= color('OK', BOLD) %>"
+class Repl
+  def run
+    cli = HighLine.new
+    loop do
+      command = cli.ask "> "
+      response = handle(command)
+      if response.should_quit
+        break
+      end
+      if response.was_handled
+        message = response.get_message
+        if message
+          cli.say message
+        else
+          cli.say "<%= color('OK', BOLD) %>"
+        end
+      else
+        cli.say "Computer says NO"
+      end
     end
-  else
-    cli.say "Computer says NO"
   end
 end
