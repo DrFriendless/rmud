@@ -22,6 +22,7 @@ class Echo < EM::Connection
   end
 
   def post_init
+    # TODO - send user name and client type identification
     send_data('Hello')
     prompt
   end
