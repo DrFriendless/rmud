@@ -1,9 +1,10 @@
 require_relative './things'
+require_relative './lib'
 
 class World
   def initialize()
     @singletons = []
-    @thingClasses = []
+    @thingClasses = {}
   end
 
   def load_lib()
@@ -11,19 +12,29 @@ class World
     yml.each {
         |k,v| load_from_file("lib", k, v)
     }
+    @singletons.each { |t| t.loaded_from_file() }
   end
 
   def load_from_file(wizard, key, props)
     fields = key.split("/")
-    className = fields[0]
-    key = fields[1]
-    clazz = Object::const_get(className)
-    thingClass = ThingClass.new(wizard, key, props, clazz)
-    @thingClasses.push thingClass
-    if clazz.ancestors.include? Singleton
-      obj = thingClass.instantiate
-      p obj.long
+    tcr = ThingClassRef.new(wizard, key)
+    tc = tcr.thingclass(self, props)
+    @thingClasses[tcr.key] = tc
+    if tc.rubyClass.ancestors.include? Singleton
+      obj = tc.instantiate
       @singletons.push obj
     end
+  end
+
+  def persist()
+    data = {}
+    @singletons.each {
+        |s| s.persist(data)
+    }
+    p data
+  end
+
+  def instantiate(thingclassref)
+    @thingClasses[thingclassref.key].instantiate
   end
 end

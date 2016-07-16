@@ -1,11 +1,23 @@
 Room/library:
     short: The Great Library
     long: This is the Great Library, the temple of Thoth.
+    contains: Thing/stick Creature/librarian
 
 Room/lostandfound:
     short: The Maelstrom
     long: This is the Maelstrom, a swirling chaotic vortex where chaos reigns.
+    contains: Creature/garialite
 
 Thing/stick:
     short: a stick
     long: It's brown and sticky.
+
+Creature/librarian:
+    short: a librarian
+    long: The librarian is a tall humanoid creature with the head of an ibis. It looks vicious, but is deathly silent.
+    maxhp: 30
+
+Creature/garialite:
+    short: a garialite
+    long: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
+    maxhp:  40
