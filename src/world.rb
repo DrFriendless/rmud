@@ -31,7 +31,7 @@ class World
     @singletons.each {
         |s| s.persist(data)
     }
-    p data
+    data
   end
 
   def instantiate(thingclassref)

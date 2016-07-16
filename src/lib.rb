@@ -9,8 +9,9 @@ class Body < Thing
   def persist(data)
     super
     persist_contents(data)
-    data[:maxhp] = @maxhp
-    data[:hp] = @hp
+    data[persistence_key] = {} unless data[persistence_key]
+    data[persistence_key][:maxhp] = @maxhp
+    data[persistence_key][:hp] = @hp
   end
 end
 
