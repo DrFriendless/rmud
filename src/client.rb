@@ -4,8 +4,10 @@
 
 require 'eventmachine'
 require 'highline'
+require 'yaml'
+require_relative './messages'
 
-class Echo < EM::Connection
+class RmudClient < EM::Connection
   attr_reader :queue
   attr_reader :cli
 
@@ -14,7 +16,7 @@ class Echo < EM::Connection
     @queue = q
 
     callback = Proc.new do |msg|
-      send_data(msg)
+      send_data(YAML::dump(CommandMessage.new msg))
       q.pop &callback
     end
 
@@ -23,7 +25,11 @@ class Echo < EM::Connection
 
   def post_init
     # TODO - send user name and client type identification
-    send_data('Hello')
+    @username = "Hello"
+    msg = LoginMessage.new @username
+    s = YAML::dump(msg)
+    p s
+    send_data(s)
     prompt
   end
 
@@ -36,6 +42,7 @@ class Echo < EM::Connection
   end
 
   def unbind
+    # disconnected from the server
     EventMachine::stop_event_loop
   end
 end
@@ -56,7 +63,6 @@ end
 
 EM.run {
   q = EM::Queue.new
-
-  EM.connect('127.0.0.1', 8081, Echo, q)
+  EM.connect('127.0.0.1', 8081, RmudClient, q)
   EM.open_keyboard(KeyboardHandler, q)
 }

@@ -1,16 +1,18 @@
 #!/usr/bin/env ruby
 
 require 'eventmachine'
+require 'yaml'
 require './repl.rb'
 
-module PlayerServer
+module EventHandler
   def post_init
-    puts "-- someone connected to the echo server! #{object_id}"
+    puts "-- someone connected to the server! #{object_id}"
   end
 
-  def receive_data command
-    puts "message from #{object_id}"
-    response = handle(command)
+  def receive_data(event)
+    e = YAML::load(event)
+    puts "-- message from #{object_id} #{e}"
+    response = handleEvent(e)
     if response.should_quit
       close_connection_after_writing
     end
@@ -28,6 +30,6 @@ module PlayerServer
 end
 
 EventMachine::run {
-  EventMachine::start_server "127.0.0.1", 8081, PlayerServer
+  EventMachine::start_server "127.0.0.1", 8081, EventHandler
   puts 'running server on 8081'
 }

@@ -1,4 +1,5 @@
 require 'highline'
+require_relative './messages'
 
 class Response
   @quit = false
@@ -34,7 +35,7 @@ class Response
   end
 end
 
-class DefaultHandler
+class DefaultCommandHandler
   def handle(response, command)
     if command == "quit"
       puts "Command #{command}"
@@ -51,19 +52,34 @@ class DefaultHandler
 end
 
 def find_handlers()
-  [ DefaultHandler.new ]
+  [ DefaultCommandHandler.new ]
 end
 
-def handle(command)
+def handleCommand(command)
   handlers = find_handlers
   response = Response.new
   for h in handlers
     h.handle(response, command)
     if response.was_handled
-      return response
+      break
     end
   end
   response
+end
+
+
+def handleEvent(event)
+  if event.is_a? CommandMessage
+    return handleCommand event.command
+  elsif event.is_a? LoginMessage
+    puts "#{event.username} logs in"
+    response = Response.new
+    response.handle
+    return response
+  else
+    puts "Unhandled event #{event}"
+  end
+  Response.new
 end
 
 class Repl
@@ -71,7 +87,7 @@ class Repl
     cli = HighLine.new
     loop do
       command = cli.ask "> "
-      response = handle(command)
+      response = handleCommand(command)
       if response.should_quit
         break
       end
