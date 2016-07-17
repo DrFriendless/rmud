@@ -4,6 +4,37 @@ require 'eventmachine'
 require 'yaml'
 require './repl.rb'
 
+class Event
+  def initialize(event, handler)
+    @event = event
+    @handler = handler
+  end
+
+  attr_reader :event
+  attr_reader :handler
+end
+
+class EventQueue
+  def initialize()
+    @queue = EM::Queue.new
+    callback = Proc.new do |e|
+      e.handler.reply(handleEvent(e.event))
+      @queue.pop &callback
+    end
+    @queue.pop &callback
+  end
+
+  def enqueue(e)
+    @queue.push(e)
+  end
+
+  @@event_queue = EventQueue.new
+
+  def self.enqueue(event)
+    @@event_queue.enqueue(event)
+  end
+end
+
 module EventHandler
   def post_init
     puts "-- someone connected to the server! #{object_id}"
@@ -12,7 +43,10 @@ module EventHandler
   def receive_data(event)
     e = YAML::load(event)
     puts "-- message from #{object_id} #{e}"
-    response = handleEvent(e)
+    EventQueue::enqueue(Event.new(e, self))
+  end
+
+  def reply(response)
     if response.should_quit
       close_connection_after_writing
     end
