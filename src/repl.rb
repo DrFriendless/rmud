@@ -76,6 +76,8 @@ def handleEvent(event)
     response = Response.new
     response.handle
     return response
+  elsif event.is_a? HeartbeatMessage
+    return ()
   else
     puts "Unhandled event #{event}"
   end

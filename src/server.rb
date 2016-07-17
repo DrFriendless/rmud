@@ -14,6 +14,17 @@ class Event
   attr_reader :handler
 end
 
+class HeartbeatEvent < Event
+  def initialize()
+    @event = HeartbeatMessage.new
+    @handler = self
+  end
+
+  def reply(response)
+    puts "badoom"
+  end
+end
+
 class EventQueue
   def initialize()
     @queue = EM::Queue.new
@@ -64,6 +75,9 @@ module EventHandler
 end
 
 EventMachine::run {
+  heartbeat_timer = EventMachine::PeriodicTimer.new(2) do
+    EventQueue::enqueue(HeartbeatEvent.new)
+  end
   EventMachine::start_server "127.0.0.1", 8081, EventHandler
   puts 'running server on 8081'
 }
