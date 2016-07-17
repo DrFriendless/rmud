@@ -8,28 +8,26 @@ require 'yaml'
 require_relative './messages'
 
 class RmudClient < EM::Connection
-  attr_reader :queue
-  attr_reader :cli
-
   def initialize(q)
     @cli = HighLine.new
     @queue = q
 
     callback = Proc.new do |msg|
-      send_data(YAML::dump(CommandMessage.new msg))
+      send_message(CommandMessage.new msg)
       q.pop &callback
     end
 
     q.pop &callback
   end
 
+  def send_message(msg)
+    send_data(YAML::dump(msg))
+  end
+
   def post_init
     # TODO - send user name and client type identification
     @username = "Hello"
-    msg = LoginMessage.new @username
-    s = YAML::dump(msg)
-    p s
-    send_data(s)
+    send_message(LoginMessage.new @username)
     prompt
   end
 
@@ -39,6 +37,7 @@ class RmudClient < EM::Connection
 
   def receive_data(data)
     @cli.say data
+    prompt
   end
 
   def unbind
@@ -49,8 +48,6 @@ end
 
 class KeyboardHandler < EM::Connection
   include EM::Protocols::LineText2
-
-  attr_reader :queue
 
   def initialize(q)
     @queue = q
