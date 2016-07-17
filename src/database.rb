@@ -41,4 +41,10 @@ class Database
   def load()
     @client[:world].find()
   end
+
+  @@database = Database.new
+
+  def self.persist(data)
+    @@database.save(data)
+  end
 end

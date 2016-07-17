@@ -1,3 +1,5 @@
+require 'psych'
+require 'yaml'
 require_relative './things'
 require_relative './lib'
 

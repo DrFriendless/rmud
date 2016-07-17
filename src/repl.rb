@@ -1,40 +1,6 @@
 require 'highline'
 require_relative './messages'
 
-class Response
-  @quit = false
-  @handled = false
-  @message = ()
-
-  def handle()
-    @handled = true
-  end
-
-  def quit()
-    @quit = true
-  end
-
-  def message(s)
-    @message = s
-  end
-
-  def get_message()
-    @message
-  end
-
-  def was_handled()
-    @handled
-  end
-
-  def should_quit()
-    @quit
-  end
-
-  def debug(key)
-    "debug <#{key}> Quit <#{@quit}> handled <#{@handled}> message <#{@message}>"
-  end
-end
-
 class DefaultCommandHandler
   def handle(response, command)
     if command == "quit"
@@ -55,6 +21,7 @@ def find_handlers()
   [ DefaultCommandHandler.new ]
 end
 
+# a command came from a client, execute its effect on the world.
 def handleCommand(command)
   handlers = find_handlers
   response = Response.new
@@ -67,42 +34,3 @@ def handleCommand(command)
   response
 end
 
-
-def handleEvent(event)
-  if event.is_a? CommandMessage
-    return handleCommand event.command
-  elsif event.is_a? LoginMessage
-    puts "#{event.username} logs in"
-    response = Response.new
-    response.handle
-    return response
-  elsif event.is_a? HeartbeatMessage
-    return ()
-  else
-    puts "Unhandled event #{event}"
-  end
-  Response.new
-end
-
-class Repl
-  def run
-    cli = HighLine.new
-    loop do
-      command = cli.ask "> "
-      response = handleCommand(command)
-      if response.should_quit
-        break
-      end
-      if response.was_handled
-        message = response.get_message
-        if message
-          cli.say message
-        else
-          cli.say "<%= color('OK', BOLD) %>"
-        end
-      else
-        cli.say "Computer says NO"
-      end
-    end
-  end
-end
