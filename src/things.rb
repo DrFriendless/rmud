@@ -9,7 +9,6 @@ class ThingClass
   attr_reader :properties
   attr_reader :ruby_class
   attr_reader :world
-  attr_reader :thing_class_ref
 
   def wizard()
     @thing_class_ref.wizard
@@ -52,10 +51,10 @@ end
 # A thing in the world
 class Thing
   @thingClass
-  @location
 
-  attr_reader :short
-  attr_reader :long
+  attr_accessor :short
+  attr_accessor :long
+  attr_accessor :location
 
   def persist(data)
     data[persistence_key] = {} unless data[persistence_key]
@@ -81,7 +80,7 @@ class Thing
 
   def create(s)
     tcr = ThingClassRef.new(@thingClass.wizard, s)
-    @thingClass.world.instantiate(tcr)
+    @thingClass.world.instantiate_ref(tcr)
   end
 end
 

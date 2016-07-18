@@ -5,14 +5,14 @@ class DefaultCommandHandler
   def handle(response, command)
     if command == "quit"
       puts "Command #{command}"
-      response.handle
-      response.quit
+      response.handled = true
+      response.quit = true
     end
     if command == "yes"
-      response.handle
-      response.message "Computer says YES"
+      response.handled = true
+      response.message = "Computer says YES"
     elsif command == "no"
-      response.handle
+      response.handled = true
     end
   end
 end
@@ -27,7 +27,7 @@ def handleCommand(command)
   response = Response.new
   for h in handlers
     h.handle(response, command)
-    if response.was_handled
+    if response.handled
       break
     end
   end

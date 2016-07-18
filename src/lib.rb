@@ -23,6 +23,11 @@ class Body < Thing
 end
 
 class PlayerBody < Body
+  attr_accessor :name
+
+  def persistence_key()
+    "lib/PlayerBody/#{name}"
+  end
 end
 
 class Creature < Body

@@ -31,30 +31,12 @@ class Response
   @quit = false
   @handled = false
   @message = ()
+  @body = ()
 
-  def handle()
-    @handled = true
-  end
-
-  def quit()
-    @quit = true
-  end
-
-  def message(s)
-    @message = s
-  end
-
-  def get_message()
-    @message
-  end
-
-  def was_handled()
-    @handled
-  end
-
-  def should_quit()
-    @quit
-  end
+  attr_accessor :handled
+  attr_accessor :quit
+  attr_accessor :message
+  attr_accessor :body
 
   def debug(key)
     "debug <#{key}> Quit <#{@quit}> handled <#{@handled}> message <#{@message}>"

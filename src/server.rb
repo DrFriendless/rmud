@@ -63,8 +63,12 @@ class EventLoop
       return handleCommand event.command
     elsif event.is_a? LoginMessage
       puts "#{event.username} logs in"
+      body = @world.instantiate_player(event.username)
+      body.move_to(@world.find_singleton("lib/Room/lostandfound"))
       response = Response.new
-      response.handle
+      response.handled = true
+      response.message = body.location.long
+      response.body = body
       return response
     elsif event.is_a? HeartbeatMessage
       # TODO
@@ -99,13 +103,15 @@ module ClientHandler
   end
 
   def reply(response)
-    if response.should_quit
+    if response.quit
       close_connection_after_writing
     end
-    if response.was_handled
-      message = response.get_message
-      if message
-        send_data message
+    if response.handled
+      if response.body
+        @body = response.body
+      end
+      if response.message
+        send_data response.message
       else
         send_data "<%= color('OK', BOLD) %>"
       end
@@ -121,7 +127,6 @@ data = Database::restore
 if data.size == 0
   world.on_world_create
 else
-  p data
   world.restore(data)
 end
 EventLoop::set_world(world)
