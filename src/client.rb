@@ -8,9 +8,11 @@ require 'yaml'
 require_relative './messages'
 
 class RmudClient < EM::Connection
-  def initialize(q)
-    @cli = HighLine.new
+  def initialize(q, player, password)
     @queue = q
+    @player = player
+    @password = password
+    @cli = HighLine.new
 
     callback = Proc.new do |msg|
       send_message(CommandMessage.new msg)
@@ -26,8 +28,7 @@ class RmudClient < EM::Connection
 
   def post_init
     # TODO - send user name and client type identification
-    @username = "Hello"
-    send_message(LoginMessage.new @username)
+    send_message(LoginMessage.new(@player,@password))
     prompt
   end
 
@@ -58,8 +59,12 @@ class KeyboardHandler < EM::Connection
   end
 end
 
+puts "Player name: "
+playerName = gets.chomp
+puts "Password: "
+password = gets.chomp
 EM.run {
   q = EM::Queue.new
-  EM.connect('127.0.0.1', 8081, RmudClient, q)
+  EM.connect('127.0.0.1', 8081, RmudClient, q, playerName, password)
   EM.open_keyboard(KeyboardHandler, q)
 }

@@ -1,11 +1,13 @@
 # types of messages that go into the event loop
 
 class LoginMessage
-  def initialize(username)
+  def initialize(username, password)
     @username = username
+    @password = password
   end
 
   attr_reader :username
+  attr_reader :password
 end
 
 

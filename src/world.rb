@@ -4,12 +4,24 @@ require_relative './things'
 require_relative './lib'
 
 class World
-  def initialize()
+  def initialize(database)
+    @database = database
     @singletons = []
     @all_things = []
     @thingClasses = {}
   end
 
+  def load()
+    load_lib
+    data = @database.load
+    if data.size == 0
+      on_world_create
+    else
+      restore(data)
+    end
+  end
+
+  # load definitions of objects from YAML.
   def load_lib()
     yaml = Psych.load_file("lib/lib.yml")
     yaml.each {
@@ -18,6 +30,7 @@ class World
     @all_things += @singletons
   end
 
+  # a new world was created
   def on_world_create()
     @singletons.each { |t| t.on_world_create() }
   end
@@ -33,6 +46,11 @@ class World
   end
 
   def persist()
+    @database.save(persist_data)
+    # TODO - update player locations
+  end
+
+  def persist_data()
     data = {}
     @all_things.each {
         |s| s.persist(data)

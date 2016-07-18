@@ -38,21 +38,29 @@ class Database
     end
   end
 
+  def check_password(username, password)
+    players = @client[:players]
+    us = []
+    # there must be something better than this.
+    players.find({:username => username}).each { |row| us.push(row) }
+    if us.length > 0
+      if us[0][:password] == password
+        return us[0]
+      else
+        return ()
+      end
+    else
+      rec = { :username => username, :password => password, :location => "lib/Room/library" }
+      players.insert_one(rec)
+      rec
+    end
+  end
+
   def load()
     rows = []
     @client[:world].find().each { |r|
       rows.push(r)
     }
     rows
-  end
-
-  @@database = Database.new
-
-  def self.persist(data)
-    @@database.save(data)
-  end
-
-  def self.restore()
-    @@database.load
   end
 end

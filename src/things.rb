@@ -82,6 +82,10 @@ class Thing
     tcr = ThingClassRef.new(@thingClass.wizard, s)
     @thingClass.world.instantiate_ref(tcr)
   end
+
+  def method_missing(method)
+    # now we can try to get dogs to quack.
+  end
 end
 
 # marker to indicate that there is one of these and it always exists.

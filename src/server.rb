@@ -55,14 +55,15 @@ class PersistEvent
   attr_reader :message
 
   def reply(data)
-    Database::persist(data)
+    puts "saved"
   end
 end
 
 # the main event loop in the server
 class EventLoop
-  def initialize(world)
+  def initialize(world, database)
     @world = world
+    @database = database
     @queue = EM::Queue.new
     callback = Proc.new do |e|
       e.reply(handleMessage(e.message))
@@ -84,7 +85,7 @@ class EventLoop
   end
 
 # a command came from a client, execute its effect on the world.
-  def handleCommand(command, body)
+  def handle_command(command, body)
     handlers = find_handlers(body)
     response = Response.new
     for h in handlers
@@ -96,19 +97,28 @@ class EventLoop
     response
   end
 
-  # a message arrived, execute it
+# a message arrived, execute it
   def handleMessage(event)
     if event.is_a? CommandMessage
-      return handleCommand(event.command, event.body)
+      return handle_command(event.command, event.body)
     elsif event.is_a? LoginMessage
-      puts "#{event.username} logs in"
-      body = @world.instantiate_player(event.username)
-      body.move_to(@world.find_singleton("lib/Room/lostandfound"))
-      response = Response.new
-      response.handled = true
-      response.message = body.location.long
-      response.body = body
-      return response
+      player_data = @database.check_password(event.username, event.password)
+      if player_data
+        puts "#{player_data[:username]} logs in"
+        body = @world.instantiate_player(event.username)
+        loc = @world.find_singleton(player_data[:location]) || @world.find_singleton("lib/Room/lostandfound")
+        body.move_to(loc)
+        response = Response.new
+        response.handled = true
+        response.message = body.location.long
+        response.body = body
+        return response
+      else
+        response = Response.new
+        response.handled = true
+        response.message = "Incorrect password"
+        return response
+      end
     elsif event.is_a? HeartbeatMessage
       # TODO
       return ()
@@ -120,8 +130,8 @@ class EventLoop
     end
   end
 
-  def self.set_world(world)
-    @@event_loop = EventLoop.new(world)
+  def self.create(world, database)
+    @@event_loop = EventLoop.new(world, database)
   end
 
   def self.enqueue(event)
@@ -163,15 +173,10 @@ module ClientHandler
   end
 end
 
-world = World.new
-world.load_lib
-data = Database::restore
-if data.size == 0
-  world.on_world_create
-else
-  world.restore(data)
-end
-EventLoop::set_world(world)
+database = Database.new
+world = World.new(database)
+world.load()
+EventLoop::create(world, database)
 EventMachine::run {
   heartbeat_timer = EventMachine::PeriodicTimer.new(2) do
     EventLoop::enqueue(HeartbeatEvent.new)
