@@ -39,12 +39,20 @@ class Database
   end
 
   def load()
-    @client[:world].find()
+    rows = []
+    @client[:world].find().each { |r|
+      rows.push(r)
+    }
+    rows
   end
 
   @@database = Database.new
 
   def self.persist(data)
     @@database.save(data)
+  end
+
+  def self.restore()
+    @@database.load
   end
 end

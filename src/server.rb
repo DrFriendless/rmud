@@ -117,6 +117,13 @@ end
 
 world = World.new
 world.load_lib
+data = Database::restore
+if data.size == 0
+  world.on_world_create
+else
+  p data
+  world.restore(data)
+end
 EventLoop::set_world(world)
 EventMachine::run {
   heartbeat_timer = EventMachine::PeriodicTimer.new(2) do

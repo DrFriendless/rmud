@@ -13,6 +13,13 @@ class Body < Thing
     data[persistence_key][:maxhp] = @maxhp
     data[persistence_key][:hp] = @hp
   end
+
+  def restore(data, by_persistence_key)
+    super
+    restore_contents(data, by_persistence_key)
+    @maxhp = data[:maxhp]
+    @hp = data[:hp]
+  end
 end
 
 class PlayerBody < Body
@@ -36,7 +43,12 @@ class Room < Thing
     persist_contents(data)
   end
 
-  def loaded_from_file()
+  def restore(data, by_persistence_key)
+    super
+    restore_contents(data, by_persistence_key)
+  end
+
+  def on_world_create()
     cs = @thingClass.properties["contains"]
     if cs then
       refs = cs.split()

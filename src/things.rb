@@ -1,21 +1,22 @@
 class ThingClass
   def initialize(tcr, p, rc, world)
-    @thingClassRef = tcr
+    @thing_class_ref = tcr
     @properties = p
-    @rubyClass= rc
+    @ruby_class= rc
     @world = world
   end
 
   attr_reader :properties
-  attr_reader :rubyClass
+  attr_reader :ruby_class
   attr_reader :world
+  attr_reader :thing_class_ref
 
   def wizard()
-    @thingClassRef.wizard
+    @thing_class_ref.wizard
   end
 
   def instantiate
-    obj = @rubyClass.new
+    obj = @ruby_class.new
     obj.instance_variable_set(:@thingClass, self)
     @properties.each {
       |k,v| obj.instance_variable_set("@"+k, v)
@@ -24,7 +25,7 @@ class ThingClass
   end
 
   def persistence_key()
-    @thingClassRef.key
+    @thing_class_ref.key
   end
 end
 
@@ -57,6 +58,10 @@ class Thing
   attr_reader :long
 
   def persist(data)
+    data[persistence_key] = {} unless data[persistence_key]
+  end
+
+  def restore(data, by_persistence_key)
   end
 
   def persistence_key()
@@ -95,7 +100,17 @@ module Container
   def persist_contents(data)
     data[persistence_key] = {} unless data[persistence_key]
     data[persistence_key][:contents] = @contents.map { |t| t.persistence_key }
-    @contents.each { |t| t.persist(data) }
+  end
+
+  def restore_contents(data, by_persistence_key)
+    contents = data[:contents]
+    contents.each { |key|
+      if by_persistence_key[key]
+        by_persistence_key[key].move_to(self)
+      else
+        puts "Did not find #{key}"
+      end
+    }
   end
 
   def remove(thing)
