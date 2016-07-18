@@ -15,6 +15,7 @@ class CommandMessage
   end
 
   attr_reader :command
+  attr_accessor :body
 end
 
 

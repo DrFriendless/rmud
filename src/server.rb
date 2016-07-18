@@ -2,27 +2,54 @@
 
 require 'eventmachine'
 require 'yaml'
-require_relative './repl.rb'
 require_relative './world.rb'
 require_relative './database.rb'
+require_relative './messages.rb'
+
+class DefaultCommandHandler
+  def handle(response, command)
+    if command == "quit"
+      response.handled = true
+      response.quit = true
+    end
+    if command == "look"
+      response.handled = true
+      response.message = "whut"
+    end
+    if command == "yes"
+      response.handled = true
+      response.message = "Computer says YES"
+    elsif command == "no"
+      response.handled = true
+    end
+  end
+end
 
 # an event on the event queue
-class Event
-  def initialize(event, handler)
-    @event = event
+class CommandEvent
+  def initialize(message, body, handler)
+    @message = message
+    @body = body
     @handler = handler
   end
 
-  attr_reader :event
+  attr_reader :message
+  attr_reader :body
   attr_reader :handler
+
+  def reply(response)
+    @handler.reply(response)
+  end
 end
 
 # a heartbeat message and a null callback
-class HeartbeatEvent < Event
+class HeartbeatEvent
   def initialize()
-    @event = HeartbeatMessage.new
+    @message = HeartbeatMessage.new
     @handler = self
   end
+
+  attr_reader :message
 
   def reply(response)
     puts "badoom"
@@ -30,11 +57,13 @@ class HeartbeatEvent < Event
 end
 
 # a persist message and a null callback
-class PersistEvent < Event
+class PersistEvent
   def initialize()
-    @event = PersistMessage.new
+    @message = PersistMessage.new
     @handler = self
   end
+
+  attr_reader :message
 
   def reply(data)
     Database::persist(data)
@@ -47,7 +76,8 @@ class EventLoop
     @world = world
     @queue = EM::Queue.new
     callback = Proc.new do |e|
-      e.handler.reply(handleEvent(e.event))
+      p e
+      e.reply(handleMessage(e.message))
       @queue.pop &callback
     end
     @queue.pop &callback
@@ -57,10 +87,27 @@ class EventLoop
     @queue.push(e)
   end
 
-  # an event arrived, execute it
-  def handleEvent(event)
+  def find_handlers()
+    [ DefaultCommandHandler.new ]
+  end
+
+# a command came from a client, execute its effect on the world.
+  def handleCommand(command, body)
+    handlers = find_handlers
+    response = Response.new
+    for h in handlers
+      h.handle(response, command)
+      if response.handled
+        break
+      end
+    end
+    response
+  end
+
+  # a message arrived, execute it
+  def handleMessage(event)
     if event.is_a? CommandMessage
-      return handleCommand event.command
+      return handleCommand(event.command, event.body)
     elsif event.is_a? LoginMessage
       puts "#{event.username} logs in"
       body = @world.instantiate_player(event.username)
@@ -99,7 +146,10 @@ module ClientHandler
   def receive_data(event)
     e = YAML::load(event)
     puts "-- message from #{object_id} #{e}"
-    EventLoop::enqueue(Event.new(e, self))
+    if e.is_a? CommandMessage
+      e.body = @body
+    end
+    EventLoop::enqueue(CommandEvent.new(e, @body, self))
   end
 
   def reply(response)
