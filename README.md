@@ -1,3 +1,7 @@
 # RMud
 
-This is an exercise to learn Ruby on Rails. I intend it to be some sort of rudimentary extensible MUD loosely based on my  great love, LPMud. At the moment it looks like it will be better to use Mongo as the database so it won't technically be Rails. Apparently the Mongo interface uses ActiveRecord anyway.
+This is an exercise to learn Ruby.
+It was going to be Ruby on Rails, but Mongo is much more suitable to this task.
+
+I intend it to be some sort of rudimentary extensible MUD loosely based on my  great love, LPMud.
+Object scripting will be in Ruby, interacting directly with the MUD infrastructure, so content creators must be trustworthy, i.e. this is not the sort of game you open up to the whole world.
