@@ -12,33 +12,22 @@ class DefaultCommandHandler
       response.handled = true
       response.quit = true
     end
-    if command == "look"
-      response.handled = true
-      response.message = "whut"
-    end
-    if command == "yes"
-      response.handled = true
-      response.message = "Computer says YES"
-    elsif command == "no"
-      response.handled = true
-    end
   end
 end
 
 # an event on the event queue
 class CommandEvent
-  def initialize(message, body, handler)
+  def initialize(message, body, callback)
     @message = message
     @body = body
-    @handler = handler
+    @callback = callback
   end
 
   attr_reader :message
   attr_reader :body
-  attr_reader :handler
 
   def reply(response)
-    @handler.reply(response)
+    @callback.reply(response)
   end
 end
 
@@ -76,7 +65,6 @@ class EventLoop
     @world = world
     @queue = EM::Queue.new
     callback = Proc.new do |e|
-      p e
       e.reply(handleMessage(e.message))
       @queue.pop &callback
     end
@@ -87,13 +75,17 @@ class EventLoop
     @queue.push(e)
   end
 
-  def find_handlers()
-    [ DefaultCommandHandler.new ]
+  def find_handlers(body)
+    result = [ body ]
+    if body.location
+      result.push(body.location)
+    end
+    result.push DefaultCommandHandler.new
   end
 
 # a command came from a client, execute its effect on the world.
   def handleCommand(command, body)
-    handlers = find_handlers
+    handlers = find_handlers(body)
     response = Response.new
     for h in handlers
       h.handle(response, command)

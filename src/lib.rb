@@ -28,6 +28,19 @@ class PlayerBody < Body
   def persistence_key()
     "lib/PlayerBody/#{name}"
   end
+
+  def handle(response, command)
+    if command == "look"
+      response.handled = true
+      response.message = "whut"
+    end
+    if command == "yes"
+      response.handled = true
+      response.message = "Computer says YES"
+    elsif command == "no"
+      response.handled = true
+    end
+  end
 end
 
 class Creature < Body

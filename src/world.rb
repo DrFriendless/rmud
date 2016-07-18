@@ -76,7 +76,9 @@ class World
     by_persistence_key = {}
     data.each { |t|
       id = t[:_id]
-      if id.index('@')
+      if id.start_with? "lib/PlayerBody/"
+        # don't recreate player bodies
+      elsif id.index('@')
         # non-singleton
         key = id[0..id.index('@')-1]
         tc = @thingClasses[key]
@@ -89,7 +91,9 @@ class World
     data.each { |vs|
       id = vs[:_id]
       t = by_persistence_key[id]
-      t.restore(vs, by_persistence_key)
+      if t
+        t.restore(vs, by_persistence_key)
+      end
     }
   end
 end
