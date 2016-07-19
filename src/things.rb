@@ -67,6 +67,15 @@ class Thing
     @thingClass.persistence_key + "@#{object_id}"
   end
 
+  def world()
+    @thingClass.world
+  end
+
+  def move_to_location(key)
+    loc = world.find_singleton(key) || world.find_singleton("lib/Room/lostandfound")
+    move_to(loc)
+  end
+
   def move_to(dest)
     if @location
       @location.remove(self)
@@ -80,7 +89,7 @@ class Thing
 
   def create(s)
     tcr = ThingClassRef.new(@thingClass.wizard, s)
-    @thingClass.world.instantiate_ref(tcr)
+    world.instantiate_ref(tcr)
   end
 
   def method_missing(method)
@@ -99,6 +108,8 @@ module Container
   def initialize_contents()
     @contents = []
   end
+
+  attr_reader :contents
 
   def persist_contents(data)
     data[persistence_key] = {} unless data[persistence_key]

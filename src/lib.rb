@@ -22,6 +22,7 @@ class Body < Thing
   end
 end
 
+# A PlayerBody is special because it can appear and disappear as players log in and out.
 class PlayerBody < Body
   attr_accessor :name
 
@@ -32,7 +33,19 @@ class PlayerBody < Body
   def handle(response, command)
     if command == "look"
       response.handled = true
-      response.message = "whut"
+      lines = []
+      # no reason this should happen, but if it does...
+      if !@location
+        puts "Emergency moving #{@name} to the library."
+        move_to_location("lib/Room/library")
+      end
+      lines.push(@location.long)
+      @location.contents.each { |t|
+        if t != self
+          lines.push(t.long)
+        end
+      }
+      response.message = lines.join("\n")
     end
     if command == "yes"
       response.handled = true
