@@ -1,7 +1,6 @@
 require 'psych'
 require 'yaml'
 require_relative './thingutil'
-require_relative './lib'
 
 class World
   def initialize(database)
@@ -13,17 +12,50 @@ class World
   end
 
   def load()
-    load_lib
+    load_wizards
     restore(@database.load)
   end
 
   # load definitions of objects from YAML.
-  def load_lib()
-    yaml = Psych.load_file("lib/lib.yml")
-    yaml.each {
-        |k,v| load_from_file("lib", k, v)
+  def load_wizards()
+    lib = ()
+    wizdirs = []
+    Dir["./wizards/*"].each { |filename|
+      f = File.new(filename)
+      if File.directory?(f)
+        if File.basename(f) == "lib"
+          lib = f
+        else
+          wizdirs.push(f)
+        end
+      end
+    }
+    wizdirs = [lib] + wizdirs
+    wizdirs.each { |dir|
+      load_wizard(dir)
     }
     @all_things += @singletons
+  end
+
+  def load_wizard(dir)
+    wizard = File.basename(File.new(dir))
+    # load Ruby
+    Dir.entries(File.absolute_path(dir.path)).each { |filename|
+      if filename.end_with?(".rb")
+        abs_fn = "#{dir.path}/#{filename}"
+        require abs_fn
+      end
+    }
+    # load YAML
+    Dir.entries(File.absolute_path(dir.path)).each { |filename|
+      if filename.end_with?(".yml")
+        abs_fn = "#{dir.path}/#{filename}"
+        yaml = Psych.load_file(abs_fn)
+        yaml.each {
+            |k,v| load_from_file(wizard, k, v)
+        }
+      end
+    }
   end
 
   def load_from_file(wizard, key, props)

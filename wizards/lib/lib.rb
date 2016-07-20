@@ -1,5 +1,5 @@
-require_relative './thingutil.rb'
-require_relative './thing.rb'
+require_relative '../../src/server/thingutil.rb'
+require_relative '../../src/server/thing.rb'
 
 class Body < Thing
   include Container
