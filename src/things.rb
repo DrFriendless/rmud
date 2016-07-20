@@ -100,6 +100,15 @@ class Thing
       end
     }
     alias_verb(["take", :it], ["get", :it])
+    verb(["drop", :it]) { |response,command,match|
+      if @location == command.body
+        self.move_to(command.body.location)
+        # todo tell the room
+      else
+        response.message = "You don't have that."
+      end
+      response.handled = true
+    }
   end
 
   attr_accessor :short

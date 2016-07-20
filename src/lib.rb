@@ -58,6 +58,14 @@ class PlayerBody < Body
       response.handled = true
       response.quit = true
     }
+    verb(["inventory"]) {|response, command, match|
+      response.handled = true
+      puts "contents #{@contents}"
+      lines = @contents.map { |c| c.short }
+      if lines.size == 0; lines.push("You don't have anything.") end
+      response.message = lines.join("\n")
+    }
+    alias_verb(["i"], ["inventory"])
   end
 
   def persistence_key()
