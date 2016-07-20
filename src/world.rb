@@ -38,15 +38,11 @@ class World
 
   def persist()
     @database.save(persist_data)
-    @all_players.each { |p|
-      @database.save_player(p.persist_player)
-    }
   end
 
   def persist_data()
     data = {}
     @all_things.
-        select { |s| !s.is_do_not_persist? }.
         each { |s| s.persist(data) }
     data
   end
@@ -74,6 +70,10 @@ class World
     thing
   end
 
+  def find_player(username)
+    @all_players.select { |p| p.name == username }.first()
+  end
+
   def remove_player(body)
     @all_things.delete(body)
     @all_players.delete(body)
@@ -82,7 +82,6 @@ class World
   def find_singleton(key)
     @singletons.each { |s|
       if s.persistence_key == key
-        puts "Found #{key}"
         return s
       end
     }
@@ -98,9 +97,17 @@ class World
         key = id[0..id.index('@')-1]
         tc = @thingClasses[key]
         by_persistence_key[id] = instantiate_class(tc)
+      elsif id.start_with?("player")
+        p "data #{data}"
+        by_persistence_key[id] = instantiate_player(t[:name])
+        # where the player will go to when they log in again.
+        by_persistence_key[id].loc = t[:loc]
       else
         # singleton
         by_persistence_key[id] = find_singleton(id)
+        if !by_persistence_key[id]
+          p "did not load #{id}"
+        end
       end
     }
     data.each { |vs|

@@ -38,11 +38,6 @@ class Database
     end
   end
 
-  def save_player(data)
-    # TODO
-    p "save_player #{data}"
-  end
-
   def check_password(username, password)
     players = @client[:players]
     us = []

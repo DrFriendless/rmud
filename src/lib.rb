@@ -12,7 +12,7 @@ class Body < Thing
   def persist(data)
     super
     persist_contents(data)
-    data[persistence_key] = {} unless data[persistence_key]
+    data[persistence_key] ||= {}
     data[persistence_key][:maxhp] = @maxhp
     data[persistence_key][:hp] = @hp
   end
@@ -32,8 +32,11 @@ end
 # A PlayerBody is special because it can appear and disappear as players log in and out.
 class PlayerBody < Body
   attr_accessor :name
+  attr_accessor :loc
+
   def initialize()
     super
+    @loc = "lib/Room/lostandfound"
     verb(["look"]) { |response, command, match|
       response.handled = true
       lines = []
@@ -56,7 +59,6 @@ class PlayerBody < Body
     }
     verb(["inventory"]) { |response, command, match|
       response.handled = true
-      puts "contents #{@contents}"
       lines = @contents.map { |c| c.short }
       if lines.size == 0; lines.push("You don't have anything.") end
       response.message = lines.join("\n")
@@ -69,15 +71,15 @@ class PlayerBody < Body
   end
 
   def persistence_key()
-    "player/#{name}"
+    "player/#{@name}"
   end
 
-  def persist_player()
-    data = { :id => persistence_key, :loc => @location.persistence_key, :name => @name }
-    tmp = {}
-    persist_contents(tmp)
-    data[:contents] = tmp[persistence_key][:contents]
-    data
+  def persist(data)
+    super
+    if @location
+      data[persistence_key][:loc] = @location.persistence_key
+      data[persistence_key][:name] = @name
+    end
   end
 end
 

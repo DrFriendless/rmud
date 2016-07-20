@@ -95,9 +95,11 @@ class EventLoop
       player_data = @database.check_password(event.username, event.password)
       if player_data
         puts "#{player_data[:username]} logs in"
-        body = @world.instantiate_player(event.username)
-        loc = @world.find_singleton(player_data[:location]) || @world.find_singleton("lib/Room/lostandfound")
-        body.move_to(loc)
+        body = @world.find_player(event.username)
+        if !body; body = @world.instantiate_player(event.username) end
+        body.location ||= @world.find_singleton(body.loc)
+        body.location ||= @world.find_singleton("lib/Room/lostandfound")
+        body.move_to(body.location)
         response = Response.new
         response.handled = true
         response.message = body.location.long
@@ -136,7 +138,6 @@ module ClientHandler
 
   def receive_data(event)
     e = YAML::load(event)
-    puts "-- message from #{object_id} #{e}"
     if e.is_a? CommandMessage
       e.body = @body
     end
