@@ -54,13 +54,15 @@ class Verb
     @block = block
   end
 
+  attr_reader :pattern
+  attr_reader :block
+
   def handle(response, command, match)
     @block.call(response, command, match)
   end
 
-  # subject is the Thing which implements this verb
-  def match(command)
-    match_words(@pattern, command.words, command.body)
+  def match(command, subject)
+    match_words(@pattern, command.words, subject)
   end
 
   def match_words(pattern, words, subject)
@@ -71,7 +73,7 @@ class Verb
       return false
     elsif pattern[0] == :it
       (1..words.size).each { |n|
-        if subject.is_called(words[0,n]) && match_words(pattern.drop(1), words.drop(n), subject)
+        if subject.is_called?(words[0,n].join(" ")) && match_words(pattern.drop(1), words.drop(n), subject)
           return true
         end
       }
@@ -86,11 +88,31 @@ end
 class Thing
   def initialize()
     @verbs = []
+    verb(["get", :it]) { |response,command,match|
+      if @location == command.body.location
+        if self.can_be_carried?
+          self.move_to(command.body)
+          # todo tell the room
+        else
+          response.message = "You can't take that."
+        end
+        response.handled = true
+      end
+    }
+    alias_verb(["take", :it], ["get", :it])
   end
 
   attr_accessor :short
   attr_accessor :long
   attr_accessor :location
+  attr_accessor :identity
+
+  def is_called?(name)
+    if @identity && !@identities
+      @identities = @identity.split(",").each { |i| i.strip() }
+    end
+    @identities && @identities.include?(name)
+  end
 
   def persist(data)
     data[persistence_key] = {} unless data[persistence_key]
@@ -128,7 +150,8 @@ class Thing
     world.instantiate_ref(tcr)
   end
 
-  def method_missing(method)
+  def method_missing(method, *args)
+    puts method
     # now we can try to get dogs to quack.
   end
 
@@ -136,13 +159,27 @@ class Thing
     @verbs.push(Verb.new(pattern, block))
   end
 
+  def alias_verb(pattern1, pattern2)
+    @verbs.each { |v|
+      if v.pattern == pattern2
+        verb(pattern1, &v.block)
+        return
+      end
+    }
+    puts "Aliased verb not found #{pattern2}"
+  end
+
   def handle(response, command)
     if !@verbs; return () end
     @verbs.each { |v|
-      match = v.match(command)
+      match = v.match(command, self)
       if match; v.handle(response, command, match) end
       if response.handled; return response end
     }
+  end
+
+  def can_be_carried?()
+    true
   end
 end
 

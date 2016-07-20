@@ -68,22 +68,22 @@ class EventLoop
   end
 
   def find_handlers(body)
-    result = [ body ]
+    result = [ body ] + body.contents
     if body.location
       result.push(body.location)
+      result += body.location.contents
     end
+    result
   end
 
 # a command came from a client, execute its effect on the world.
   def handle_command(command)
     handlers = find_handlers(command.body)
     response = Response.new
-    for h in handlers
+    handlers.each { |h|
       h.handle(response, command)
-      if response.handled
-        break
-      end
-    end
+      if response.handled; return response end
+    }
     response
   end
 

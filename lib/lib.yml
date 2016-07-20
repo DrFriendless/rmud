@@ -10,14 +10,20 @@ Room/lostandfound:
 
 Thing/stick:
     short: a stick
-    long: It's brown and sticky.
+    long: There's a stick on the ground here.
+    examine: It's brown and sticky.
+    identity: stick,brown stick,sticky stick
 
 Creature/librarian:
     short: a librarian
-    long: The librarian is a tall humanoid creature with the head of an ibis. It looks vicious, but is deathly silent.
+    long: An ibis-headed librarian is here.
+    examine: The librarian is a tall humanoid creature with the head of an ibis. It looks vicious, but is deathly silent.
     maxhp: 30
+    identity: librarian
 
 Creature/garialite:
     short: a garialite
-    long: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
+    long: A garialite is here.
+    examine: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
     maxhp:  40
+    identity: garialite

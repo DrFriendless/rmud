@@ -20,6 +20,10 @@ class Body < Thing
     @maxhp = data[:maxhp]
     @hp = data[:hp]
   end
+
+  def can_be_carried?()
+    false
+  end
 end
 
 # A PlayerBody is special because it can appear and disappear as players log in and out.
@@ -92,5 +96,9 @@ class Room < Thing
         create(rs).move_to(self)
       }
     end
+  end
+
+  def can_be_carried?()
+    false
   end
 end
