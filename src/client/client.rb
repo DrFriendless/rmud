@@ -5,7 +5,7 @@
 require 'eventmachine'
 require 'highline'
 require 'yaml'
-require_relative './messages'
+require_relative '../shared/messages'
 
 class RmudClient < EM::Connection
   def initialize(q, player, password)

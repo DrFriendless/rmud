@@ -4,7 +4,7 @@ require 'eventmachine'
 require 'yaml'
 require_relative './world.rb'
 require_relative './database.rb'
-require_relative './messages.rb'
+require_relative '../shared/messages.rb'
 
 # an event on the event queue
 class CommandEvent
