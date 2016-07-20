@@ -6,15 +6,6 @@ require_relative './world.rb'
 require_relative './database.rb'
 require_relative './messages.rb'
 
-class DefaultCommandHandler
-  def handle(response, command)
-    if command == "quit"
-      response.handled = true
-      response.quit = true
-    end
-  end
-end
-
 # an event on the event queue
 class CommandEvent
   def initialize(message, body, callback)
@@ -81,12 +72,11 @@ class EventLoop
     if body.location
       result.push(body.location)
     end
-    result.push DefaultCommandHandler.new
   end
 
 # a command came from a client, execute its effect on the world.
-  def handle_command(command, body)
-    handlers = find_handlers(body)
+  def handle_command(command)
+    handlers = find_handlers(command.body)
     response = Response.new
     for h in handlers
       h.handle(response, command)
@@ -100,7 +90,7 @@ class EventLoop
 # a message arrived, execute it
   def handleMessage(event)
     if event.is_a? CommandMessage
-      return handle_command(event.command, event.body)
+      return handle_command(event)
     elsif event.is_a? LoginMessage
       player_data = @database.check_password(event.username, event.password)
       if player_data

@@ -18,6 +18,10 @@ class CommandMessage
 
   attr_reader :command
   attr_accessor :body
+
+  def words()
+    @command.split(' ')
+  end
 end
 
 

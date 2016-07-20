@@ -18,7 +18,7 @@ class ThingClass
     obj = @ruby_class.new
     obj.instance_variable_set(:@thingClass, self)
     @properties.each {
-      |k,v| obj.instance_variable_set("@"+k, v)
+        |k,v| obj.instance_variable_set("@"+k, v)
     }
     obj
   end
@@ -48,9 +48,45 @@ class ThingClassRef
   end
 end
 
+class Verb
+  def initialize(pattern, block)
+    @pattern = pattern
+    @block = block
+  end
+
+  def handle(response, command, match)
+    @block.call(response, command, match)
+  end
+
+  # subject is the Thing which implements this verb
+  def match(command)
+    match_words(@pattern, command.words, command.body)
+  end
+
+  def match_words(pattern, words, subject)
+    if pattern.empty? && words.empty?; return true end
+    if pattern.empty? || words.empty?; return false end
+    if pattern[0] == :star || pattern[0] == "*"
+      (0..words.size).each { |n| if match_words(pattern.drop(1), words.drop(n), subject); return true end }
+      return false
+    elsif pattern[0] == :it
+      (1..words.size).each { |n|
+        if subject.is_called(words[0,n]) && match_words(pattern.drop(1), words.drop(n), subject)
+          return true
+        end
+      }
+      return false
+    else
+      (pattern[0] == words[0]) && match_words(pattern.drop(1), words.drop(1), subject)
+    end
+  end
+end
+
 # A thing in the world
 class Thing
-  @thingClass
+  def initialize()
+    @verbs = []
+  end
 
   attr_accessor :short
   attr_accessor :long
@@ -94,6 +130,19 @@ class Thing
 
   def method_missing(method)
     # now we can try to get dogs to quack.
+  end
+
+  def verb(pattern, &block)
+    @verbs.push(Verb.new(pattern, block))
+  end
+
+  def handle(response, command)
+    if !@verbs; return () end
+    @verbs.each { |v|
+      match = v.match(command)
+      if match; v.handle(response, command, match) end
+      if response.handled; return response end
+    }
   end
 end
 

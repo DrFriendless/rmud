@@ -25,13 +25,9 @@ end
 # A PlayerBody is special because it can appear and disappear as players log in and out.
 class PlayerBody < Body
   attr_accessor :name
-
-  def persistence_key()
-    "lib/PlayerBody/#{name}"
-  end
-
-  def handle(response, command)
-    if command == "look"
+  def initialize()
+    super
+    verb(["look"]) { |response, command, match|
       response.handled = true
       lines = []
       # no reason this should happen, but if it does...
@@ -46,13 +42,22 @@ class PlayerBody < Body
         end
       }
       response.message = lines.join("\n")
-    end
-    if command == "yes"
+    }
+    verb(["yes"]) { |response, command, match|
       response.handled = true
       response.message = "Computer says YES"
-    elsif command == "no"
+    }
+    verb(["no"]) { |response, command, match|
       response.handled = true
-    end
+    }
+    verb(["quit"]) {|response, command, match|
+      response.handled = true
+      response.quit = true
+    }
+  end
+
+  def persistence_key()
+    "lib/PlayerBody/#{name}"
   end
 end
 
