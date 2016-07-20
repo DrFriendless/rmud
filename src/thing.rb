@@ -1,4 +1,5 @@
 # A thing in the world
+
 class Thing
   def initialize()
     @verbs = []
@@ -25,6 +26,7 @@ class Thing
     }
   end
 
+  # properties loaded from YAML have been set
   def after_properties_set()
   end
 
@@ -41,7 +43,7 @@ class Thing
   end
 
   def persist(data)
-    data[persistence_key] = {} unless data[persistence_key]
+    data[persistence_key] ||= {}
   end
 
   def restore(data, by_persistence_key)
@@ -52,18 +54,11 @@ class Thing
   end
 
   def world()
-    if !@thingClass
-      puts "no thing class #{self}"
-    end
     @thingClass.world
   end
 
   def move_to_location(key)
     loc = world.find_singleton(key) || world.find_singleton("lib/Room/lostandfound")
-    if !loc
-      puts "No such location #{key}"
-      return
-    end
     move_to(loc)
   end
 
@@ -112,5 +107,9 @@ class Thing
 
   def can_be_carried?()
     true
+  end
+
+  def is_do_not_persist?()
+    false
   end
 end

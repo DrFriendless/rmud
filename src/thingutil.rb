@@ -1,3 +1,5 @@
+# Code related to Things. The Thing class is big and gets its own file.
+
 # properties that should not be set by the YAML.
 BANNED_PROPERTIES = ["contents", "verbs"]
 
@@ -105,7 +107,9 @@ module Container
 
   def persist_contents(data)
     data[persistence_key] ||= {}
-    data[persistence_key][:contents] = @contents.map { |t| t.persistence_key }
+    data[persistence_key][:contents] = @contents.
+        select { |t| !t.is_do_not_persist? }.
+        map { |t| t.persistence_key }
   end
 
   def restore_contents(data, by_persistence_key)

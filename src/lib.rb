@@ -64,8 +64,20 @@ class PlayerBody < Body
     alias_verb(["i"], ["inventory"])
   end
 
+  def is_do_not_persist?()
+    return true
+  end
+
   def persistence_key()
-    "lib/PlayerBody/#{name}"
+    "player/#{name}"
+  end
+
+  def persist_player()
+    data = { :id => persistence_key, :loc => @location.persistence_key, :name => @name }
+    tmp = {}
+    persist_contents(tmp)
+    data[:contents] = tmp[persistence_key][:contents]
+    data
   end
 end
 

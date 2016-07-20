@@ -9,16 +9,12 @@ class World
     @singletons = []
     @all_things = []
     @thingClasses = {}
+    @all_players = []
   end
 
   def load()
     load_lib
-    data = @database.load
-    if data.size == 0
-      on_world_create
-    else
-      restore(data)
-    end
+    restore(@database.load)
   end
 
   # load definitions of objects from YAML.
@@ -28,11 +24,6 @@ class World
         |k,v| load_from_file("lib", k, v)
     }
     @all_things += @singletons
-  end
-
-  # a new world was created
-  def on_world_create()
-    @singletons.each { |t| t.on_world_create() }
   end
 
   def load_from_file(wizard, key, props)
@@ -47,14 +38,16 @@ class World
 
   def persist()
     @database.save(persist_data)
-    # TODO - update player locations
+    @all_players.each { |p|
+      @database.save_player(p.persist_player)
+    }
   end
 
   def persist_data()
     data = {}
-    @all_things.each {
-        |s| s.persist(data)
-    }
+    @all_things.
+        select { |s| !s.is_do_not_persist? }.
+        each { |s| s.persist(data) }
     data
   end
 
@@ -77,7 +70,13 @@ class World
     thing.short = username
     thing.long = "#{username} is a player."
     @all_things.push(thing)
+    @all_players.push(thing)
     thing
+  end
+
+  def remove_player(body)
+    @all_things.delete(body)
+    @all_players.delete(body)
   end
 
   def find_singleton(key)
@@ -94,10 +93,7 @@ class World
     by_persistence_key = {}
     data.each { |t|
       id = t[:_id]
-      if id.start_with? "lib/PlayerBody/"
-        # TODO - what about third party player bodies?
-        # don't recreate player bodies
-      elsif id.index('@')
+      if id.index('@')
         # non-singleton
         key = id[0..id.index('@')-1]
         tc = @thingClasses[key]
@@ -112,6 +108,13 @@ class World
       t = by_persistence_key[id]
       if t
         t.restore(vs, by_persistence_key)
+      end
+    }
+    # if we didn't have a record of something, tell it has just been created
+    @singletons.each { |s|
+      if !by_persistence_key[s.persistence_key]
+        puts "on_world_create #{s.persistence_key}"
+        s.on_world_create()
       end
     }
   end
