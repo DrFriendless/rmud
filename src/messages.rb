@@ -41,6 +41,7 @@ class Response
   @body = ()
 
   attr_accessor :handled
+  attr_accessor :direction
   attr_accessor :quit
   attr_accessor :message
   attr_accessor :body

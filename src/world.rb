@@ -1,6 +1,6 @@
 require 'psych'
 require 'yaml'
-require_relative './things'
+require_relative './thingutil'
 require_relative './lib'
 
 class World
@@ -71,7 +71,7 @@ class World
   end
 
   def instantiate_player(username)
-    thing = PlayerBody.new
+    thing = instantiate_class(@thingClasses["lib/PlayerBody/default"])
     # TODO - description of the player and the class of their body should be stored in the database.
     thing.name = username
     thing.short = username
@@ -95,6 +95,7 @@ class World
     data.each { |t|
       id = t[:_id]
       if id.start_with? "lib/PlayerBody/"
+        # TODO - what about third party player bodies?
         # don't recreate player bodies
       elsif id.index('@')
         # non-singleton

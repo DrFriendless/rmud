@@ -2,6 +2,7 @@ Room/library:
     short: The Great Library
     long: This is the Great Library, the temple of Thoth.
     contains: Thing/stick Creature/librarian
+    out: Room/antechamber
 
 Room/lostandfound:
     short: The Maelstrom
@@ -27,3 +28,24 @@ Creature/garialite:
     examine: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
     maxhp:  40
     identity: garialite
+
+Room/antechamber:
+    short: The antechamber
+    long: This is the antechamber to the King's Chamber in the Great Pyramid.
+    west: Room/kingschamber
+
+Room/kingschamber:
+    short: The King's Chamber
+    long: This is the chamber of the king in the Great Pyramid.
+    contains: Thing/sarcophagus
+    east: Room/antechamber
+
+Thing/sarcophagus:
+    short: the king's sarcophagus
+    long: The golden sarcophagus of the king is here!
+    examine: The sarcophagus is made of solid golden stuff and an image of the king is embossed on its lid.
+    identity: sarcophagus, golden sarcophagus
+
+PlayerBody/default:
+    short: a player
+    long: A player is here.

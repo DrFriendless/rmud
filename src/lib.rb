@@ -1,3 +1,6 @@
+require_relative './thingutil.rb'
+require_relative './thing.rb'
+
 class Body < Thing
   include Container
 
@@ -47,18 +50,11 @@ class PlayerBody < Body
       }
       response.message = lines.join("\n")
     }
-    verb(["yes"]) { |response, command, match|
-      response.handled = true
-      response.message = "Computer says YES"
-    }
-    verb(["no"]) { |response, command, match|
-      response.handled = true
-    }
-    verb(["quit"]) {|response, command, match|
+    verb(["quit"]) { |response, command, match|
       response.handled = true
       response.quit = true
     }
-    verb(["inventory"]) {|response, command, match|
+    verb(["inventory"]) { |response, command, match|
       response.handled = true
       puts "contents #{@contents}"
       lines = @contents.map { |c| c.short }
@@ -84,6 +80,39 @@ class Room < Thing
   def initialize()
     super
     initialize_contents
+  end
+
+  def after_properties_set()
+    direction(:west, :w)
+    direction(:east, :e)
+    direction(:north, :n)
+    direction(:south, :s)
+    direction(:out)
+    direction(:in)
+    direction(:up, :u)
+    direction(:down, :d)
+  end
+
+  def direction(key, alt=())
+    v = instance_variable_get("@#{key}")
+    if v && v.count("/") == 1
+      v = @thingClass.wizard + "/" + v
+      instance_variable_set("@#{key}", v)
+    end
+    if v
+      verb(["#{key}"]) { |response, command, match|
+        # todo notify the room
+        command.body.move_to_location(v)
+        response.handled = true
+        response.direction = true
+      }
+    else
+      # we don't define that direction, but we do know it is a direction so mark it as such.
+      verb(["#{key}"]) { |response, command, match|
+        response.direction = true
+      }
+    end
+    if alt; alias_verb(["#{alt}"], ["#{key}"]) end
   end
 
   def persist(data)

@@ -132,7 +132,6 @@ end
 # one of these exists for each client
 module ClientHandler
   def post_init
-    puts "-- someone connected to the server! #{object_id}"
   end
 
   def receive_data(event)
