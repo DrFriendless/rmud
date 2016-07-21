@@ -5,31 +5,52 @@ class Database
     @client = Mongo::Client.new('mongodb://127.0.0.1:27017/rmud')
   end
 
+  def obj_to_strs(hash)
+    result = {}
+    hash.each { |k,v| result["#{k}"] = v}
+    result
+  end
+
   def mongoify(data)
-    data.each { |k,v| v[:_id] = k }
-    data.values
+    result = {}
+    data.each { |k,v|
+      v[:_id] = k
+      result[k] = obj_to_strs(v)
+    }
+    result
   end
 
   def save(data)
     begin
-      with_ids = mongoify(data)
+      data = mongoify(data)
+      with_ids = data.values
       w = @client[:world]
-      ids = w.find.projection(:_id => 1).distinct(:_id)
-      to_update = with_ids.select { |item| ids.include? item[:_id] }
-      to_insert = with_ids.select { |item| !ids.include? item[:_id] }
+      ids = w.find.projection("_id" => 1).distinct("_id")
+      to_update = with_ids.select { |item| ids.include? item["_id"] }
+      updates = []
+      to_update.each { |u|
+        id = u["_id"]
+        diff = data[id].to_a - w.find("_id" => id).first.to_a
+        if !diff.empty?
+          diff = Hash[*diff.flatten(1)]
+          diff["_id"] = id
+          updates.push(diff)
+        end
+      }
+      to_insert = with_ids.select { |item| !ids.include? item["_id"] }
       to_delete = ids.select { |item| !data.keys.include? item }
-      to_delete.each { |k| w.delete_one(:_id => k) }
-      to_update.each { |r| w.delete_one(:_id => r[:_id]) }
+      to_delete.each { |k| w.delete_one("_id" => k) }
+      updates.each { |r| w.find(:_id => r["_id"]).find_one_and_replace({ "$set" => r }) }
     rescue Mongo::Error::BulkWriteError
       err = $!
       puts "DELETE #{err.result}"
     end
-    begin
-      w.insert_many(to_update)
-    rescue Mongo::Error::BulkWriteError
-      err = $!
-      puts "INSERT 1 #{err.result}"
-    end
+    #begin
+    #  w.insert_many(to_update)
+    #rescue Mongo::Error::BulkWriteError
+    #  err = $!
+    #  puts "INSERT 1 #{err.result}"
+    #end
     begin
       w.insert_many(to_insert)
     rescue Mongo::Error::BulkWriteError
