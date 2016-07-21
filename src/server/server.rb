@@ -6,7 +6,9 @@ require_relative './world.rb'
 require_relative './database.rb'
 require_relative '../shared/messages.rb'
 
-# an event on the event queue
+# Events are things which go on the event queue.
+
+# a command from a body
 class CommandEvent
   def initialize(message, body, callback)
     @message = message
@@ -109,6 +111,7 @@ class EventLoop
         response = Response.new
         response.handled = true
         response.message = "Incorrect password"
+        response.quit = true
         return response
       end
     elsif event.is_a? HeartbeatMessage
@@ -145,20 +148,22 @@ module ClientHandler
   end
 
   def reply(response)
-    if response.quit
-      close_connection_after_writing
-    end
     if response.handled
       if response.body
         @body = response.body
+        # don't try to send the body back to the client
+        response.body = ()
       end
+      response.message ||= "<%= color('OK', BOLD) %>"
       if response.message
-        send_data response.message
-      else
-        send_data "<%= color('OK', BOLD) %>"
+        send_data YAML::dump(response)
       end
     else
-      send_data "Computer says NO"
+      response.message = "Computer says NO"
+      send_data YAML::dump(response)
+    end
+    if response.quit
+      close_connection_after_writing
     end
   end
 end

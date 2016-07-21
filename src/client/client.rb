@@ -37,7 +37,8 @@ class RmudClient < EM::Connection
   end
 
   def receive_data(data)
-    @cli.say data
+    response = YAML::load(data)
+    @cli.say response.message
     prompt
   end
 
@@ -59,12 +60,21 @@ class KeyboardHandler < EM::Connection
   end
 end
 
-puts "Player name: "
-playerName = gets.chomp
-puts "Password: "
-password = gets.chomp
-EM.run {
-  q = EM::Queue.new
-  EM.connect('127.0.0.1', 8081, RmudClient, q, playerName, password)
-  EM.open_keyboard(KeyboardHandler, q)
-}
+if ARGV.size == 0
+  puts "You need to give a profile name on the command line."
+end
+profile = ARGV[0]
+yaml = Psych.load_file("client.yml")
+if yaml[profile]
+  host = yaml[profile]["host"]
+  port = yaml[profile]["port"].to_i
+  player = yaml[profile]["user"]
+  password = yaml[profile]["password"]
+  EM.run {
+    q = EM::Queue.new
+    EM.connect(host, port, RmudClient, q, player, password)
+    EM.open_keyboard(KeyboardHandler, q)
+  }
+else
+  puts "Profile '#{profile}' not defined in client.yml."
+end

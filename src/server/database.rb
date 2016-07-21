@@ -44,13 +44,14 @@ class Database
     # there must be something better than this.
     players.find({:username => username}).each { |row| us.push(row) }
     if us.length > 0
+      p us[0]
       if us[0][:password] == password
         return us[0]
       else
         return ()
       end
     else
-      rec = { :username => username, :password => password, :location => "lib/Room/library" }
+      rec = { :username => username, :password => password, :location => "lib/Room/library", :_id => username }
       players.insert_one(rec)
       rec
     end

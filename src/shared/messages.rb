@@ -45,8 +45,4 @@ class Response
   attr_accessor :quit
   attr_accessor :message
   attr_accessor :body
-
-  def debug(key)
-    "debug <#{key}> Quit <#{@quit}> handled <#{@handled}> message <#{@message}>"
-  end
 end
