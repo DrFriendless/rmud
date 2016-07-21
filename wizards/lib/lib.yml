@@ -2,13 +2,16 @@ Room/library:
     short: The Great Library
     long: This is the Great Library, the temple of Thoth.
     contains: Thing/stick Creature/librarian
-    out: Room/antechamber
+    down: Room/antechamber
+    out: Room/hallofdoors
+    lit: true
 
 Room/lostandfound:
     short: The Maelstrom
     long: This is the Maelstrom, a swirling chaotic vortex where chaos reigns.
     contains: Creature/garialite
     out: Room/library
+    lit: true
 
 Thing/stick:
     short: a stick
@@ -33,6 +36,7 @@ Creature/garialite:
 Room/antechamber:
     short: The antechamber
     long: This is the antechamber to the King's Chamber in the Great Pyramid.
+    up: Room/library
     west: Room/kingschamber
 
 Room/kingschamber:
@@ -50,3 +54,9 @@ Thing/sarcophagus:
 PlayerBody/default:
     short: a player
     long: A player is here.
+
+Room/hallofdoors:
+    short: The Hall of a Thousand Doors
+    long: This is the Grand Hall of a Thousand Doors, not quite at the centre of existence, but right next to it, just like it's right next to everywhere.
+    east: mangrove/Outdoor/townsquare
+    lit: true

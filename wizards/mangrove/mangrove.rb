@@ -1,0 +1,3 @@
+class Weapon < Thing
+
+end

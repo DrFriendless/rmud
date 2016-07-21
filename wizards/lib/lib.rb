@@ -45,13 +45,17 @@ class PlayerBody < Body
         puts "Emergency moving #{@name} to the library."
         move_to_location("lib/Room/library")
       end
-      lines.push(@location.long)
-      @location.contents.each { |t|
-        if t != self
-          lines.push(t.long)
-        end
-      }
-      response.message = lines.join("\n")
+      if @location.lit?
+        lines.push(@location.long)
+        @location.contents.each { |t|
+          if t != self
+            lines.push(t.long)
+          end
+        }
+        response.message = lines.join("\n")
+      else
+        response.message = "It's dark and you can't see a thing."
+      end
     }
     verb(["quit"]) { |response, command, match|
       response.handled = true
@@ -84,7 +88,6 @@ class PlayerBody < Body
 end
 
 class Creature < Body
-
 end
 
 class Room < Thing
@@ -94,6 +97,7 @@ class Room < Thing
   def initialize()
     super
     initialize_contents
+    @lit = false
   end
 
   def after_properties_set()
@@ -151,5 +155,16 @@ class Room < Thing
 
   def can_be_carried?()
     false
+  end
+
+  def lit?()
+    @lit == true || @lit == "true"
+  end
+end
+
+class Outdoor < Room
+  def lit?()
+    # todo - base on game time
+    true
   end
 end

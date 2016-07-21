@@ -1,0 +1,9 @@
+Outdoor/townsquare:
+    short: The Town Square
+    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides.
+    contains: Weapon/sword
+
+Weapon/sword:
+    short: a sword
+    long: A long sword is here.
+    identity: sword, long sword
