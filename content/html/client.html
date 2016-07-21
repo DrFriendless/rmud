@@ -1,48 +1,71 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-
     <script type="text/javascript">
-        function WebSocketTest()
+        var ws;
+
+        function doLogin(event) {
+            alert('Form submitted!');
+            event.preventDefault();
+            data = {};
+            data["type"] = "login";
+            data["username"] = document.getElementById("usernameInput").value;
+            data["password"] = document.getElementById("passwordInput").value;
+            ws.send(JSON.stringify(data));
+            return false;
+        }
+
+        function WebSocketLoad()
         {
-            if ("WebSocket" in window)
-            {
-                var ws = new WebSocket("ws://localhost:8079/test");
-
-                ws.onopen = function()
-                {
-                    // Web Socket is connected, send data using send()
-                    ws.send("Message to send");
-                    alert("Message is sent...");
-                };
-
-                ws.onmessage = function (evt)
-                {
-                    var received_msg = evt.data;
-                    alert("Message is received...");
-                };
-
-                ws.onclose = function()
-                {
-                    // websocket is closed.
-                    alert("Connection is closed...");
-                };
-            }
-
-            else
-            {
+            if ("WebSocket" in window) {
+                ws = new WebSocket("ws://localhost:8079/test");
+                alert("WebSocket loaded");
+            } else {
                 // The browser doesn't support WebSocket
                 alert("WebSocket NOT supported by your Browser!");
             }
         }
+
+        function WebSocketTest()
+        {
+            ws.onopen = function()
+            {
+                // Web Socket is connected, send data using send()
+                ws.send("Message to send");
+                alert("Message is sent...");
+            };
+
+            ws.onmessage = function (evt)
+            {
+                var received_msg = evt.data;
+                alert("Message is received...");
+            };
+
+            ws.onclose = function()
+            {
+                // websocket is closed.
+                alert("Connection is closed...");
+            };
+        }
+
+//        window.onload = WebSocketLoad;
     </script>
 
 </head>
 <body>
+<div class="login" id="loginForm">
+    <h1>Login</h1>
+    <form onsubmit="doLogin(event);">
+        <p><input id="usernameInput" type="text" name="login" value="" placeholder="Username"></p>
+        <p><input id="passwordInput" type="password" name="password" value="" placeholder="Password"></p>
+        <p class="submit"><input type="submit" name="commit" value="Login"></p>
+    </form>
+</div>
 
 <div id="sse">
     <a href="javascript:WebSocketTest()">Run WebSocket</a>
 </div>
 
+<script>WebSocketLoad()</script>
 </body>
 </html>

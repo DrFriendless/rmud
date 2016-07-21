@@ -57,7 +57,9 @@ class KeyboardHandler < EM::Connection
   end
 
   def receive_line(data)
-    @queue.push(data)
+    if data.size > 0
+      @queue.push(data)
+    end
   end
 end
 
