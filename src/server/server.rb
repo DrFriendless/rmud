@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'eventmachine'
+require 'em-http-server'
+require 'websocket-eventmachine-server'
 require 'yaml'
 require_relative './world.rb'
 require_relative './database.rb'
@@ -178,6 +180,38 @@ module ClientHandler
   end
 end
 
+# TODO: allow clients to connect via websocket.
+class HTTPHandler < EM::HttpServer::Server
+  def process_http_request
+    #puts  @http_request_method
+    puts  @http_request_uri
+    #puts  @http_query_string
+    #puts  @http_protocol
+    #puts  @http_content
+    #puts  @http[:cookie]
+    #puts  @http[:content_type]
+    # you have all the http headers in this hash
+    #puts  @http.inspect
+
+    if @http_request_uri == "/"
+      response = EM::DelegatedHttpResponse.new(self)
+      response.status = 200
+      response.content_type 'text/html'
+      response.content = File.open("content/html/client.html", "r").read
+      response.send_response
+    else
+      response = EM::DelegatedHttpResponse.new(self)
+      response.status = 404
+      response.send_response
+    end
+  end
+
+  def http_request_errback e
+    # printing the whole exception
+    puts e.inspect
+  end
+end
+
 database = Database.new
 world = World.new(database)
 world.load()
@@ -189,6 +223,23 @@ EventMachine::run {
   persist_timer = EventMachine::PeriodicTimer.new(13) do
     EventLoop::enqueue(PersistEvent.new)
   end
-  EventMachine::start_server "127.0.0.1", 8081, ClientHandler
+  WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 8079) do |ws|
+    ws.onopen do
+      puts "Websocket Client connected"
+    end
+
+    ws.onmessage do |msg, type|
+      puts "Websocket Received message: #{msg}"
+      ws.send msg, :type => type
+    end
+
+    ws.onclose do
+      puts "Websocket Client disconnected"
+    end
+  end
+  puts 'websocket running on 8079'
+  EM::start_server("0.0.0.0", 8080, HTTPHandler)
+  puts 'httpd running on 8080'
+  EventMachine::start_server "0.0.0.0", 8081, ClientHandler
   puts 'running server on 8081'
 }
