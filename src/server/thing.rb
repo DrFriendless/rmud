@@ -112,4 +112,7 @@ class Thing
   def is_do_not_persist?()
     false
   end
+
+  def heartbeat(time, time_of_day)
+  end
 end

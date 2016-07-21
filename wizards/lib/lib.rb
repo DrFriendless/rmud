@@ -33,9 +33,10 @@ end
 class PlayerBody < Body
   attr_accessor :name
   attr_accessor :loc
+  attr_accessor :effect_callback
 
   def initialize()
-    super
+    super()
     @loc = "lib/Room/lostandfound"
     verb(["look"]) { |response, command, match|
       response.handled = true
@@ -61,6 +62,22 @@ class PlayerBody < Body
       response.handled = true
       response.quit = true
     }
+    verb(["time"]) { |response, command, match|
+      response.handled = true
+      tod = world.time_of_day
+      response.message =
+          case tod
+            when 0..39; "It's dawn."
+            when 40..119; "It's morning."
+            when 120..219; "It's the middle of the day."
+            when 220..299; "It's afternoon."
+            when 300..339; "It's dusk."
+            when 340..419; "It's evening."
+            when 420..519; "It's the middle of the night."
+            when 520..599; "It's some time before dawn."
+            else "Time has gone kind of wibbly-wobbly."
+          end
+    }
     verb(["inventory"]) { |response, command, match|
       response.handled = true
       lines = @contents.map { |c| c.short }
@@ -83,6 +100,12 @@ class PlayerBody < Body
     if @location
       data[persistence_key][:loc] = @location.persistence_key
       data[persistence_key][:name] = @name
+    end
+  end
+
+  def effect(effect)
+    if @effect_callback
+      @effect_callback.effect(effect)
     end
   end
 end
@@ -162,9 +185,3 @@ class Room < Thing
   end
 end
 
-class Outdoor < Room
-  def lit?()
-    # todo - base on game time
-    true
-  end
-end

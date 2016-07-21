@@ -34,7 +34,6 @@ class HeartbeatEvent
   attr_reader :message
 
   def reply(response)
-    puts "badoom"
   end
 end
 
@@ -48,7 +47,7 @@ class PersistEvent
   attr_reader :message
 
   def reply(data)
-    puts "saved"
+    # puts "saved"
   end
 end
 
@@ -115,8 +114,7 @@ class EventLoop
         return response
       end
     elsif event.is_a? HeartbeatMessage
-      # TODO
-      return ()
+      @world.heartbeat
     elsif event.is_a? PersistMessage
       return @world.persist
     else
@@ -137,6 +135,16 @@ end
 # one of these exists for each client
 module ClientHandler
   def post_init
+    # queue to send things back to the client.
+    @queue = EM::Queue.new
+    callback = Proc.new do |obj|
+      send_data YAML::dump(obj)
+      if obj.quit
+        close_connection_after_writing
+      end
+      @queue.pop &callback
+    end
+    @queue.pop &callback
   end
 
   def receive_data(event)
@@ -151,20 +159,22 @@ module ClientHandler
     if response.handled
       if response.body
         @body = response.body
+        @body.effect_callback = self
         # don't try to send the body back to the client
         response.body = ()
       end
       response.message ||= "<%= color('OK', BOLD) %>"
       if response.message
-        send_data YAML::dump(response)
+        @queue.push response
       end
     else
       response.message = "Computer says NO"
-      send_data YAML::dump(response)
+      @queue.push response
     end
-    if response.quit
-      close_connection_after_writing
-    end
+  end
+
+  def effect(effect)
+    @queue.push(effect)
   end
 end
 

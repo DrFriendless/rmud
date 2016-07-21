@@ -9,7 +9,12 @@ class World
     @all_things = []
     @thingClasses = {}
     @all_players = []
+    @time = 0
+    @time_of_day = 0
   end
+
+  attr_reader :time
+  attr_reader :time_of_day
 
   def load()
     load_wizards
@@ -130,7 +135,6 @@ class World
         tc = @thingClasses[key]
         by_persistence_key[id] = instantiate_class(tc)
       elsif id.start_with?("player")
-        p "data #{data}"
         by_persistence_key[id] = instantiate_player(t[:name])
         # where the player will go to when they log in again.
         by_persistence_key[id].loc = t[:loc]
@@ -156,5 +160,12 @@ class World
         s.on_world_create()
       end
     }
+  end
+
+  def heartbeat()
+    # ticks since epoch
+    @time = Time.now.to_i / 2
+    @time_of_day = @time % 600
+    @all_things.each { |t| t.heartbeat(@time, @time_of_day) }
   end
 end
