@@ -5,7 +5,6 @@
         var ws;
 
         function doLogin(event) {
-            alert('Form submitted!');
             event.preventDefault();
             data = {};
             data["type"] = "login";
@@ -19,7 +18,13 @@
         {
             if ("WebSocket" in window) {
                 ws = new WebSocket("ws://localhost:8079/test");
-                alert("WebSocket loaded");
+                ws.onmessage = function (evt)
+                {
+                    var received_msg = evt.data;
+                    message = JSON.parse(received_msg);
+                    alert(message.message);
+                };
+
             } else {
                 // The browser doesn't support WebSocket
                 alert("WebSocket NOT supported by your Browser!");
@@ -32,14 +37,8 @@
             {
                 // Web Socket is connected, send data using send()
                 ws.send("Message to send");
-                alert("Message is sent...");
             };
 
-            ws.onmessage = function (evt)
-            {
-                var received_msg = evt.data;
-                alert("Message is received...");
-            };
 
             ws.onclose = function()
             {
@@ -47,8 +46,6 @@
                 alert("Connection is closed...");
             };
         }
-
-//        window.onload = WebSocketLoad;
     </script>
 
 </head>
@@ -62,8 +59,8 @@
     </form>
 </div>
 
-<div id="sse">
-    <a href="javascript:WebSocketTest()">Run WebSocket</a>
+<div class="messages" id="messagePanel">
+
 </div>
 
 <script>WebSocketLoad()</script>

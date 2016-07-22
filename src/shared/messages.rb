@@ -45,4 +45,8 @@ class Response
   attr_accessor :quit
   attr_accessor :message
   attr_accessor :body
+
+  def to_json()
+    return JSON.generate({"message" => @message})
+  end
 end

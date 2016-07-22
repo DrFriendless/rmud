@@ -174,9 +174,9 @@ def decode_json(json)
   j = JSON.parse(json)
   if j["type"] == "login"
     return LoginMessage.new(j["username"], j["password"])
+  else
+    return CommandMessage.new(j["command"])
   end
-  p j
-  j
 end
 
 class WebSocketController
@@ -197,7 +197,6 @@ class WebSocketController
         event = CommandEvent.new(message, self)
       end
       EventLoop::enqueue(event)
-      ws.send msg, :type => type
     end
 
     ws.onclose do
@@ -207,7 +206,7 @@ class WebSocketController
 
   def reply(response)
     if response.body; @body = response.body end
-    puts "#{@ws} #{response}"
+    @ws.send(response.to_json())
   end
 end
 
