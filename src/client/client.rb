@@ -28,7 +28,6 @@ class RmudClient < EM::Connection
   end
 
   def post_init
-    # TODO - send user name and client type identification
     send_message(LoginMessage.new(@player,@password))
     prompt
   end

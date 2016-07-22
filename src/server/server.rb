@@ -4,54 +4,11 @@ require 'eventmachine'
 require 'em-http-server'
 require 'websocket-eventmachine-server'
 require 'yaml'
+require 'json'
 require_relative './world.rb'
+require_relative './events.rb'
 require_relative './database.rb'
 require_relative '../shared/messages.rb'
-
-# Events are things which go on the event queue.
-
-# a command from a body
-class CommandEvent
-  def initialize(message, body, callback)
-    @message = message
-    @body = body
-    @callback = callback
-  end
-
-  attr_reader :message
-  attr_reader :body
-
-  def reply(response)
-    @callback.reply(response)
-  end
-end
-
-# a heartbeat message and a null callback
-class HeartbeatEvent
-  def initialize()
-    @message = HeartbeatMessage.new
-    @handler = self
-  end
-
-  attr_reader :message
-
-  def reply(response)
-  end
-end
-
-# a persist message and a null callback
-class PersistEvent
-  def initialize()
-    @message = PersistMessage.new
-    @handler = self
-  end
-
-  attr_reader :message
-
-  def reply(data)
-    # puts "saved"
-  end
-end
 
 # the main event loop in the server
 class EventLoop
@@ -60,7 +17,7 @@ class EventLoop
     @database = database
     @queue = EM::Queue.new
     callback = Proc.new do |e|
-      e.reply(handleMessage(e.message))
+      e.reply(handle_event(e.message))
       @queue.pop &callback
     end
     @queue.pop &callback
@@ -91,7 +48,7 @@ class EventLoop
   end
 
 # a message arrived, execute it
-  def handleMessage(event)
+  def handle_event(event)
     if event.is_a? CommandMessage
       return handle_command(event)
     elsif event.is_a? LoginMessage
@@ -153,8 +110,10 @@ module ClientHandler
     e = YAML::load(event)
     if e.is_a? CommandMessage
       e.body = @body
+      EventLoop::enqueue(CommandEvent.new(e, self))
+    else
+      EventLoop::enqueue(LoginEvent.new(e, self))
     end
-    EventLoop::enqueue(CommandEvent.new(e, @body, self))
   end
 
   def reply(response)
@@ -180,7 +139,6 @@ module ClientHandler
   end
 end
 
-# TODO: allow clients to connect via websocket.
 class HTTPHandler < EM::HttpServer::Server
   def process_http_request
     #puts  @http_request_method
@@ -212,6 +170,47 @@ class HTTPHandler < EM::HttpServer::Server
   end
 end
 
+def decode_json(json)
+  j = JSON.parse(json)
+  if j["type"] == "login"
+    return LoginMessage.new(j["username"], j["password"])
+  end
+  p j
+  j
+end
+
+class WebSocketController
+  def initialize(ws)
+    @ws = ws
+    @body = ()
+    ws.onopen do
+      puts "Websocket Client connected #{ws}"
+    end
+
+    ws.onmessage do |msg, type|
+      puts "Websocket Received message: #{msg} #{type} #{ws}"
+      message = decode_json(msg)
+      if message.is_a? LoginMessage
+        event = LoginEvent.new(message, self)
+      else
+        message.body = @body
+        event = CommandEvent.new(message, self)
+      end
+      EventLoop::enqueue(event)
+      ws.send msg, :type => type
+    end
+
+    ws.onclose do
+      puts "Websocket Client disconnected #{ws}"
+    end
+  end
+
+  def reply(response)
+    if response.body; @body = response.body end
+    puts "#{@ws} #{response}"
+  end
+end
+
 database = Database.new
 world = World.new(database)
 world.load()
@@ -223,20 +222,7 @@ EventMachine::run {
   persist_timer = EventMachine::PeriodicTimer.new(13) do
     EventLoop::enqueue(PersistEvent.new)
   end
-  WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 8079) do |ws|
-    ws.onopen do
-      puts "Websocket Client connected"
-    end
-
-    ws.onmessage do |msg, type|
-      puts "Websocket Received message: #{msg}"
-      ws.send msg, :type => type
-    end
-
-    ws.onclose do
-      puts "Websocket Client disconnected"
-    end
-  end
+  WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 8079) { |ws| WebSocketController.new(ws) }
   puts 'websocket running on 8079'
   EM::start_server("0.0.0.0", 8080, HTTPHandler)
   puts 'httpd running on 8080'
