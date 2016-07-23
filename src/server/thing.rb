@@ -5,7 +5,7 @@ class Thing
     @verbs = []
     verb(["get", :it]) { |response,command,match|
       if @location == command.body.location
-        if self.can_be_carried?
+        if self.carriable?
           self.move_to(command.body)
           # todo tell the room
         else
@@ -105,7 +105,7 @@ class Thing
     }
   end
 
-  def can_be_carried?()
+  def carriable?()
     true
   end
 

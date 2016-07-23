@@ -24,7 +24,7 @@ class Body < Thing
     @hp = data[:hp]
   end
 
-  def can_be_carried?()
+  def carriable?()
     false
   end
 end
@@ -176,7 +176,7 @@ class Room < Thing
     end
   end
 
-  def can_be_carried?()
+  def carriable?()
     false
   end
 

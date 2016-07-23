@@ -1,9 +1,39 @@
 Outdoor/townsquare:
     short: The Town Square
-    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides.
+    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north.
     contains: Weapon/sword
+    north: Outdoor/northtower
 
 Weapon/sword:
     short: a sword
     long: A long sword is here.
     identity: sword, long sword
+
+Outdoor/northtower:
+    short: The North Tower
+    long: You're at the base of the northern guard tower in the city of Mangrove. A stone guard tower is built on a clearing in the mangrove swamp. The town square is to the south.
+    contains: Virtual/northtower
+    in: Room/northtower
+    south: Outdoor/townsquare
+
+Virtual/northtower:
+    identity: tower,guard tower
+    examine_it: The tower is solidly built of imported stone. It won't burn.
+    enter_it: Room/northtower
+
+Room/northtower:
+    short: Bottom floor of the North Tower
+    long: You're in the bottom floor of a stone tower.
+    out: Outdoor/northtower
+    up: Outdoor/northtowerroof
+
+Outdoor/northtowerroof:
+    short: Top of the North Tower.
+    long: You're on top of the North Tower in the city of Mangrove. The mangrove swamp extends as far as the eye can see in all directions. The town square can be seen to the south.
+    contains: Gong/gong
+    down: Room/northtower
+
+Gong/gong:
+  short: a great gong
+  long: A large gong stands on the ground here.
+  identity: gong, great gong, large gong

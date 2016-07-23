@@ -23,5 +23,23 @@ class Outdoor < Room
 end
 
 class Weapon < Thing
+    # TODO
+end
 
+class Gong < Thing
+  # TODO define verb
+  def carriable?
+    false
+  end
+end
+
+# a thing that can't be seen but can define verbs
+class Virtual < Thing
+  def short
+    ()
+  end
+
+  def long
+    ()
+  end
 end
