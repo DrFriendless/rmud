@@ -7,6 +7,7 @@ Outdoor/townsquare:
 Weapon/sword:
     short: a sword
     long: A long sword is here.
+    examine: The sword has a long blade which is pointy at the far end.
     identity: sword, long sword
 
 Outdoor/northtower:

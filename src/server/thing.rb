@@ -24,6 +24,15 @@ class Thing
       end
       response.handled = true
     }
+    verb(["examine", :it]) { |response, command, match|
+      if examine
+        response.message = examine
+        response.handled = true
+      elsif long
+        response.message = long
+        response.handled = true
+      end
+    }
   end
 
   # properties loaded from YAML have been set
@@ -33,6 +42,7 @@ class Thing
   attr_accessor :short
   attr_accessor :long
   attr_accessor :location
+  attr_accessor :examine
   attr_accessor :identity
 
   def is_called?(name)
