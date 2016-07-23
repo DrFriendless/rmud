@@ -221,10 +221,10 @@ EventMachine::run {
   persist_timer = EventMachine::PeriodicTimer.new(13) do
     EventLoop::enqueue(PersistEvent.new)
   end
-  WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 8079) { |ws| WebSocketController.new(ws) }
-  puts 'websocket running on 8079'
-  EM::start_server("0.0.0.0", 8080, HTTPHandler)
-  puts 'httpd running on 8080'
-  EventMachine::start_server "0.0.0.0", 8081, ClientHandler
-  puts 'running server on 8081'
+  WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 9079) { |ws| WebSocketController.new(ws) }
+  puts 'websocket running on 9079'
+  EM::start_server("0.0.0.0", 9080, HTTPHandler)
+  puts 'httpd running on 9080'
+  EventMachine::start_server "0.0.0.0", 9081, ClientHandler
+  puts 'running server on 9081'
 }
