@@ -1,8 +1,20 @@
 Outdoor/townsquare:
     short: The Town Square
-    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north.
+    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north. To the east, a coloured wooden bridge rises up over the swamp.
     contains: Weapon/sword
     north: Outdoor/northtower
+    east: Outdoor/mangrovebridge
+
+Outdoor/mangrovebridge:
+    short: The High Bridge
+    long: This is the high bridge of Mangrove, a rainbow-coloured wooden bridge which crosses part of the swamp. Down to the west is a busy area of town.
+    west: Outdoor/townsquare
+    contains: Virtual/mangrovebridge
+
+Virtual/mangrovebridge:
+    identity: bridge, rainbow bridge, coloured bridge, colored bridge
+    examine_it: The bridge is wide enough for two carriages, and rises above the mangrove swamp.
+    climb_it_no: Which direction do you want to go?
 
 Weapon/sword:
     short: a sword
@@ -16,6 +28,12 @@ Outdoor/northtower:
     contains: Virtual/northtower
     in: Room/northtower
     south: Outdoor/townsquare
+    down: Outdoor/mangroveswamp1
+
+Virtual/swamp1:
+    identity: swamp
+    examine_it: It looks like you could get down into the swamp from here.
+    enter_it: Outdoor/mangroveswamp1
 
 Virtual/northtower:
     identity: tower,guard tower
@@ -36,7 +54,24 @@ Outdoor/northtowerroof:
     contains: Gong/gong
     down: Room/northtower
 
+Outdoor/mangroveswamp1:
+    short: In the mangrove swamp.
+    long: You're in the mangrove swamp. From here you could get up to some sort of stone tower.
+    up: Outdoor/northtower
+    north: Outdoor/mangroveswamp2
+
+Outdoor/mangroveswamp2:
+    short: In the mangrove swamp.
+    long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
+    south: Outdoor/mangroveswamp1
+    contains: Undead/ghoul
+
 Gong/gong:
-  short: a great gong
-  long: A large gong stands on the ground here.
-  identity: gong, great gong, large gong
+    short: a great gong
+    long: A large gong stands on the ground here.
+    identity: gong, great gong, large gong
+
+Undead/ghoul:
+    short: a ghoul
+    long: A slavering, writing ghoul glares at you with soulless eyes.
+    identity: ghoul

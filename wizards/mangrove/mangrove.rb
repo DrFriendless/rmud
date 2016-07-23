@@ -68,3 +68,7 @@ class Virtual < Thing
     ()
   end
 end
+
+class Undead < Creature
+
+end
