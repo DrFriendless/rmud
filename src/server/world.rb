@@ -122,6 +122,7 @@ class World
         return s
       end
     }
+    ()
   end
 
   # restore data from database

@@ -9,12 +9,17 @@ Outdoor/mangrovebridge:
     short: The High Bridge
     long: This is the high bridge of Mangrove, a rainbow-coloured wooden bridge which crosses part of the swamp. Down to the west is a busy area of town.
     west: Outdoor/townsquare
-    contains: Virtual/mangrovebridge
+    contains: Virtual/mangrovebridge Virtual/trapdoor
 
 Virtual/mangrovebridge:
     identity: bridge, rainbow bridge, coloured bridge, colored bridge
-    examine_it: The bridge is wide enough for two carriages, and rises above the mangrove swamp.
+    examine_it: The bridge is wide enough for two carriages, and rises above the mangrove swamp. You notice an ancient trap door in the bridge, at the top of its arch.
     climb_it_no: Which direction do you want to go?
+
+Virtual/trapdoor:
+    identity: trap door, trapdoor
+    examine_it: The trap door is wide enough for you to go through, but do you really want to drop into the swamp?
+    enter_it: lib/Room/library
 
 Weapon/sword:
     short: a sword

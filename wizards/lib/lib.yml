@@ -35,9 +35,27 @@ Creature/garialite:
 
 Room/antechamber:
     short: The antechamber
-    long: This is the antechamber to the King's Chamber in the Great Pyramid.
+    long: This is the antechamber to the King's Chamber in the Great Pyramid. A ladder goes up through a hole in the ceiling, but there seems to be some sort of shimmering veil in the way. A steep passage goes down.
     up: Room/library
     west: Room/kingschamber
+    down: Room/ravine
+    enter: Room/kingschamber
+    contains: Virtual/ladder
+
+Room/ravine:
+    short: Above the ravine
+    long: You're in a sloping hallway, above a wide ravine. There seems to be no way to get across.
+    up: Room/antechamber
+    contains: Virtual/ravine
+
+Virtual/ravine:
+    identity: ravine
+    examine_it: The ravine is too wide to jump, and it's almost certainly bottomless.
+
+Virtual/ladder:
+    identity: ladder
+    examine_it: The ladder isn't very solid, but it will probably be safe to go up.
+    climb_it_yes: Room/library
 
 Room/kingschamber:
     short: The King's Chamber

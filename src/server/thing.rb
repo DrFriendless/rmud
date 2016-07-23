@@ -68,6 +68,7 @@ class Thing
   end
 
   def move_to_location(key)
+    p "key #{key}"
     loc = world.find_singleton(key) || world.find_singleton("lib/Room/lostandfound")
     move_to(loc)
   end
@@ -118,6 +119,8 @@ class Thing
   def destination(v)
     if v && v.count("/") == 1
       @thingClass.wizard + "/" + v
+    else
+      v
     end
   end
 
