@@ -19,8 +19,10 @@ Outdoor/northtower:
 
 Virtual/northtower:
     identity: tower,guard tower
-    examine_it: The tower is solidly built of imported stone. It won't burn.
+    examine_it: The tower is solidly built of imported stone. It seems to have a flat roof.
+    climb_it_no: Maybe it would be safer to just go in and use the stairs?
     enter_it: Room/northtower
+    enter: Room/northtower
 
 Room/northtower:
     short: Bottom floor of the North Tower

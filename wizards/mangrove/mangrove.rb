@@ -23,7 +23,7 @@ class Outdoor < Room
 end
 
 class Weapon < Thing
-    # TODO
+  # TODO
 end
 
 class Gong < Thing
@@ -35,6 +35,31 @@ end
 
 # a thing that can't be seen but can define verbs
 class Virtual < Thing
+  # properties loaded from YAML have been set
+  def after_properties_set()
+    if @examine_it
+      verb(["examine", :it]) { |response, command, match|
+        response.message = @examine_it
+        response.handled = true
+      }
+    end
+    if @climb_it_no
+      verb(["climb", :it]) { |response, command, match|
+        response.message = @climb_it_no
+        response.handled = true
+      }
+    end
+    if @enter_it
+      @enter_it = destination(@enter_it)
+      verb(["enter", :it]) { |response, command, match|
+        puts "body is #{command.body}"
+        command.body.go_to(@enter_it)
+        response.handled = true
+      }
+      alias_verb(["enter"], ["enter", :it])
+    end
+  end
+
   def short
     ()
   end

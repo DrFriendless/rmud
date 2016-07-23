@@ -24,6 +24,12 @@ class Body < Thing
     @hp = data[:hp]
   end
 
+  def go_to(location)
+    # TODO - departure effect
+    self.move_to_location(location)
+    # TODO - arrival effect
+  end
+
   def carriable?()
     false
   end
@@ -80,7 +86,7 @@ class PlayerBody < Body
     }
     verb(["inventory"]) { |response, command, match|
       response.handled = true
-      lines = @contents.map { |c| c.short }
+      lines = @contents.map { |c| c.short }.select {|c| c }
       if lines.size == 0; lines.push("You don't have anything.") end
       response.message = lines.join("\n")
     }
@@ -143,7 +149,7 @@ class Room < Thing
     if v
       verb(["#{key}"]) { |response, command, match|
         # todo notify the room
-        command.body.move_to_location(v)
+        command.body.go_to(v)
         response.handled = true
         response.direction = true
       }

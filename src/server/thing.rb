@@ -115,6 +115,12 @@ class Thing
     }
   end
 
+  def destination(v)
+    if v && v.count("/") == 1
+      @thingClass.wizard + "/" + v
+    end
+  end
+
   def carriable?()
     true
   end
