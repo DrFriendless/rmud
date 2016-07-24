@@ -122,7 +122,11 @@ class PlayerBody < Body
     }
     verb(["inventory"]) { |response, command, match|
       response.handled = true
-      lines = @contents.map { |c| c.short }.select {|c| c }
+      lines = @contents.map { |c|
+        s = c.short
+        if s && wearing?(c); s += " (worn)" end
+        s
+      }.select {|c| c }
       if lines.size == 0; lines.push("You don't have anything.") end
       response.message = lines.join("\n")
     }
