@@ -3,18 +3,18 @@ Room/library:
     long: This is the Great Library, the temple of Thoth. A ladder goes down into the real world.
     contains: Thing/stick Creature/librarian Virtual/ladderdown
     down: Room/antechamber
-    out: Room/hallofdoors
+    exit: Room/hallofdoors
     lit: true
 
 Room/lostandfound:
     short: The Maelstrom
     long: This is the Maelstrom, a swirling chaotic vortex where chaos reigns.
     contains: Creature/garialite
-    out: Room/library
+    exit: Room/library
     lit: true
 
 Thing/stick:
-    short: a stick
+    short: stick
     long: There's a stick on the ground here.
     examine: It's brown and sticky.
     identity: stick,brown stick,sticky stick
@@ -22,14 +22,14 @@ Thing/stick:
     weight: 1
 
 Creature/librarian:
-    short: a librarian
+    short: librarian
     long: An ibis-headed librarian is here.
     examine: The librarian is a tall humanoid creature with the head of an ibis. It looks vicious, but is deathly silent.
     maxhp: 30
     identity: librarian
 
 Creature/garialite:
-    short: a garialite
+    short: garialite
     long: A garialite is here.
     examine: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
     maxhp:  40
@@ -79,7 +79,7 @@ Thing/sarcophagus:
     weight: 2000
 
 PlayerBody/default:
-    short: a player
+    short: player
     long: A player is here.
     maxhp: 20
 
@@ -90,7 +90,7 @@ Room/hallofdoors:
     lit: true
 
 Wearable/goldennecklace:
-    short: a golden necklace
+    short: golden necklace
     long: A valuable golden necklace lies on the floor here!
     examine: The necklace is a fine piece of work, and definitely solid gold.
     weight: 1

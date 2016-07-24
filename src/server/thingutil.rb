@@ -69,24 +69,40 @@ class Verb
   end
 
   def match(command, subject)
-    match_words(@pattern, command.words, subject)
+    matches = []
+    result = match_words(@pattern, command.words, subject, matches)
+    if result
+      matches
+    else
+      false
+    end
   end
 
-  def match_words(pattern, words, subject)
+  def match_words(pattern, words, subject, matches)
     if pattern.empty? && words.empty?; return true end
     if pattern.empty? || words.empty?; return false end
     if pattern[0] == :star || pattern[0] == "*"
-      (0..words.size).each { |n| if match_words(pattern.drop(1), words.drop(n), subject); return true end }
-      return false
+      (0..words.size).each { |n|
+        matches.push(words.take(n))
+        if match_words(pattern.drop(1), words.drop(n), subject, matches)
+          return true
+        else
+          matches.pop()
+        end
+      }
+      false
     elsif pattern[0] == :it
       (1..words.size).each { |n|
-        if subject.is_called?(words[0,n].join(" ")) && match_words(pattern.drop(1), words.drop(n), subject)
+        matches.push(words.take(n))
+        if subject.is_called?(words[0,n].join(" ")) && match_words(pattern.drop(1), words.drop(n), subject, matches)
           return true
+        else
+          matches.pop()
         end
       }
       return false
     else
-      (pattern[0] == words[0]) && match_words(pattern.drop(1), words.drop(1), subject)
+      (pattern[0] == words[0]) && match_words(pattern.drop(1), words.drop(1), subject, matches)
     end
   end
 end
@@ -120,6 +136,12 @@ module Container
       else
         puts "Did not find #{key}"
       end
+    }
+  end
+
+  def find(name)
+    @contents.each { |thing|
+      if thing.is_called?(name); return thing end
     }
   end
 

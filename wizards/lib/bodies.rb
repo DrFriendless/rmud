@@ -7,6 +7,7 @@ class Body < Thing
   include EffectObserver
   attr_accessor :hp
   attr_accessor :maxhp
+  attr_accessor :gp
 
   def initialize()
     super
@@ -21,6 +22,17 @@ class Body < Thing
 
   def wearing?(obj)
     wear_slots(obj.slot).include?(obj)
+  end
+
+  def gain_gold(n)
+    @gp += n
+  end
+
+  def pay_gold(n)
+    if @gp >= n
+      @gp -= n
+      true
+    end
   end
 
   def injured()
@@ -48,6 +60,7 @@ class Body < Thing
     data[persistence_key] ||= {}
     data[persistence_key][:maxhp] = @maxhp
     data[persistence_key][:hp] = @hp
+    data[persistence_key][:gp] = @gp
     ws = {}
     @wear_slots.each_pair { |k,vs|
       ws[k] = vs.map { |v| if v; v.persistence_key; else; () end }
@@ -60,6 +73,7 @@ class Body < Thing
     restore_contents(data, by_persistence_key)
     @maxhp = data[:maxhp]
     @hp = data[:hp]
+    @gp = data[:gp] || 0
     ws = data[:ws]
     if ws
       @wear_slots.each_pair { |k,vs|
@@ -140,7 +154,9 @@ class PlayerBody < Body
         if s && wearing?(c); s += " (worn)" end
         s
       }.select {|c| c }
-      if lines.size == 0; lines.push("You don't have anything.") end
+      if lines.size == 0; lines.push("You don't have anything else.") end
+      if !@gp; @gp = 0 end
+      lines = ["You have #{@gp} gold pieces.",""] + lines
       response.message = lines.join("\n")
     }
     alias_verb(["i"], ["inventory"])

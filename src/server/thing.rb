@@ -44,6 +44,7 @@ class Thing
   attr_accessor :location
   attr_accessor :examine
   attr_accessor :identity
+  attr_accessor :value
 
   def is_called?(name)
     if @identity && !@identities
@@ -68,7 +69,6 @@ class Thing
   end
 
   def move_to_location(key)
-    p "key #{key}"
     loc = world.find_singleton(key) || world.find_singleton("lib/Room/lostandfound")
     move_to(loc)
   end

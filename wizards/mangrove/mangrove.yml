@@ -1,9 +1,26 @@
 Outdoor/townsquare:
     short: The Town Square
-    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north. To the east, a coloured wooden bridge rises up over the swamp.
-    contains: Weapon/sword
+    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north. To the east, a coloured wooden bridge rises up over the swamp. A shop is here.
+    contains: Virtual/shop
     north: Outdoor/northtower
     east: Outdoor/mangrovebridge
+
+Virtual/shop:
+    identity: shop
+    examine_it: Mangrove City Supplies. It seems to be a general merchandise store. A sign says "WE BUY AND SELL".
+    enter_it: Shop/mangroveshop
+
+Shop/mangroveshop:
+    short: Mangrove City Supplies
+    long: You're in Mangrove City Supplies. The shop is packed with the most unimaginable junk. Use 'list' to see what's available.
+    exit: Outdoor/townsquare
+    lit: true
+    vault: Room/vault
+
+Room/vault:
+    short: Mangrove City Supplies Vault
+    long: You're in the vault of Mangrove City Supplies. You're not allowed in here.
+    contains: Weapon/sword
 
 Outdoor/mangrovebridge:
     short: The High Bridge
@@ -22,10 +39,11 @@ Virtual/trapdoor:
     enter_it: lib/Room/library
 
 Weapon/sword:
-    short: a sword
+    short: sword
     long: A long sword is here.
     examine: The sword has a long blade which is pointy at the far end.
     identity: sword, long sword
+    value: 10
 
 Outdoor/northtower:
     short: The North Tower
@@ -50,7 +68,7 @@ Virtual/northtower:
 Room/northtower:
     short: Bottom floor of the North Tower
     long: You're in the bottom floor of a stone tower.
-    out: Outdoor/northtower
+    exit: Outdoor/northtower
     up: Outdoor/northtowerroof
 
 Outdoor/northtowerroof:
@@ -72,17 +90,17 @@ Outdoor/mangroveswamp2:
     contains: Undead/ghoul NecklaceOfRegeneration/regennecklace
 
 Gong/gong:
-    short: a great gong
+    short: great gong
     long: A large gong stands on the ground here.
     identity: gong, great gong, large gong
 
 Undead/ghoul:
-    short: a ghoul
+    short: ghoul
     long: A slavering, writing ghoul glares at you with soulless eyes.
     identity: ghoul
 
 NecklaceOfRegeneration/regennecklace:
-    short: a primitive necklace
+    short: primitive necklace
     long: There's an ugly wooden necklace here.
     examine: This wooden necklace looks to have been made by an extremely primitive culture.
     weight: 1

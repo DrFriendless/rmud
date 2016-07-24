@@ -16,7 +16,7 @@ class Room < Thing
     direction(:east, :e)
     direction(:north, :n)
     direction(:south, :s)
-    direction(:out)
+    direction(:exit, :out)
     direction(:enter, :in)
     direction(:up, :u)
     direction(:down, :d)

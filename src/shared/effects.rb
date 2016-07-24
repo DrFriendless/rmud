@@ -66,7 +66,7 @@ class TakeEffect < Effect
 
   def message_for(observer)
     if observer != @taker
-      Observation.new("#{@taker.name} picks up #{@item.short}.")
+      Observation.new("#{@taker.name} picks up a #{@item.short}.")
     end
   end
 
@@ -82,7 +82,7 @@ class DropEffect < Effect
 
   def message_for(observer)
     if observer != @dropper
-      Observation.new("#{@dropper.name} drops #{@item.short}.")
+      Observation.new("#{@dropper.name} drops a #{@item.short}.")
     end
   end
 
@@ -98,7 +98,7 @@ class WearEffect < Effect
 
   def message_for(observer)
     if observer != @wearer
-      Observation.new("#{@wearer.name} wears #{@item.short}.")
+      Observation.new("#{@wearer.name} wears a #{@item.short}.")
     end
   end
 
@@ -114,10 +114,42 @@ class RemoveEffect < Effect
 
   def message_for(observer)
     if observer != @wearer
-      Observation.new("#{@wearer.name} removes #{@item.short}.")
+      Observation.new("#{@wearer.name} removes a #{@item.short}.")
     end
   end
 
   attr_reader :wearer
+  attr_reader :item
+end
+
+class BuyEffect < Effect
+  def initialize(buyer, item)
+    @buyer = buyer
+    @item = item
+  end
+
+  def message_for(observer)
+    if observer != @buyer
+      Observation.new("#{@buyer.name} buys a #{@item.short}.")
+    end
+  end
+
+  attr_reader :buyer
+  attr_reader :item
+end
+
+class SellEffect < Effect
+  def initialize(seller, item)
+    @seller = seller
+    @item = item
+  end
+
+  def message_for(observer)
+    if observer != @seller
+      Observation.new("#{@seller.name} sells a #{@item.short}.")
+    end
+  end
+
+  attr_reader :seller
   attr_reader :item
 end
