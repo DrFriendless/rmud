@@ -1,4 +1,4 @@
-require_relative '../lib/lib.rb'
+require_relative '../lib/room.rb'
 require_relative '../../src/shared/effects.rb'
 
 DAWN_TIMES = [0, 10, 20, 30]
@@ -31,4 +31,18 @@ end
 
 class Undead < Creature
 
+end
+
+class NecklaceOfRegeneration < Wearable
+  def heartbeat(t1, t2)
+    if @location.instance_of? Body
+      if @location.wearing?(self)
+        if @location.instance_of? Undead
+        @location.damage(1)
+        elsif @location.injured
+          @location.heal(1)
+        end
+      end
+    end
+  end
 end

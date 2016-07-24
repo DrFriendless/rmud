@@ -1,7 +1,7 @@
 Room/library:
     short: The Great Library
-    long: This is the Great Library, the temple of Thoth.
-    contains: Thing/stick Creature/librarian
+    long: This is the Great Library, the temple of Thoth. A ladder goes down into the real world.
+    contains: Thing/stick Creature/librarian Virtual/ladderdown
     down: Room/antechamber
     out: Room/hallofdoors
     lit: true
@@ -18,6 +18,8 @@ Thing/stick:
     long: There's a stick on the ground here.
     examine: It's brown and sticky.
     identity: stick,brown stick,sticky stick
+    value: 0
+    weight: 1
 
 Creature/librarian:
     short: a librarian
@@ -35,12 +37,12 @@ Creature/garialite:
 
 Room/antechamber:
     short: The antechamber
-    long: This is the antechamber to the King's Chamber in the Great Pyramid. A ladder goes up through a hole in the ceiling, but there seems to be some sort of shimmering veil in the way. A steep passage goes down.
+    long: This is the antechamber, east of the King's Chamber in the Great Pyramid. A ladder goes up through a hole in the ceiling, but there seems to be some sort of shimmering veil in the way. A steep passage goes down.
     up: Room/library
     west: Room/kingschamber
     down: Room/ravine
     enter: Room/kingschamber
-    contains: Virtual/ladder
+    contains: Virtual/ladderup
 
 Room/ravine:
     short: Above the ravine
@@ -52,15 +54,20 @@ Virtual/ravine:
     identity: ravine
     examine_it: The ravine is too wide to jump, and it's almost certainly bottomless.
 
-Virtual/ladder:
+Virtual/ladderup:
     identity: ladder
     examine_it: The ladder isn't very solid, but it will probably be safe to go up.
     climb_it_yes: Room/library
 
+Virtual/ladderdown:
+    identity: ladder
+    examine_it: The ladder isn't very solid, but it will probably be safe to go down.
+    climb_it_yes: Room/antechamber
+
 Room/kingschamber:
     short: The King's Chamber
     long: This is the chamber of the king in the Great Pyramid.
-    contains: Thing/sarcophagus
+    contains: Thing/sarcophagus Wearable/goldennecklace
     east: Room/antechamber
 
 Thing/sarcophagus:
@@ -68,13 +75,25 @@ Thing/sarcophagus:
     long: The golden sarcophagus of the king is here!
     examine: The sarcophagus is made of solid golden stuff and an image of the king is embossed on its lid.
     identity: sarcophagus, golden sarcophagus
+    value: 10000
+    weight: 2000
 
 PlayerBody/default:
     short: a player
     long: A player is here.
+    maxhp: 20
 
 Room/hallofdoors:
     short: The Hall of a Thousand Doors
     long: This is the Grand Hall of a Thousand Doors, not quite at the centre of existence, but right next to it, just like it's right next to everywhere.
     east: mangrove/Outdoor/townsquare
     lit: true
+
+Wearable/goldennecklace:
+    short: a golden necklace
+    long: A valuable golden necklace lies on the floor here!
+    examine: The necklace is a fine piece of work, and definitely solid gold.
+    weight: 1
+    value: 200
+    slot: necklace
+    identity: necklace,golden necklace,valuable necklace,valuable golden necklace

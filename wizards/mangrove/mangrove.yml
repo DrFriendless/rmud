@@ -69,7 +69,7 @@ Outdoor/mangroveswamp2:
     short: In the mangrove swamp.
     long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
     south: Outdoor/mangroveswamp1
-    contains: Undead/ghoul
+    contains: Undead/ghoul NecklaceOfRegeneration/regennecklace
 
 Gong/gong:
     short: a great gong
@@ -80,3 +80,12 @@ Undead/ghoul:
     short: a ghoul
     long: A slavering, writing ghoul glares at you with soulless eyes.
     identity: ghoul
+
+NecklaceOfRegeneration/regennecklace:
+    short: a primitive necklace
+    long: There's an ugly wooden necklace here.
+    examine: This wooden necklace looks to have been made by an extremely primitive culture.
+    weight: 1
+    value: 2000
+    slot: necklace
+    identity: necklace,wooden necklace,primitive necklace,primitive wooden necklace

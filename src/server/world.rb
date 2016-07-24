@@ -85,6 +85,10 @@ class World
   end
 
   def instantiate_ref(thingclassref)
+    if !@thingClasses[thingclassref.key]
+      puts "Can't instantiate #{thingclassref.key}."
+      return
+    end
     thing = @thingClasses[thingclassref.key].instantiate
     @all_things.push(thing)
     thing
@@ -134,7 +138,11 @@ class World
         # non-singleton
         key = id[0..id.index('@')-1]
         tc = @thingClasses[key]
-        by_persistence_key[id] = instantiate_class(tc)
+        if tc
+          by_persistence_key[id] = instantiate_class(tc)
+        else
+          puts "No thing class #{key}."
+        end
       elsif id.start_with?("player")
         by_persistence_key[id] = instantiate_player(t[:name])
         # where the player will go to when they log in again.

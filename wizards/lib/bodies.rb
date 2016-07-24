@@ -1,13 +1,47 @@
 require_relative '../../src/server/thingutil.rb'
 require_relative '../../src/server/thing.rb'
+require_relative '../../src/shared/effects.rb'
 
 class Body < Thing
   include Container
   include EffectObserver
+  attr_accessor :hp
+  attr_accessor :maxhp
 
   def initialize()
     super
     initialize_contents
+    @wear_slots = {"necklace" => [()], "hat" => [()], "ring" => [(), ()],
+                   "right hand" => [()], "left hand" => [()], "shoes" => [()]}
+  end
+
+  def wear_slots(slot)
+    p slot
+    p @wear_slots
+    @wear_slots[slot] || []
+  end
+
+  def wearing?(obj)
+    wear_slots(obj.slot).include?(obj)
+  end
+
+  def injured()
+    @hp < @maxhp
+  end
+
+  def damage(n)
+    @hp -= n
+    # TODO check for death
+  end
+
+  def heal(n)
+    if @hp < @maxhp
+      @hp += n
+      if @hp > @maxhp; @hp = @maxhp end
+      if @hp == @maxhp
+        tell("You feel better now.")
+      end
+    end
   end
 
   def persist(data)
@@ -34,6 +68,7 @@ class Body < Thing
   def carriable?()
     false
   end
+
 end
 
 # A PlayerBody is special because it can appear and disappear as players log in and out.
@@ -108,6 +143,11 @@ class PlayerBody < Body
       data[persistence_key][:loc] = @location.persistence_key
       data[persistence_key][:name] = @name
     end
+  end
+
+  def tell(message)
+    ob = Observation.new(message)
+    @effect_callback.effect(ob)
   end
 end
 

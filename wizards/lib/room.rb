@@ -17,7 +17,7 @@ class Room < Thing
     direction(:north, :n)
     direction(:south, :s)
     direction(:out)
-    direction(:in)
+    direction(:enter, :in)
     direction(:up, :u)
     direction(:down, :d)
   end
@@ -34,7 +34,6 @@ class Room < Thing
     end
     if v
       verb(["#{key}"]) { |response, command, match|
-        # todo notify the room
         command.body.go_to(v, "#{key}")
         response.handled = true
         response.direction = true
@@ -63,7 +62,8 @@ class Room < Thing
     if cs then
       refs = cs.split()
       refs.map { |rs|
-        create(rs).move_to(self)
+        thing = create(rs)
+        if thing; thing.move_to(self) end
       }
     end
   end
@@ -77,50 +77,3 @@ class Room < Thing
   end
 end
 
-# a thing that can't be seen but can define verbs
-class Virtual < Thing
-  # properties loaded from YAML have been set
-  def after_properties_set()
-    if @examine_it
-      verb(["examine", :it]) { |response, command, match|
-        response.message = @examine_it
-        response.handled = true
-      }
-    end
-    if @climb_it_no
-      verb(["climb", :it]) { |response, command, match|
-        response.message = @climb_it_no
-        response.handled = true
-      }
-    end
-    if @climb_it_yes
-      @climb_it_yes = destination(@climb_it_yes)
-      verb(["climb", :it]) { |response, command, match|
-        command.body.go_to(@climb_it_yes)
-        response.handled = true
-      }
-    end
-    if @enter_it
-      @enter_it = destination(@enter_it)
-      verb(["enter", :it]) { |response, command, match|
-        command.body.go_to(@enter_it)
-        response.handled = true
-      }
-    end
-    if @enter
-      @enter = destination(@enter)
-      verb(["enter", :it]) { |response, command, match|
-        command.body.go_to(@enter)
-        response.handled = true
-      }
-    end
-  end
-
-  def short
-    ()
-  end
-
-  def long
-    ()
-  end
-end

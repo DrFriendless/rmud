@@ -89,3 +89,35 @@ class DropEffect < Effect
   attr_reader :dropper
   attr_reader :item
 end
+
+class WearEffect < Effect
+  def initialize(wearer, item)
+    @wearer = wearer
+    @item = item
+  end
+
+  def message_for(observer)
+    if observer != @wearer
+      Observation.new("#{@wearer.name} wears #{@item.short}.")
+    end
+  end
+
+  attr_reader :wearer
+  attr_reader :item
+end
+
+class RemoveEffect < Effect
+  def initialize(wearer, item)
+    @wearer = wearer
+    @item = item
+  end
+
+  def message_for(observer)
+    if observer != @wearer
+      Observation.new("#{@wearer.name} removes #{@item.short}.")
+    end
+  end
+
+  attr_reader :wearer
+  attr_reader :item
+end
