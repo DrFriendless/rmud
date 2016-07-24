@@ -153,3 +153,17 @@ class SellEffect < Effect
   attr_reader :seller
   attr_reader :item
 end
+
+class TradeEffect < Effect
+  def initialize(trader, item1, item2)
+    @trader = trader
+    @item1 = item1
+    @item2 = item2
+  end
+
+  def message_for(observer)
+    if observer != @trader
+      Observation.new("#{@trader.name} trades a #{@item1.short} for a #{@item2.short}.")
+    end
+  end
+end

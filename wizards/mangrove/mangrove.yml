@@ -12,7 +12,7 @@ Virtual/shop:
 
 Shop/mangroveshop:
     short: Mangrove City Supplies
-    long: You're in Mangrove City Supplies. The shop is packed with the most unimaginable junk. Use 'list' to see what's available.
+    long: You're in Mangrove City Supplies. The shop is packed with the most unimaginable junk. Use 'list' to see what's available. You can also 'trade' your item for our item.
     exit: Outdoor/townsquare
     lit: true
     vault: Room/vault

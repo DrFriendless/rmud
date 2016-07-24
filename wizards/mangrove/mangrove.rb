@@ -90,6 +90,7 @@ class Shop < Room
             v = item.value * 2 / 3
             command.body.gain_gold(v)
             item.move_to(vault)
+            response.message = "You got #{v} gold pieces."
             publish_to_room(SellEffect.new(command.body, item))
           end
         end
@@ -98,7 +99,7 @@ class Shop < Room
       end
       response.handled = true
     }
-    verb(["list"]) {  |response, command, match|
+    verb(["list"]) { |response, command, match|
       items = vault.contents.map { |i|
         i.short + " (" + (i.value * 3/2).to_s + "gp)"
       }
@@ -107,6 +108,48 @@ class Shop < Room
       end
       response.message = items.join("\n")
       response.handled = true
+    }
+    verb(["trade",:star,"for",:star]) { |response, command, match|
+      response.handled = true
+      if match.size != 2
+        response.message = "You want to trade what for what?"
+        return
+      end
+      name1 = match[0]
+      name2 = match[1]
+      if name1.size == 0
+        response.message = "What are you offering?"
+        return
+      end
+      if name2.size == 0
+        response.message = "What is it you want?"
+        return
+      end
+      their_item = command.body.find(name1.join(" "))
+      shop_item = vault.find(name2.join(" "))
+      if !their_item
+        response.message = "You don't have a #{name1.join(' ')}."
+        return
+      end
+      if !shop_item
+        response.message = "We don't have a #{name2.join(' ')}."
+        return
+      end
+      if their_item.value * 4/5 >= shop_item.value * 5/4
+        if command.body.wearing?(their_item)
+          command.body.do("remove #{name1.join(' ')}")
+        end
+        if command.body.wearing?(their_item)
+          response.message = "You can't remove the #{their.short}!"
+          return
+        end
+        their_item.move_to(vault)
+        shop_item.move_to(command.body)
+        response.message = "Done deal!"
+        publish_to_room(TradeEffect.new(command.body, their_item, shop_item))
+      else
+        response.message = "No deal!"
+      end
     }
   end
 
