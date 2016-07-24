@@ -38,8 +38,8 @@ class NecklaceOfRegeneration < Wearable
     if @location.instance_of? Body
       if @location.wearing?(self)
         if @location.instance_of? Undead
-        @location.damage(1)
-        elsif @location.injured
+          @location.damage(1)
+        else
           @location.heal(1)
         end
       end

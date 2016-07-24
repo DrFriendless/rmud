@@ -16,8 +16,6 @@ class Body < Thing
   end
 
   def wear_slots(slot)
-    p slot
-    p @wear_slots
     @wear_slots[slot] || []
   end
 
@@ -50,6 +48,11 @@ class Body < Thing
     data[persistence_key] ||= {}
     data[persistence_key][:maxhp] = @maxhp
     data[persistence_key][:hp] = @hp
+    ws = {}
+    @wear_slots.each_pair { |k,vs|
+      ws[k] = vs.map { |v| if v; v.persistence_key; else; () end }
+    }
+    data[persistence_key][:ws] = ws
   end
 
   def restore(data, by_persistence_key)
@@ -57,6 +60,17 @@ class Body < Thing
     restore_contents(data, by_persistence_key)
     @maxhp = data[:maxhp]
     @hp = data[:hp]
+    ws = data[:ws]
+    if ws
+      @wear_slots.each_pair { |k,vs|
+        ss = ws[k]
+        vs.each_index { |i|
+          if ss[i]
+            vs[i] = by_persistence_key[ss[i]]
+          end
+        }
+      }
+    end
   end
 
   def go_to(location, direction)
@@ -68,7 +82,6 @@ class Body < Thing
   def carriable?()
     false
   end
-
 end
 
 # A PlayerBody is special because it can appear and disappear as players log in and out.
