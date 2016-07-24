@@ -7,7 +7,7 @@ class Thing
       if @location == command.body.location
         if self.carriable?
           self.move_to(command.body)
-          # todo tell the room
+          command.body.location.publish_to_room(TakeEffect.new(command.body, self))
         else
           response.message = "You can't take that."
         end
@@ -18,7 +18,7 @@ class Thing
     verb(["drop", :it]) { |response,command,match|
       if @location == command.body
         self.move_to(command.body.location)
-        # todo tell the room
+        command.body.location.publish_to_room(DropEffect.new(command.body, self))
       else
         response.message = "You don't have that."
       end

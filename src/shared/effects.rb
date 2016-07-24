@@ -1,8 +1,22 @@
 # things that happen that can be observed in a location
 
-class Effect
+class Observation
+  def initialize(msg)
+    @message = msg
+  end
+
   def method_missing(method, *args)
     false
+  end
+
+  attr_accessor :message
+end
+
+SILENCE = ()
+
+class Effect
+  def message_for(observer)
+    Observation.new(@message)
   end
 end
 
@@ -10,6 +24,68 @@ class TimeOfDayEffect < Effect
   def initialize(s)
     @message = s
   end
+end
 
-  attr_accessor :message
+class ArriveEffect < Effect
+  def initialize(arriver)
+    @arriver = arriver
+  end
+
+  def message_for(observer)
+    if observer == @arriver
+      Observation.new(observer.location.long)
+    else
+      Observation.new("#{@arriver.name} arrives.")
+    end
+  end
+
+  attr_reader :arriver
+end
+
+class LeaveEffect < Effect
+  def initialize(leaver, direction)
+    @leaver = leaver
+    @direction = direction
+  end
+
+  def message_for(observer)
+    if observer != @leaver
+      Observation.new("#{@leaver.name} departs #{@direction}.")
+    end
+  end
+
+  attr_reader :leaver
+  attr_reader :direction
+end
+
+class TakeEffect < Effect
+  def initialize(taker, item)
+    @taker = taker
+    @item = item
+  end
+
+  def message_for(observer)
+    if observer != @taker
+      Observation.new("#{@taker.name} picks up #{@item.short}.")
+    end
+  end
+
+  attr_reader :taker
+  attr_reader :item
+end
+
+class DropEffect < Effect
+  def initialize(dropper, item)
+    @dropper = dropper
+    @item = item
+  end
+
+  def message_for(observer)
+    if observer != @dropper
+      Observation.new("#{@dropper.name} drops #{@item.short}.")
+    end
+  end
+
+  attr_reader :dropper
+  attr_reader :item
 end
