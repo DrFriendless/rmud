@@ -1,11 +1,12 @@
 Outdoor/townsquare:
     short: The Town Square
-    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north. To the east, a coloured wooden bridge rises up over the swamp.
+    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north and a wide street leads west. To the east, a coloured wooden bridge rises up over the swamp.
     contains: Virtual/shop Virtual/communitycentre
     southwest: Shop/mangroveshop
     southeast: Room/communitycentre
     north: Outdoor/northtower
     east: Outdoor/mangrovebridge
+    west: Outdoor/plaza
 
 Virtual/shop:
     identity: shop
@@ -43,6 +44,7 @@ Outdoor/mangrovebridge:
     short: The High Bridge
     long: This is the high bridge of Mangrove, a rainbow-coloured wooden bridge which crosses part of the swamp. Down to the west is a busy area of town.
     west: Outdoor/townsquare
+    east: Outdoor/harbour
     contains: Virtual/mangrovebridge Virtual/trapdoor
 
 Virtual/mangrovebridge:
@@ -54,13 +56,6 @@ Virtual/trapdoor:
     identity: trap door, trapdoor
     examine_it: The trap door is wide enough for you to go through, but do you really want to drop into the swamp?
     enter_it: lib/Room/library
-
-Weapon/sword:
-    short: sword
-    long: A long sword is here.
-    examine: The sword has a long blade which is pointy at the far end.
-    identity: sword, long sword
-    value: 10
 
 Outdoor/northtower:
     short: The North Tower
@@ -104,40 +99,55 @@ Outdoor/mangroveswamp2:
     short: In the mangrove swamp.
     long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
     south: Outdoor/mangroveswamp1
+    east: Outdoor/mangroveswamp3
     contains: Undead/ghoul NecklaceOfRegeneration/regennecklace
 
-Gong/gong:
-    short: great gong
-    long: A large gong stands on the ground here.
-    identity: gong, great gong, large gong
+Outdoor/mangroveswamp3:
+    short: In the mangrove swamp.
+    long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
+    west: Outdoor/mangroveswamp2
+    south: Outdoor/mangroveswamp4
 
-Undead/ghoul:
-    short: ghoul
-    long: A slavering, writing ghoul glares at you with soulless eyes.
-    identity: ghoul
+Outdoor/mangroveswamp4:
+    short: In the mangrove swamp below the bridge.
+    long: You're in the mangrove swamp. A bridge seems to cross the swamp above you. You can try to head in various directions, but you might get turned around.
+    north: Outdoor/mangroveswamp3
+    south: Outdoor/mangroveswamp5
 
-NecklaceOfRegeneration/regennecklace:
-    short: primitive necklace
-    long: There's an ugly wooden necklace here.
-    examine: This wooden necklace looks to have been made by an extremely primitive culture.
-    weight: 1
-    value: 2000
-    slot: necklace
-    identity: necklace,wooden necklace,primitive necklace,primitive wooden necklace
+Outdoor/mangroveswamp5:
+    short: In the mangrove swamp.
+    long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
+    north: Outdoor/mangroveswamp4
+    up: Outdoor/harbour
 
-OpenableContainer/chest:
-    short: solid oak chest
-    long: A solid oak chest sits on the ground here.
-    examine: The chest is made of oak, with bands of steel as reinforcement.
-    weight: 70
-    value: 100
-    identity: chest, oak chest, wooden chest, solid chest, solid oak chest
-    open: false
+Outdoor/harbour:
+    short: Mangrove Harbour
+    long: This is the harbour of the city of Mangrove. There are streams through the swamp, and flat-bottomed barges travel them to bring supplies to the city.
+    west: Outdoor/mangrovebridge
 
-OpenContainer/sack:
-    short: large sack
-    long: A large cloth sack is here.
-    examine: The sack is made of canvas or some such stuff.
-    weight: 1
-    value: 1
-    identity: sack, cloth sack, large cloth sack, canvas sack, large sack
+Outdoor/plaza:
+    short: Mangrove City Plaza
+    long:  This is the splendid plaza in the city of Mangrove. There are many fine buildings here. The most magnificent is the amazing Temple of Thoth.
+    east: Outdoor/townsquare
+    enter: Room/thothtemple
+    contains: Virtual/thothtemple
+
+Virtual/thothtemple:
+    identity: temple, Temple of Thoth
+    examine_it: The temple of Thoth has some sort of distinctive ibis shape about it.
+    enter_it: Room/thothtemple
+
+Room/thothtemple:
+    short: Temple of Thoth
+    long: This is the luxurious temple of Thoth. A statue of the ibis-headed god stands in the middle of the room. A pedestal in front of the status is a simple pillar with a coin slot. An inscription on it says "SACRIFICES".
+    exit: Outdoor/plaza
+    contains: Virtual/statue Virtual/pedestal
+
+Virtual/statue:
+    identity: statue, Thoth, statue of Thoth
+    examine_it: The statue is made of gold, marble, and precious stones.
+
+Virtual/pedestal:
+    identity: pedestal, pillar, coin slot
+    examine_it: The pillar is obviously designed to have coins placed in it as a sacrifice to Thoth.
+

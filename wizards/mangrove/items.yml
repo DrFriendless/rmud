@@ -1,0 +1,38 @@
+Weapon/sword:
+    short: sword
+    long: A long sword is here.
+    examine: The sword has a long blade which is pointy at the far end.
+    identity: sword, long sword
+    value: 10
+
+NecklaceOfRegeneration/regennecklace:
+    short: primitive necklace
+    long: There's an ugly wooden necklace here.
+    examine: This wooden necklace looks to have been made by an extremely primitive culture.
+    weight: 1
+    value: 2000
+    slot: necklace
+    identity: necklace,wooden necklace,primitive necklace,primitive wooden necklace
+
+OpenableContainer/chest:
+    short: solid oak chest
+    long: A solid oak chest sits on the ground here.
+    examine: The chest is made of oak, with bands of steel as reinforcement.
+    weight: 70
+    value: 100
+    identity: chest, oak chest, wooden chest, solid chest, solid oak chest
+    open: false
+
+OpenContainer/sack:
+    short: large sack
+    long: A large cloth sack is here.
+    examine: The sack is made of canvas or some such stuff.
+    weight: 1
+    value: 1
+    identity: sack, cloth sack, large cloth sack, canvas sack, large sack
+
+Gong/gong:
+    short: great gong
+    long: A large gong stands on the ground here.
+    identity: gong, great gong, large gong
+
