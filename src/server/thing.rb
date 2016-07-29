@@ -34,6 +34,10 @@ class Thing
     @identities && @identities.include?(name)
   end
 
+  def of_class?(tcr)
+    @thingClass.is?(tcr)
+  end
+
   def persist(data)
     data[persistence_key] ||= {}
   end
@@ -120,5 +124,9 @@ class Thing
   def a_short
     # todo - a/an
     "a #{short}"
+  end
+
+  def destroy
+    world.destroy self
   end
 end

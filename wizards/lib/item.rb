@@ -3,8 +3,8 @@ class Item < Thing
       super
       verb(["get", :it]) { |response,command,match|
         if @location == command.body.location
-          if self.carriable?
-            self.move_to(command.body)
+          if carriable?
+            move_to(command.body)
             command.body.location.publish_to_room(TakeEffect.new(command.body, self))
           else
             response.message = "You can't take that."
@@ -15,7 +15,7 @@ class Item < Thing
       alias_verb(["take", :it], ["get", :it])
       verb(["drop", :it]) { |response,command,match|
         if @location == command.body
-          self.move_to(command.body.location)
+          move_to(command.body.location)
           command.body.location.publish_to_room(DropEffect.new(command.body, self))
         else
           response.message = "You don't have that."
@@ -25,6 +25,6 @@ class Item < Thing
     end
 
     def carriable?()
-      false
+      true
     end
 end

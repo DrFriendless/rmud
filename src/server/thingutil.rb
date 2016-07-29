@@ -1,7 +1,7 @@
 # Code related to Things. The Thing class is big and gets its own file.
 
 # properties that should not be set by the YAML.
-BANNED_PROPERTIES = ["contents", "verbs"]
+BANNED_PROPERTIES = %w(contents verbs)
 
 class ThingClass
   def initialize(tcr, p, rc, world)
@@ -15,7 +15,7 @@ class ThingClass
   attr_reader :ruby_class
   attr_reader :world
 
-  def wizard()
+  def wizard
     @thing_class_ref.wizard
   end
 
@@ -30,8 +30,12 @@ class ThingClass
     obj
   end
 
-  def persistence_key()
+  def persistence_key
     @thing_class_ref.key
+  end
+
+  def is?(tcr)
+    @thing_class_ref.key == tcr.key
   end
 end
 
@@ -41,17 +45,19 @@ class ThingClassRef
     @wizard = fields[-3] || w
     @clazz = fields[-2]
     @id = fields[-1]
+    @key = "#{@wizard}/#{@clazz}/#{@id}"
   end
 
   attr_reader :wizard
-
-  def key()
-    "#{@wizard}/#{@clazz}/#{@id}"
-  end
+  attr_reader :key
 
   def thingclass(world, props)
     clazz = Object::const_get(@clazz)
     ThingClass.new(self, props, clazz, world)
+  end
+
+  def to_s
+    key
   end
 end
 
@@ -90,7 +96,7 @@ class Verb
         if match_words(pattern.drop(1), words.drop(n), subject, matches)
           return true
         else
-          matches.pop()
+          matches.pop
         end
       }
       false
@@ -100,7 +106,7 @@ class Verb
         if match_words(pattern.drop(1), words.drop(n), subject, matches)
           return true
         else
-          matches.pop()
+          matches.pop
         end
       }
       false
@@ -110,7 +116,7 @@ class Verb
         if subject.is_called?(words[0,n].join(" ")) && match_words(pattern.drop(1), words.drop(n), subject, matches)
           return true
         else
-          matches.pop()
+          matches.pop
         end
       }
       return false
@@ -122,13 +128,13 @@ end
 
 # marker to indicate that there is one of these and it always exists.
 module Singleton
-  def persistence_key()
+  def persistence_key
     @thingClass.persistence_key
   end
 end
 
 module Container
-  def initialize_contents()
+  def initialize_contents
     @contents = []
   end
 
@@ -156,12 +162,14 @@ module Container
     @contents.each { |thing|
       if thing.is_called?(name); return thing end
     }
+    false
   end
 
   def find_by_class(tcr)
     @contents.each { |thing|
       if thing.of_class?(tcr); return thing end
     }
+    false
   end
 
   def remove(thing)
@@ -185,7 +193,7 @@ module EffectObserver
     end
   end
 
-  def observes_effects?()
+  def observes_effects?
     true
   end
 end

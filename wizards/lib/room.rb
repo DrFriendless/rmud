@@ -1,5 +1,6 @@
 require_relative '../../src/server/thingutil.rb'
 require_relative '../../src/server/thing.rb'
+require_relative './money.rb'
 
 class Room < Thing
   include Container
@@ -12,8 +13,8 @@ class Room < Thing
     @lit = false
   end
 
-  def after_properties_set()
-    add_direction_verbs()
+  def after_properties_set
+    add_direction_verbs
   end
 
   def publish_to_room(effect)
@@ -28,6 +29,7 @@ class Room < Thing
   def restore(data, by_persistence_key)
     super
     restore_contents(data, by_persistence_key)
+    reset
   end
 
   def on_world_create
@@ -43,14 +45,21 @@ class Room < Thing
   end
 
   def reset
-    cs = @thingClass.properties["contains"]
-    if cs then
-      refs = cs.split()
-      refs.map { |rs|
-        tcr = ThingClassRef.new(@thingClass.wizard, rs)
-        if !find(tcr)
-          thing = world.instantiate_ref(tcr)
-          if thing; thing.move_to(self) end
+    cs = @contains
+    if cs
+      cs.split.each { |rs|
+        if is_money?(rs)
+          tcr = ThingClassRef.new(nil, "lib/Gold/default")
+          if !find_by_class(tcr)
+            thing = world.instantiate_gold(rs)
+            if thing; thing.move_to(self) end
+          end
+        else
+          tcr = ThingClassRef.new(@thingClass.wizard, rs)
+          if !find_by_class(tcr)
+            thing = world.instantiate_ref(tcr)
+            if thing; thing.move_to(self) end
+          end
         end
       }
     end

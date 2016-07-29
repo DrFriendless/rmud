@@ -107,6 +107,16 @@ class World
     thing
   end
 
+  def destroy(obj)
+    if obj.location
+      obj.location.remove(obj)
+    end
+    if obj.is_a? Singleton
+      @singletons.delete(obj)
+    end
+    @all_things.delete(obj)
+  end
+
   def instantiate_player(username)
     thing = instantiate_class(@thingClasses["lib/PlayerBody/default"])
     # TODO - description of the player and the class of their body should be stored in the database.
@@ -119,7 +129,7 @@ class World
   end
 
   def find_player(username)
-    @all_players.select { |p| p.name == username }.first()
+    @all_players.select { |p| p.name == username }.first
   end
 
   def remove_player(body)
@@ -172,19 +182,19 @@ class World
     @singletons.each { |s|
       if !by_persistence_key[s.persistence_key]
         puts "on_world_create #{s.persistence_key}"
-        s.on_world_create()
+        s.on_world_create
       end
     }
   end
 
-  def heartbeat()
+  def heartbeat
     # ticks since epoch
     @time = Time.now.to_i / 2
     @time_of_day = @time % 600
     @all_things.each { |t| t.heartbeat(@time, @time_of_day) }
   end
 
-  def reset()
-    @singletons.each { |t| t.reset() }
+  def reset
+    @singletons.each { |t| t.reset }
   end
 end
