@@ -94,6 +94,13 @@ class World
     thing
   end
 
+  def instantiate_gold(s)
+    n = parse_money(s)
+    gold = instantiate_class(@thingClasses["lib/Gold/default"])
+    gold.add_gold(n)
+    gold
+  end
+
   def instantiate_class(thingclass)
     thing = thingclass.instantiate
     @all_things.push(thing)
@@ -126,7 +133,6 @@ class World
         return s
       end
     }
-    ()
   end
 
   # restore data from database
@@ -176,5 +182,9 @@ class World
     @time = Time.now.to_i / 2
     @time_of_day = @time % 600
     @all_things.each { |t| t.heartbeat(@time, @time_of_day) }
+  end
+
+  def reset()
+    @singletons.each { |t| t.reset() }
   end
 end

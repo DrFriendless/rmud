@@ -37,6 +37,10 @@ class PersistMessage
 end
 
 
+class ResetMessage
+end
+
+
 # a response from the game on what happened due to an event
 class Response
   @quit = false

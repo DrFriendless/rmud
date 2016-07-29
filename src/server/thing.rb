@@ -65,11 +65,6 @@ class Thing
     @location = dest
   end
 
-  def create(s)
-    tcr = ThingClassRef.new(@thingClass.wizard, s)
-    world.instantiate_ref(tcr)
-  end
-
   def method_missing(method, *args)
     puts "#{method} missing from #{self}"
     #begin

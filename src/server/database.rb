@@ -2,6 +2,7 @@ require 'mongo'
 
 class Database
   def initialize()
+    Mongo::Logger.logger.level = ::Logger::INFO
     @client = Mongo::Client.new('mongodb://127.0.0.1:27017/rmud')
   end
 

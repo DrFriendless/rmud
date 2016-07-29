@@ -61,7 +61,7 @@ Virtual/mangrovebridge:
 Virtual/trapdoor:
     identity: trap door, trapdoor
     examine_it: The trap door is wide enough for you to go through, but do you really want to drop into the swamp?
-    enter_it: lib/Room/library
+    enter_it: lib/Room/hallofdoors
     enter_departure: through the trap door
 
 Outdoor/northtower:

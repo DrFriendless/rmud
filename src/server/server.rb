@@ -80,6 +80,8 @@ class EventLoop
       @world.heartbeat
     elsif event.is_a? PersistMessage
       return @world.persist
+    elsif event.is_a? ResetMessage
+      return @world.reset
     else
       puts "Unhandled event #{event}"
       Response.new
@@ -222,8 +224,11 @@ EventMachine::run {
   heartbeat_timer = EventMachine::PeriodicTimer.new(2) do
     EventLoop::enqueue(HeartbeatEvent.new)
   end
-  persist_timer = EventMachine::PeriodicTimer.new(13) do
+  persist_timer = EventMachine::PeriodicTimer.new(15) do
     EventLoop::enqueue(PersistEvent.new)
+  end
+  reset_timer = EventMachine::PeriodicTimer.new(900) do
+    EventLoop::enqueue(ResetEvent.new)
   end
   WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 9079) { |ws| WebSocketController.new(ws) }
   puts 'websocket running on 9079'

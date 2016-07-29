@@ -158,6 +158,12 @@ module Container
     }
   end
 
+  def find_by_class(tcr)
+    @contents.each { |thing|
+      if thing.of_class?(tcr); return thing end
+    }
+  end
+
   def remove(thing)
     if @contents.include? thing
       @contents.delete thing

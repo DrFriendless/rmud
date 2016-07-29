@@ -17,7 +17,11 @@ PlayerBody/default:
     long: A player is here.
     maxhp: 20
 
+Gold/default:
+    short: gold
+
 Room/hallofdoors:
     short: The Hall of a Thousand Doors
     long: This is the Grand Hall of a Thousand Doors, not quite at the centre of existence, but right next to it, just like it's right next to everywhere.
     lit: true
+    contains: 10gp

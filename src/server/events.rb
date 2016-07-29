@@ -51,6 +51,20 @@ class PersistEvent
   attr_reader :message
 
   def reply(data)
-    # puts "saved"
+    puts "saved"
+  end
+end
+
+# a reset message and a null callback
+class ResetEvent
+  def initialize()
+    @message = ResetMessage.new
+    @handler = self
+  end
+
+  attr_reader :message
+
+  def reply(data)
+    puts "reset"
   end
 end

@@ -6,7 +6,7 @@ class Room < Thing
   include Singleton
   include Directions
 
-  def initialize()
+  def initialize
     super
     initialize_contents
     @lit = false
@@ -30,23 +30,30 @@ class Room < Thing
     restore_contents(data, by_persistence_key)
   end
 
-  def on_world_create()
+  def on_world_create
+    reset
+  end
+
+  def carriable?
+    false
+  end
+
+  def lit?
+    @lit == true || @lit == "true"
+  end
+
+  def reset
     cs = @thingClass.properties["contains"]
     if cs then
       refs = cs.split()
       refs.map { |rs|
-        thing = create(rs)
-        if thing; thing.move_to(self) end
+        tcr = ThingClassRef.new(@thingClass.wizard, rs)
+        if !find(tcr)
+          thing = world.instantiate_ref(tcr)
+          if thing; thing.move_to(self) end
+        end
       }
     end
-  end
-
-  def carriable?()
-    false
-  end
-
-  def lit?()
-    @lit == true || @lit == "true"
   end
 end
 

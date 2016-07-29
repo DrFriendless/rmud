@@ -32,10 +32,23 @@ class Gold < Thing
   include HasGold
 end
 
-def parse_money(s)
+GOLD_PATTERN_1 = "^(\d+) gold"
+GOLD_PATTERN_2 = "^(\d+) gp"
+GOLD_PATTERN_3 = "^(\d+) gold pieces"
+GOLD_PATTERN_4 = "^(\d+)gp"
+GOLD_PATTERN_5 = "^1 gold piece"
+PATTERNS = [ GOLD_PATTERN_1, GOLD_PATTERN_2, GOLD_PATTERN_3, GOLD_PATTERN_4, GOLD_PATTERN_5 ]
 
+def parse_money(s)
+  if GOLD_PATTERN_5 =~ s
+    return 1
+  end
+  [ GOLD_PATTERN_1, GOLD_PATTERN_2, GOLD_PATTERN_3, GOLD_PATTERN_4 ].each { |p|
+    match = p.match(s)
+    if match; return match[0].to_i end
+  }
 end
 
 def is_money?(s)
-
+  PATTERNS.any? { |p| p =~ s }
 end
