@@ -22,6 +22,10 @@ class CommandMessage
   def words()
     @command.split(' ')
   end
+
+  def room
+    @body.location
+  end
 end
 
 

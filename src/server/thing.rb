@@ -50,7 +50,7 @@ class Thing
 
   def is_called?(name)
     if @identity && !@identities
-      @identities = @identity.split(",").each { |i| i.strip() }
+      @identities = @identity.split(",").map { |i| i.strip }
     end
     @identities && @identities.include?(name)
   end
@@ -93,6 +93,12 @@ class Thing
 
   def method_missing(method, *args)
     puts "#{method} missing from #{self}"
+    #begin
+    #  5/0
+    #rescue => exception
+    #  puts exception.backtrace
+    #  raise # always reraise
+    #end
     # now we can try to get dogs to quack.
   end
 

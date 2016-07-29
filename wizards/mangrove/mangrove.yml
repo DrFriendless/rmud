@@ -25,19 +25,19 @@ Shop/mangroveshop:
     exit: Outdoor/townsquare
     lit: true
     vault: Room/vault
-    contains: Chest/sack
+    contains: OpenContainer/sack
 
 Room/communitycentre:
     short: Mangrove City Community Centre
     long: You're in the Mangrove City Community Centre.
     exit: Outdoor/townsquare
     lit: true
-    contains: Chest/chest
+    contains: OpenableContainer/chest
 
 Room/vault:
     short: Mangrove City Supplies Vault
     long: You're in the vault of Mangrove City Supplies. You're not allowed in here.
-    contains: Weapon/sword Chest/sack
+    contains: Weapon/sword OpenContainer/sack
 
 Outdoor/mangrovebridge:
     short: The High Bridge
@@ -125,7 +125,7 @@ NecklaceOfRegeneration/regennecklace:
     slot: necklace
     identity: necklace,wooden necklace,primitive necklace,primitive wooden necklace
 
-Chest/chest:
+OpenableContainer/chest:
     short: solid oak chest
     long: A solid oak chest sits on the ground here.
     examine: The chest is made of oak, with bands of steel as reinforcement.
@@ -133,13 +133,11 @@ Chest/chest:
     value: 100
     identity: chest, oak chest, wooden chest, solid chest, solid oak chest
     open: false
-    openable: true
 
-Chest/sack:
-    short: sack
+OpenContainer/sack:
+    short: large sack
     long: A large cloth sack is here.
     examine: The sack is made of canvas or some such stuff.
     weight: 1
     value: 1
-    identity: sack, cloth sack, large cloth sack, canvas sack
-    openable: false
+    identity: sack, cloth sack, large cloth sack, canvas sack, large sack
