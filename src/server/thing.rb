@@ -136,4 +136,9 @@ class Thing
 
   def heartbeat(time, time_of_day)
   end
+
+  def a_short
+    # todo - a/an
+    "a #{short}"
+  end
 end

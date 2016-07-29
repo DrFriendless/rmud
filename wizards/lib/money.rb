@@ -1,3 +1,5 @@
+require_relative '../../src/server/thing'
+
 module HasGold
   def initialize_gold
     @gp = 0
@@ -24,4 +26,16 @@ module HasGold
   end
 
   attr_reader :gp
+end
+
+class Gold < Thing
+  include HasGold
+end
+
+def parse_money(s)
+
+end
+
+def is_money?(s)
+
 end

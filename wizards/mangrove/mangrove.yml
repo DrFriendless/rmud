@@ -1,14 +1,23 @@
 Outdoor/townsquare:
     short: The Town Square
-    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north. To the east, a coloured wooden bridge rises up over the swamp. A shop is here.
-    contains: Virtual/shop
+    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north. To the east, a coloured wooden bridge rises up over the swamp.
+    contains: Virtual/shop Virtual/communitycentre
+    southwest: Shop/mangroveshop
+    southwest: Room/communitycentre
     north: Outdoor/northtower
     east: Outdoor/mangrovebridge
 
 Virtual/shop:
     identity: shop
+    long: A shop is here.
     examine_it: Mangrove City Supplies. It seems to be a general merchandise store. A sign says "WE BUY AND SELL".
     enter_it: Shop/mangroveshop
+
+Virtual/communitycentre:
+    identity: community centre, centre
+    long: The community centre is here.
+    examine_it: Mangrove City Community Centre. A sign says "Adventurers Welcome"
+    enter_it: Room/communitycentre
 
 Shop/mangroveshop:
     short: Mangrove City Supplies
@@ -16,12 +25,19 @@ Shop/mangroveshop:
     exit: Outdoor/townsquare
     lit: true
     vault: Room/vault
-    contains: Chest/chest Chest/sack
+    contains: Chest/sack
+
+Room/communitycentre:
+    short: Mangrove City Community Centre
+    long: You're in the Mangrove City Community Centre.
+    exit: Outdoor/townsquare
+    lit: true
+    contains: Chest/chest
 
 Room/vault:
     short: Mangrove City Supplies Vault
     long: You're in the vault of Mangrove City Supplies. You're not allowed in here.
-    contains: Weapon/sword
+    contains: Weapon/sword Chest/sack
 
 Outdoor/mangrovebridge:
     short: The High Bridge
@@ -110,12 +126,12 @@ NecklaceOfRegeneration/regennecklace:
     identity: necklace,wooden necklace,primitive necklace,primitive wooden necklace
 
 Chest/chest:
-    short: chest
+    short: solid oak chest
     long: A solid oak chest sits on the ground here.
     examine: The chest is made of oak, with bands of steel as reinforcement.
     weight: 70
     value: 100
-    identity: chest, oak chest, wooden chest
+    identity: chest, oak chest, wooden chest, solid chest, solid oak chest
     open: false
     openable: true
 

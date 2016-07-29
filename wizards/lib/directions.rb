@@ -8,6 +8,10 @@ module Directions
     direction(:enter, :in)
     direction(:up, :u)
     direction(:down, :d)
+    direction(:southwest, :sw)
+    direction(:southeast, :se)
+    direction(:northeast, :ne)
+    direction(:northwest, :nw)
   end
 
   def direction(key, alt=())

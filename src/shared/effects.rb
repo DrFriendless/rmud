@@ -167,3 +167,29 @@ class TradeEffect < Effect
     end
   end
 end
+
+class ActorItemEffect < Effect
+  def initialize(actor, item)
+    @actor = actor
+    @item = item
+  end
+
+  attr_reader :actor
+  attr_reader :item
+end
+
+class OpenEffect < ActorItemEffect
+  def message_for(observer)
+    if observer != @actor
+      Observation.new("#{@actor.name} opens #{@item.a_short}.")
+    end
+  end
+end
+
+class CloseEffect < ActorItemEffect
+  def message_for(observer)
+    if observer != @actor
+      Observation.new("#{@actor.name} closes #{@item.a_short}.")
+    end
+  end
+end
