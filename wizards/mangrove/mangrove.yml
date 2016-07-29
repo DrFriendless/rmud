@@ -1,12 +1,13 @@
 Outdoor/townsquare:
     short: The Town Square
-    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north and a wide street leads west. To the east, a coloured wooden bridge rises up over the swamp.
+    long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. There are paths in all directions. To the east, a coloured wooden bridge rises up over the swamp.
     contains: Virtual/shop Virtual/communitycentre
     southwest: Shop/mangroveshop
     southeast: Room/communitycentre
     north: Outdoor/northtower
     east: Outdoor/mangrovebridge
     west: Outdoor/plaza
+    south: Outdoor/elfquarter
 
 Virtual/shop:
     identity: shop
@@ -124,6 +125,7 @@ Outdoor/harbour:
     short: Mangrove Harbour
     long: This is the harbour of the city of Mangrove. There are streams through the swamp, and flat-bottomed barges travel them to bring supplies to the city.
     west: Outdoor/mangrovebridge
+    southwest: Outdoor/elfquarter
 
 Outdoor/plaza:
     short: Mangrove City Plaza
@@ -151,3 +153,8 @@ Virtual/pedestal:
     identity: pedestal, pillar, coin slot
     examine_it: The pillar is obviously designed to have coins placed in it as a sacrifice to Thoth.
 
+Outdoor/elfquarter:
+    short: Mangrove Swamp Elf Quarter
+    long: This is the swamp elf quarter in the city of Mangrove. The houses here are built into mangrove trees, and the barely solid paths wind between the trees.
+    north: Outdoor/townsquare
+    northeast: Outdoor/harbour
