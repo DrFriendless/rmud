@@ -3,7 +3,7 @@ Outdoor/townsquare:
     long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. A path leads north. To the east, a coloured wooden bridge rises up over the swamp.
     contains: Virtual/shop Virtual/communitycentre
     southwest: Shop/mangroveshop
-    southwest: Room/communitycentre
+    southeast: Room/communitycentre
     north: Outdoor/northtower
     east: Outdoor/mangrovebridge
 
