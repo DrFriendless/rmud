@@ -139,6 +139,7 @@ Outdoor/plaza:
     east: Outdoor/townsquare
     enter: Room/thothtemple
     contains: Virtual/thothtemple
+    southwest: Room/mangrovehunters
 
 Virtual/thothtemple:
     identity: temple, Temple of Thoth
@@ -151,6 +152,11 @@ Room/thothtemple:
     exit: Outdoor/plaza
     contains: Virtual/statue Virtual/pedestal
 
+Room/mangrovehunters:
+    short: Mangrove Hunters Guild
+    long: This solid building proclaims itself to be the Mangrove Hunters Guild. Heads of various terrifying swamp creatures line the walls.
+    exit: Outdoor/plaza
+
 Virtual/statue:
     identity: statue, Thoth, statue of Thoth
     examine_it: The statue is made of gold, marble, and precious stones.
@@ -160,7 +166,19 @@ Virtual/pedestal:
     examine_it: The pillar is obviously designed to have coins placed in it as a sacrifice to Thoth.
 
 Outdoor/elfquarter:
-    short: Mangrove Swamp Elf Quarter
+    short: Mangrove Elf Quarter
     long: This is the swamp elf quarter in the city of Mangrove. The houses here are built into mangrove trees, and the barely solid paths wind between the trees.
     north: Outdoor/townsquare
     northeast: Outdoor/harbour
+    south: Outdoor/southmangrove
+
+Outdoor/southmangrove:
+    short: South Mangrove
+    long: This is south Mangrove, a run-down part of town where the swamp and the city start to become intertwined. A sign here says "THERE BE DRAGONS"
+    north: Outdoor/elfquarter
+    south: Outdoor/southswamp1
+
+Outdoor/southswamp1:
+    short: In the mangrove swamp.
+    north: Outdoor/southmangrove
+    long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
