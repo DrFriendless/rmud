@@ -1,17 +1,20 @@
 require_relative '../../src/server/thingutil.rb'
 require_relative '../../src/server/thing.rb'
 require_relative '../../src/shared/effects.rb'
+require_relative './money.rb'
 
 class Body < Thing
   include Container
   include EffectObserver
+  include HasGold
+
   attr_accessor :hp
   attr_accessor :maxhp
-  attr_accessor :gp
 
   def initialize()
     super
     initialize_contents
+    initialize_gold
     @wear_slots = {"necklace" => [()], "hat" => [()], "ring" => [(), ()],
                    "right hand" => [()], "left hand" => [()], "shoes" => [()]}
   end
@@ -22,17 +25,6 @@ class Body < Thing
 
   def wearing?(obj)
     wear_slots(obj.slot).include?(obj)
-  end
-
-  def gain_gold(n)
-    @gp += n
-  end
-
-  def pay_gold(n)
-    if @gp >= n
-      @gp -= n
-      true
-    end
   end
 
   def injured()
@@ -60,7 +52,7 @@ class Body < Thing
     data[persistence_key] ||= {}
     data[persistence_key][:maxhp] = @maxhp
     data[persistence_key][:hp] = @hp
-    data[persistence_key][:gp] = @gp
+    persist_gold(data)
     ws = {}
     @wear_slots.each_pair { |k,vs|
       ws[k] = vs.map { |v| if v; v.persistence_key; else; () end }
@@ -71,9 +63,9 @@ class Body < Thing
   def restore(data, by_persistence_key)
     super
     restore_contents(data, by_persistence_key)
+    restore_gold(data, by_persistence_key)
     @maxhp = data[:maxhp]
     @hp = data[:hp]
-    @gp = data[:gp] || 0
     ws = data[:ws]
     if ws
       @wear_slots.each_pair { |k,vs|
@@ -96,6 +88,17 @@ class Body < Thing
   def carriable?()
     false
   end
+
+  def do(command)
+    message = CommandMessage.new(command)
+    message.body = self
+    EventLoop::enqueue(CommandEvent.new(message, self))
+  end
+
+  # response from a do
+  def reply(message)
+    tell(message)
+  end
 end
 
 # A PlayerBody is special because it can appear and disappear as players log in and out.
@@ -103,6 +106,8 @@ class PlayerBody < Body
   attr_accessor :name
   attr_accessor :loc
   attr_accessor :effect_callback
+  attr_writer :short
+  attr_writer :long
 
   def initialize()
     super()
@@ -155,11 +160,19 @@ class PlayerBody < Body
         s
       }.select {|c| c }
       if lines.size == 0; lines.push("You don't have anything else.") end
-      if !@gp; @gp = 0 end
-      lines = ["You have #{@gp} gold pieces.",""] + lines
+      lines = ["You have #{gp} gold pieces.",""] + lines
       response.message = lines.join("\n")
     }
     alias_verb(["i"], ["inventory"])
+    verb(["verbs"]) { |response, command, match|
+      response.handled = true
+      lines = []
+      lines.push("From the room:")
+      command.body.location.verbs.each { |v|
+        lines.push("    #{v.pattern}")
+      }
+      response.message = lines.join("\n")
+    }
   end
 
   def is_do_not_persist?()

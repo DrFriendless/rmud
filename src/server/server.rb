@@ -44,6 +44,10 @@ class EventLoop
       h.handle(response, command)
       if response.handled; return response end
     }
+    if !response.handled && response.direction
+      response.message = "You can't go that way."
+      response.handled = true
+    end
     response
   end
 

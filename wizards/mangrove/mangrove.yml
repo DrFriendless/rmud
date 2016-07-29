@@ -16,6 +16,7 @@ Shop/mangroveshop:
     exit: Outdoor/townsquare
     lit: true
     vault: Room/vault
+    contains: Chest/chest Chest/sack
 
 Room/vault:
     short: Mangrove City Supplies Vault
@@ -107,3 +108,22 @@ NecklaceOfRegeneration/regennecklace:
     value: 2000
     slot: necklace
     identity: necklace,wooden necklace,primitive necklace,primitive wooden necklace
+
+Chest/chest:
+    short: chest
+    long: A solid oak chest sits on the ground here.
+    examine: The chest is made of oak, with bands of steel as reinforcement.
+    weight: 70
+    value: 100
+    identity: chest, oak chest, wooden chest
+    open: false
+    openable: true
+
+Chest/sack:
+    short: sack
+    long: A large cloth sack is here.
+    examine: The sack is made of canvas or some such stuff.
+    weight: 1
+    value: 1
+    identity: sack, cloth sack, large cloth sack, canvas sack
+    openable: false

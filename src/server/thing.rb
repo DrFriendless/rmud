@@ -39,12 +39,14 @@ class Thing
   def after_properties_set()
   end
 
-  attr_accessor :short
-  attr_accessor :long
+  attr_reader :short
+  attr_reader :long
   attr_accessor :location
-  attr_accessor :examine
-  attr_accessor :identity
-  attr_accessor :value
+  attr_reader :examine
+  attr_reader :identity
+  attr_reader :value
+  attr_reader :weight
+  attr_reader :verbs
 
   def is_called?(name)
     if @identity && !@identities
@@ -90,7 +92,7 @@ class Thing
   end
 
   def method_missing(method, *args)
-    puts method
+    puts "#{method} missing from #{self}"
     # now we can try to get dogs to quack.
   end
 

@@ -45,4 +45,8 @@ class Virtual < Thing
   def long
     ()
   end
+
+  def carriable?
+    false
+  end
 end

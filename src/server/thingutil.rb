@@ -80,9 +80,22 @@ class Verb
 
   def match_words(pattern, words, subject, matches)
     if pattern.empty? && words.empty?; return true end
+    if pattern.size == 1 && (pattern[0] == :star || pattern[0] == "*") && words.empty?
+      return true
+    end
     if pattern.empty? || words.empty?; return false end
     if pattern[0] == :star || pattern[0] == "*"
       (0..words.size).each { |n|
+        matches.push(words.take(n))
+        if match_words(pattern.drop(1), words.drop(n), subject, matches)
+          return true
+        else
+          matches.pop()
+        end
+      }
+      false
+    elsif pattern[0] == :plus || pattern[0] == "+"
+      (1..words.size).each { |n|
         matches.push(words.take(n))
         if match_words(pattern.drop(1), words.drop(n), subject, matches)
           return true
