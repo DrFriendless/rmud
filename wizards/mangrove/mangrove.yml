@@ -1,3 +1,8 @@
+Virtual/doortomangrove:
+    long: A silvery door, inscribed with an etching of a mangrove swamp, goes east.
+    east: Outdoor/townsquare
+    destination: lib/Room/hallofdoors
+
 Outdoor/townsquare:
     short: The Town Square
     long: This is the town square of the great city of Mangrove. It's a paved area built in the middle of the mangrove swamps which surround it on all sides. There are paths in all directions. To the east, a coloured wooden bridge rises up over the swamp.
@@ -57,6 +62,7 @@ Virtual/trapdoor:
     identity: trap door, trapdoor
     examine_it: The trap door is wide enough for you to go through, but do you really want to drop into the swamp?
     enter_it: lib/Room/library
+    enter_departure: through the trap door
 
 Outdoor/northtower:
     short: The North Tower

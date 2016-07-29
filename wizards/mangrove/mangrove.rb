@@ -18,11 +18,11 @@ class Outdoor < Room
   end
 end
 
-class Weapon < Thing
+class Weapon < Item
   # TODO
 end
 
-class Gong < Thing
+class Gong < Item
   # TODO define verb
   def carriable?
     false

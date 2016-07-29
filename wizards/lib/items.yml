@@ -1,0 +1,24 @@
+Wearable/goldennecklace:
+    short: golden necklace
+    long: A valuable golden necklace lies on the floor here!
+    examine: The necklace is a fine piece of work, and definitely solid gold.
+    weight: 1
+    value: 200
+    slot: necklace
+    identity: necklace,golden necklace,valuable necklace,valuable golden necklace
+
+Item/sarcophagus:
+    short: the king's sarcophagus
+    long: The golden sarcophagus of the king is here!
+    examine: The sarcophagus is made of solid golden stuff and an image of the king is embossed on its lid.
+    identity: sarcophagus, golden sarcophagus
+    value: 10000
+    weight: 2000
+
+Item/stick:
+    short: stick
+    long: There's a stick on the ground here.
+    examine: It's brown and sticky.
+    identity: stick,brown stick,sticky stick
+    value: 0
+    weight: 1

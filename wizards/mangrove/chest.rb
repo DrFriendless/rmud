@@ -73,7 +73,7 @@ module AccessibleContainer
   end
 end
 
-class OpenableContainer < Thing
+class OpenableContainer < Item
   include Container
   include Openable
   include AccessibleContainer
@@ -123,7 +123,7 @@ class OpenableContainer < Thing
   end
 end
 
-class OpenContainer < Thing
+class OpenContainer < Item
   include Container
   include AccessibleContainer
 

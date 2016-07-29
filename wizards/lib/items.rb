@@ -1,6 +1,6 @@
 require_relative '../../src/server/thing.rb'
 
-class Wearable < Thing
+class Wearable < Item
   def after_properties_set()
     verb(["wear", :it]) { |response, command, match|
       if command.body.wearing?(self)

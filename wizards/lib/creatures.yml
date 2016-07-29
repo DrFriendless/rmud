@@ -1,0 +1,14 @@
+Creature/librarian:
+    short: librarian
+    long: An ibis-headed librarian is here.
+    examine: The librarian is a tall humanoid creature with the head of an ibis. It looks vicious, but is deathly silent.
+    maxhp: 30
+    identity: librarian
+
+Creature/garialite:
+    short: garialite
+    long: A garialite is here.
+    examine: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
+    maxhp:  40
+    identity: garialite
+

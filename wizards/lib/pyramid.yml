@@ -1,0 +1,38 @@
+Room/antechamber:
+    short: The antechamber
+    long: This is the antechamber, east of the King's Chamber in the Great Pyramid. A ladder goes up through a hole in the ceiling, but there seems to be some sort of shimmering veil in the way. A steep passage goes down.
+    west: Room/kingschamber
+    down: Room/ravine
+    enter: Room/kingschamber
+    contains: Virtual/ladderup
+
+Room/kingschamber:
+    short: The King's Chamber
+    long: This is the chamber of the king in the Great Pyramid.
+    contains: Item/sarcophagus Wearable/goldennecklace
+    east: Room/antechamber
+
+Virtual/ladderdown:
+    identity: ladder
+    examine_it: The ladder isn't very solid, but it will probably be safe to go down.
+    climb_it_yes: Room/antechamber
+    down: Room/antechamber
+    destination: Room/hallofdoors
+    long: A ladder goes down into the real world.
+
+Virtual/ladderup:
+    identity: ladder
+    examine_it: The ladder isn't very solid, but it will probably be safe to go up.
+    climb_it_yes: Room/library
+    up: Room/library
+
+Room/ravine:
+    short: Above the ravine
+    long: You're in a sloping hallway, above a wide ravine. There seems to be no way to get across.
+    up: Room/antechamber
+    contains: Virtual/ravine
+
+Virtual/ravine:
+    identity: ravine
+    examine_it: The ravine is too wide to jump, and it's almost certainly bottomless.
+
