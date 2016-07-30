@@ -29,11 +29,9 @@ class Room < Thing
   def restore(data, by_persistence_key)
     super
     restore_contents(data, by_persistence_key)
-    reset
   end
 
   def on_world_create
-    reset
   end
 
   def carriable?

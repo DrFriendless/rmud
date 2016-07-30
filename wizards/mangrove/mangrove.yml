@@ -180,5 +180,24 @@ Outdoor/southmangrove:
 
 Outdoor/southswamp1:
     short: In the mangrove swamp.
-    north: Outdoor/southmangrove
     long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
+    north: Outdoor/southmangrove
+    south: Outdoor/denseswamp1
+
+Outdoor/denseswamp1:
+    short: In the deep mangrove swamp.
+    long: The mangrove swamp becomes darker and denser here, with the trees being larger and thicker and the denser canopy excluding most light.
+    north: Outdoor/southswamp1
+    southeast: Outdoor/denseswamp2
+    southwest: Outdoor/denseswamp3
+
+Outdoor/denseswamp2:
+    short: In the deep mangrove swamp.
+    long: You're deep in the mangrove swamp. The tall dark trees are intertwined with creeping vines... well, you hope they're vines.
+    northeast: Outdoor/denseswamp1
+
+Outdoor/denseswamp3:
+    short: In the deep mangrove swamp.
+    long: You're deep in the mangrove swamp. The tall dark trees are intertwined with creeping vines... well, you hope they're vines.
+    northwest: Outdoor/denseswamp1
+

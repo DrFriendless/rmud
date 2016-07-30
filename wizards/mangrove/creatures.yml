@@ -1,5 +1,17 @@
 Undead/ghoul:
     short: ghoul
     long: A slavering, writing ghoul glares at you with soulless eyes.
+    examine: The ghoul is a pathetic gray corpse, a washed-out echo of its former self.
     identity: ghoul
 
+Creature/mangrovesnake:
+    short: a crab-eating mangrove snake
+    long: A large grey snake with a white underbelly is here.
+    examine: The crab-eating mangrove snake is about 3 metres long, with large strong jaws design for cracking crab shells.
+    identity: snake, mangrove snake
+
+Creature/monkey:
+    short: a red monkey
+    long: A red monkey looks down at you from a perch high above.
+    examine: The monkey has russet hair. It's only about a metre tall.
+    identity: monkey, red monkey, russet monkey

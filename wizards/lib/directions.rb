@@ -16,10 +16,7 @@ module Directions
 
   def direction(key, alt=())
     v = instance_variable_get("@#{key}")
-    if v && v.count("/") == 1
-      v = @thingClass.wizard + "/" + v
-      instance_variable_set("@#{key}", v)
-    end
+    v = local_dest(v)
     if v
       verb(["#{key}"]) { |response, command, match|
         command.body.go_to(v, "#{key}")

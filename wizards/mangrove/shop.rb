@@ -3,7 +3,7 @@ require_relative '../lib/room.rb'
 class Shop < Room
   def after_properties_set()
     super
-    @vault = destination(@vault)
+    @vault = local_dest(@vault)
     verb(["buy", :star]) { |response, command, match|
       item_name = match[0]
       if item_name.size == 0

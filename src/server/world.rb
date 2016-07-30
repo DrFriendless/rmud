@@ -19,12 +19,14 @@ class World
   def load()
     load_wizards
     restore(@database.load)
+    reset
   end
 
   # load definitions of objects from YAML.
   def load_wizards()
     lib = ()
     wizdirs = []
+    do_later = []
     Dir["./wizards/*"].each { |filename|
       f = File.new(filename)
       if File.directory?(f)
@@ -37,12 +39,13 @@ class World
     }
     wizdirs = [lib] + wizdirs
     wizdirs.each { |dir|
-      load_wizard(dir)
+      load_wizard(dir, do_later)
     }
     @all_things += @singletons
+    do_later.each { |proc| proc.call }
   end
 
-  def load_wizard(dir)
+  def load_wizard(dir, do_later)
     wizard = File.basename(File.new(dir))
     # load Ruby
     Dir.entries(File.absolute_path(dir.path)).each { |filename|
@@ -53,23 +56,34 @@ class World
     }
     # load YAML
     Dir.entries(File.absolute_path(dir.path)).each { |filename|
-      if filename.end_with?(".yml")
+      if filename.end_with?('.yml')
         abs_fn = "#{dir.path}/#{filename}"
         yaml = Psych.load_file(abs_fn)
         yaml.each {
-            |k,v| load_from_file(wizard, k, v)
+            |k,v| load_from_file(wizard, k, v, do_later)
         }
       end
     }
   end
 
-  def load_from_file(wizard, key, props)
+  def dest(wizard, v)
+    (v && v.count("/") == 1) ? wizard + '/' + v : v
+  end
+
+  def load_from_file(wizard, key, props, do_later)
     tcr = ThingClassRef.new(wizard, key)
     tc = tcr.thingclass(self, props)
     @thingClasses[tcr.key] = tc
     if tc.ruby_class.ancestors.include? Singleton
       obj = tc.instantiate
       @singletons.push obj
+      if props['destination']
+        dest = dest(wizard, props['destination'])
+        do_later.push Proc.new() {
+          p "moving #{obj} to #{dest}."
+          obj.move_to(find_singleton(dest))
+        }
+      end
     end
   end
 

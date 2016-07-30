@@ -23,8 +23,8 @@ Virtual/ladderdown:
 Virtual/ladderup:
     identity: ladder
     examine_it: The ladder isn't very solid, but it will probably be safe to go up.
-    climb_it_yes: Room/library
-    up: Room/library
+    climb_it_yes: Room/hallofdoors
+    up: Room/hallofdoors
 
 Room/ravine:
     short: Above the ravine

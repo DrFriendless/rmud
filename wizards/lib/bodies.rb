@@ -197,5 +197,3 @@ class PlayerBody < Body
   end
 end
 
-class Creature < Body
-end

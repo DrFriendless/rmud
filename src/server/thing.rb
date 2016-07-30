@@ -45,11 +45,11 @@ class Thing
   def restore(data, by_persistence_key)
   end
 
-  def persistence_key()
+  def persistence_key
     @thingClass.persistence_key + "@#{object_id}"
   end
 
-  def world()
+  def world
     @thingClass.world
   end
 
@@ -102,19 +102,15 @@ class Thing
     }
   end
 
-  def destination(v)
-    if v && v.count("/") == 1
-      @thingClass.wizard + "/" + v
-    else
-      v
-    end
+  def local_dest(v)
+    world.dest(@thingClass.wizard, v)
   end
 
-  def carriable?()
+  def carriable?
     false
   end
 
-  def is_do_not_persist?()
+  def is_do_not_persist?
     false
   end
 
