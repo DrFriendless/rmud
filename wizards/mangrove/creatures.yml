@@ -50,3 +50,11 @@ SingletonCreature/anbumolli:
         - south
         - get gold
         - extend
+
+SingletonCreature/harry:
+    short: Harry
+    long: Harry, the town idiot, is here.
+    examine: Harry is a few sandwiches short of a picnic and has a few 'roos loose in the top paddock.
+    identity: Harry
+    chats:
+        - "hello =~ Hello #{actor.name}."

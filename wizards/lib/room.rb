@@ -59,12 +59,10 @@ class Room < Thing
             if !thing
               thing = world.instantiate_ref(tcr)
               if thing; thing.move_to(self) end
+            elsif thing.location
+              p "#{thing.short} is found at #{thing.location.short}"
             else
-              if thing.location
-                p "#{thing.short} is found at #{thing.location.short}"
-              else
-                thing.move_to(self)
-              end
+              thing.move_to(self)
             end
           elsif !find_by_class(tcr)
             thing = world.instantiate_ref(tcr)

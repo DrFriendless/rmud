@@ -38,9 +38,8 @@ class Creature < Body
 
   def after_properties_set
     super
-    if @path
-      extend_path
-    end
+    if @path; extend_path end
+    if @chats; setup_chats end
   end
 
   def extend_path
@@ -57,9 +56,51 @@ class Creature < Body
     p.each { |s| command(s) }
   end
 
+  def setup_chats
+    @chat_table = []
+    @chats.each { |ch|
+      m = /(.*)=~(.*)/.match(ch)
+      if m
+        @chat_table.push(Chat.new(m[1].strip, m[2].strip))
+      end
+    }
+  end
+
+  def try_to_chat(actor, says)
+    @chat_table.each { |ch|
+      if ch.match(says)
+        p ch.response
+        resp = eval('"' + ch.response + '"', binding)
+        command("'#{resp}")
+      end
+    }
+  end
+
+  def effect(effect)
+    if effect.is_a?(SayEffect) && effect.actor == self
+      return
+    end
+    if @chats && effect.is_a?(SayEffect)
+      try_to_chat(effect.actor, effect.says)
+    end
+  end
+
   def name
     short
   end
+end
+
+class Chat
+  def initialize(pattern, response)
+    @pattern = pattern.downcase
+    @response = response
+  end
+
+  def match(s)
+    /#{@pattern}/ =~ s.downcase
+  end
+
+  attr_reader :response
 end
 
 class SingletonCreature < Creature

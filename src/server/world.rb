@@ -157,6 +157,7 @@ class World
         return s
       end
     }
+    nil
   end
 
   # restore data from database
