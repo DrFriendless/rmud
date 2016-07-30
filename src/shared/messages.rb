@@ -19,7 +19,7 @@ class CommandMessage
   attr_reader :command
   attr_accessor :body
 
-  def words()
+  def words
     @command.split(' ')
   end
 
@@ -54,7 +54,11 @@ class Response
   attr_accessor :message
   attr_accessor :body
 
-  def to_json()
-    return JSON.generate({"message" => @message})
+  def to_s
+    @message
+  end
+
+  def to_json
+    JSON.generate({'message' => @message})
   end
 end

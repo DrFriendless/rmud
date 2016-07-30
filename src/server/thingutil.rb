@@ -51,6 +51,11 @@ class ThingClassRef
   attr_reader :wizard
   attr_reader :key
 
+  def singleton?
+    clazz = Object::const_get(@clazz)
+    clazz.included_modules.include?(Singleton)
+  end
+
   def thingclass(world, props)
     clazz = Object::const_get(@clazz)
     ThingClass.new(self, props, clazz, world)

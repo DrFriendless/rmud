@@ -15,3 +15,38 @@ Creature/monkey:
     long: A red monkey looks down at you from a perch high above.
     examine: The monkey has russet hair. It's only about a metre tall.
     identity: monkey, red monkey, russet monkey
+
+SingletonCreature/anbumolli:
+    short: Anbumolli
+    long: A gray-haired female swamp elf is here.
+    examine: Anbumolli is an ancient swamp elf, clad in the colours of the swamp.
+    identity: Anbumolli, elf, female elf, swamp elf, female swamp elf
+    path:
+        - south
+        - get gold
+        - north
+        - get gold
+        - north
+        - get gold
+        - north
+        - get gold
+        - south
+        - get gold
+        - east
+        - get gold
+        - east
+        - get gold
+        - west
+        - get gold
+        - west
+        - get gold
+        - west
+        - get gold
+        - enter temple
+        - sacrifice all gold to Thoth
+        - exit
+        - east
+        - get gold
+        - south
+        - get gold
+        - extend

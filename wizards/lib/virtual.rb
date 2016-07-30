@@ -53,6 +53,9 @@ class Virtual < Thing
     false
   end
 
+  def effect(effect)
+  end
+
   attr_reader :short
   attr_reader :long
   attr_reader :destination

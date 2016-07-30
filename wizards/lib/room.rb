@@ -54,7 +54,19 @@ class Room < Thing
           end
         else
           tcr = ThingClassRef.new(@thingClass.wizard, rs)
-          if !find_by_class(tcr)
+          if tcr.singleton?
+            thing = world.find_singleton(tcr.key)
+            if !thing
+              thing = world.instantiate_ref(tcr)
+              if thing; thing.move_to(self) end
+            else
+              if thing.location
+                p "#{thing.short} is found at #{thing.location.short}"
+              else
+                thing.move_to(self)
+              end
+            end
+          elsif !find_by_class(tcr)
             thing = world.instantiate_ref(tcr)
             if thing; thing.move_to(self) end
           end

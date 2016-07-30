@@ -35,7 +35,6 @@ class Creature < Body
   def after_properties_set
     super
     if @path
-      p "#{short} has path #{@path}"
       extend_path
     end
   end
@@ -45,6 +44,8 @@ class Creature < Body
     @path.each { |s|
       if s == 'shuffle'
         p.shuffle
+        p.each { |s| command(s) }
+        p.clear
       else
         p.push(s)
       end

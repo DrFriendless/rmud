@@ -171,6 +171,7 @@ Outdoor/elfquarter:
     north: Outdoor/townsquare
     northeast: Outdoor/harbour
     south: Outdoor/southmangrove
+    contains: SingletonCreature/anbumolli
 
 Outdoor/southmangrove:
     short: South Mangrove
