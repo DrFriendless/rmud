@@ -38,6 +38,15 @@ class EventLoop
 
 # a command came from a client, execute its effect on the world.
   def handle_command(command)
+    cmd = command.command
+    if cmd.start_with?("'")
+      cmd = "say " + cmd[1, cmd.length-1]
+    end
+    if cmd.start_with?('say ')
+      command.say = cmd[4, cmd.length-4].strip
+    end
+    command.command = cmd.downcase
+
     handlers = find_handlers(command.body)
     response = Response.new
     response.command = command.command

@@ -136,6 +136,14 @@ class PlayerBody < Body
       response.handled = true
       response.quit = true
     }
+    verb(["say", :star]) { |response, command, match|
+      if command.say.length > 0
+        command.room.publish_to_room(SayEffect.new(command.body, command.say))
+      else
+        response.message = "Say what?"
+      end
+      response.handled = true
+    }
     verb(["time"]) { |response, command, match|
       response.handled = true
       tod = world.time_of_day

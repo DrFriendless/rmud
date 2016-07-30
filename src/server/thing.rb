@@ -29,9 +29,9 @@ class Thing
 
   def is_called?(name)
     if @identity && !@identities
-      @identities = @identity.split(",").map { |i| i.strip }
+      @identities = @identity.split(",").map { |i| i.strip.downcase }
     end
-    @identities && @identities.include?(name)
+    @identities && @identities.include?(name.downcase)
   end
 
   def of_class?(tcr)

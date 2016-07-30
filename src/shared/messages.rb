@@ -16,8 +16,9 @@ class CommandMessage
     @command = command
   end
 
-  attr_reader :command
+  attr_accessor :command
   attr_accessor :body
+  attr_accessor :say
 
   def words
     @command.split(' ')

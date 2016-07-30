@@ -126,7 +126,7 @@ class Verb
       }
       return false
     else
-      (pattern[0] == words[0]) && match_words(pattern.drop(1), words.drop(1), subject, matches)
+      (pattern[0].downcase == words[0].downcase) && match_words(pattern.drop(1), words.drop(1), subject, matches)
     end
   end
 end

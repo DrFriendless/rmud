@@ -175,3 +175,19 @@ class CloseEffect < ActorItemEffect
     Observation.new("#{@actor.name} closes #{@item.a_short}.")
   end
 end
+
+class SayEffect < Effect
+  def initialize(actor, says)
+    @actor = actor
+    @says = says
+  end
+
+  attr_reader :actor
+  attr_reader :says
+
+  def message_for(observer)
+    if observer != @actor
+      Observation.new("#{@actor.name} says \"#{@says}\"")
+    end
+  end
+end
