@@ -40,6 +40,7 @@ class EventLoop
   def handle_command(command)
     handlers = find_handlers(command.body)
     response = Response.new
+    response.command = command.command
     handlers.each { |h|
       h.handle(response, command)
       if response.handled; return response end

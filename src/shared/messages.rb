@@ -43,16 +43,20 @@ end
 
 # a response from the game on what happened due to an event
 class Response
-  @quit = false
-  @handled = false
-  @message = ()
-  @body = ()
+  def initialize
+    @quit = false
+    @handled = false
+    @message = nil
+    @body = nil
+    @command = nil
+  end
 
   attr_accessor :handled
   attr_accessor :direction
   attr_accessor :quit
   attr_accessor :message
   attr_accessor :body
+  attr_accessor :command
 
   def to_s
     @message

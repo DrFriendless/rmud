@@ -29,7 +29,11 @@ class Creature < Body
   end
 
   def reply(response)
-    p "#{short}: #{response}"
+    if !response.handled
+      p "#{short}: game doesn't understand '#{response.command}'"
+    elsif response.message
+      p "#{short}: #{response.message}"
+    end
   end
 
   def after_properties_set
