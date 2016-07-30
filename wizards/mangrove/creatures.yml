@@ -22,12 +22,13 @@ SingletonCreature/anbumolli:
     examine: Anbumolli is an ancient swamp elf, clad in the colours of the swamp.
     identity: Anbumolli, elf, female elf, swamp elf, female swamp elf
     path:
+        - pause 3
         - south
         - get gold
         - north
-        - get gold
         - north
         - get gold
+        - pause 5
         - north
         - get gold
         - south
@@ -37,19 +38,25 @@ SingletonCreature/anbumolli:
         - east
         - get gold
         - west
+        - west
+        - pause 2
         - get gold
         - west
-        - get gold
-        - west
+        - pause 5
         - get gold
         - enter temple
         - sacrifice all gold to Thoth
         - exit
+        - pause 5
+        - get gold
         - east
         - get gold
         - south
         - get gold
         - extend
+    chats:
+        - "gold =~ I'm collecting gold to buy books for Thoth."
+        - "sacrific =~ By sacrificing gold to Thoth, I will be wealthy in the afterlife."
 
 SingletonCreature/harry:
     short: Harry

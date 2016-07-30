@@ -7,24 +7,41 @@ class Creature < Body
   def initialize
     super
     @queue = EM::Queue.new
+    @quickqueue = EM::Queue.new
+    @pause = 0
+  end
+
+  def quick_command(s)
+    @quickqueue.push(s)
   end
 
   def command(s)
     @queue.push(s)
   end
 
+  def do_command(command)
+    if command == 'extend'
+      extend_path
+    else
+      match = /pause (\d+)/.match(command)
+      if match
+        @pause = match[1].to_i
+      else
+        msg = CommandMessage.new(command)
+        msg.body = self
+        event = CommandEvent.new(msg, self)
+        EventLoop::enqueue(event)
+      end
+    end
+  end
+
   def heartbeat(time, time_of_day)
-    if !@queue.empty?
-      @queue.pop { |command|
-        if command == 'extend'
-          extend_path
-        else
-          msg = CommandMessage.new(command)
-          msg.body = self
-          event = CommandEvent.new(msg, self)
-          EventLoop::enqueue(event)
-        end
-      }
+    if !@quickqueue.empty?
+      @quickqueue.pop { |command| do_command(command) }
+    elsif @pause > 0
+      @pause -= 1
+    elsif !@queue.empty?
+      @queue.pop { |command| do_command(command) }
     end
   end
 
@@ -71,7 +88,7 @@ class Creature < Body
       if ch.match(says)
         p ch.response
         resp = eval('"' + ch.response + '"', binding)
-        command("'#{resp}")
+        quick_command("'#{resp}")
       end
     }
   end
