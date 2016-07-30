@@ -121,6 +121,7 @@ Outdoor/mangroveswamp2:
     south: Outdoor/mangroveswamp1
     east: Outdoor/mangroveswamp3
     contains: Undead/ghoul NecklaceOfRegeneration/regennecklace
+    north: Outdoor/mangroveswamp6
 
 Outdoor/mangroveswamp3:
     short: In the mangrove swamp.
@@ -139,6 +140,19 @@ Outdoor/mangroveswamp5:
     long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
     north: Outdoor/mangroveswamp4
     up: Outdoor/harbour
+
+Outdoor/mangroveswamp6:
+    short: In the mangrove swamp.
+    long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
+    south: Outdoor/mangroveswamp2
+    west: Outdoor/mangroveswamp7
+
+Outdoor/mangroveswamp7:
+    short: In the mangrove swamp.
+    long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
+    south: Outdoor/southswamp3
+    north: Outdoor/mangroveswamp7
+    east: Outdoor/mangroveswamp6
 
 Outdoor/harbour:
     short: Mangrove Harbour
@@ -198,6 +212,20 @@ Outdoor/southswamp1:
     long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
     north: Outdoor/southmangrove
     south: Outdoor/denseswamp1
+    west: Outdoor/southswamp2
+
+Outdoor/southswamp2:
+    short: In the mangrove swamp.
+    long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
+    east: outdoor/southswamp1
+    south: Outdoor/denseswamp3
+    west: Outdoor/southswamp3
+
+Outdoor/southswamp3:
+    short: In the mangrove swamp.
+    long: You're in the mangrove swamp. You can try to head in various directions, but you might get turned around.
+    south: Outdoor/denseswamp3
+    west: Outdoor/saltflat1
 
 Outdoor/denseswamp1:
     short: In the deep mangrove swamp.
@@ -209,10 +237,16 @@ Outdoor/denseswamp1:
 Outdoor/denseswamp2:
     short: In the deep mangrove swamp.
     long: You're deep in the mangrove swamp. The tall dark trees are intertwined with creeping vines... well, you hope they're vines.
-    northeast: Outdoor/denseswamp1
+    northwest: Outdoor/denseswamp1
 
 Outdoor/denseswamp3:
     short: In the deep mangrove swamp.
     long: You're deep in the mangrove swamp. The tall dark trees are intertwined with creeping vines... well, you hope they're vines.
-    northwest: Outdoor/denseswamp1
+    northeast: Outdoor/denseswamp1
+    northwest: Outdoor/southswamp2
 
+Outdoor/saltflat1:
+    short: On the Great Salt Flat
+    long: This is the Great Salt Flat. Most people regard it as the end of the world. There are trees to the east, but to the west there's just salt as far as the eye can see.
+    west: Outdoor/saltflat1
+    east: Outdoor/southswamp3
