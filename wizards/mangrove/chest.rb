@@ -110,7 +110,7 @@ class OpenableContainer < Item
   def examine
     s = super
     if open
-      cs = contents.map { |c| c.short }.select { |c| c }.map { |c| "    #{c}"}
+      cs = contents.map { |c| c.short }.select(&:itself).map { |c| "    #{c}"}
       if cs.size > 0
         s += " The #{short} contains:\n" + cs.join("\n")
       else

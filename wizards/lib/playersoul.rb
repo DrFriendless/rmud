@@ -49,7 +49,7 @@ class PlayerSoul < Soul
         s = c.short
         if s && wearing?(c); s += " (worn)" end
         s
-      }.select {|c| c }
+      }.select(&:itself)
       if lines.size == 0; lines.push("You don't have anything else.") end
       lines = ["You have #{command.body.gp} gold pieces.",""] + lines
       response.message = lines.join("\n")

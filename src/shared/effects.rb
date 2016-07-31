@@ -34,7 +34,7 @@ class ArriveEffect < Effect
   def message_for(observer)
     if observer == @arriver
       lines = [observer.location.long] +
-          observer.location.contents.select { |c| c != @arriver }.map { |c| c.long }.select { |c| c }
+          observer.location.contents.select { |c| c != @arriver }.map { |c| c.long }.select(&:itself)
       Observation.new(lines.join("\n"))
     else
       Observation.new("#{@arriver.name} arrives.")
