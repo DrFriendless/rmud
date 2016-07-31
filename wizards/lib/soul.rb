@@ -8,10 +8,6 @@ class Soul < Thing
       end
       response.handled = true
     }
-
-    verb(["kill", :someone]) {
-
-    }
   end
 
   def do_not_persist?

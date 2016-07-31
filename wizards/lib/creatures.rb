@@ -88,7 +88,6 @@ class Creature < Body
   def try_to_chat(actor, says)
     @chat_table.each { |ch|
       if ch.match(says)
-        p ch.response
         resp = eval('"' + ch.response + '"', binding)
         quick_command("'#{resp}")
       end

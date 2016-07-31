@@ -24,7 +24,7 @@ class ThingClass
     obj.instance_variable_set(:@thingClass, self)
     BANNED_PROPERTIES.each { |p| @properties.delete(p) }
     @properties.each { |k,v|
-      obj.instance_variable_set("@"+k, v)
+      obj.instance_variable_set("@#{k}", v)
     }
     obj.after_properties_set
     obj
@@ -95,7 +95,10 @@ class Verb
       return true
     end
     if pattern.empty? || words.empty?; return false end
-    if pattern[0] == :star || pattern[0] == "*"
+    if words[0] == "kill"
+      p "#{words[0]} #{subject.class}"
+    end
+    if pattern[0] == :star
       (0..words.size).each { |n|
         matches.push(words.take(n))
         if match_words(pattern.drop(1), words.drop(n), subject, matches)
@@ -105,10 +108,20 @@ class Verb
         end
       }
       false
-    elsif pattern[0] == :plus || pattern[0] == "+"
+    elsif pattern[0] == :plus
       (1..words.size).each { |n|
         matches.push(words.take(n))
         if match_words(pattern.drop(1), words.drop(n), subject, matches)
+          return true
+        else
+          matches.pop
+        end
+      }
+      false
+    elsif pattern[0] == :someone && subject.is_a?(Body)
+      (1..words.size).each { |n|
+        matches.push(words.take(n))
+        if subject.is_called?(words[0,n].join(" ")) && match_words(pattern.drop(1), words.drop(n), subject, matches)
           return true
         else
           matches.pop

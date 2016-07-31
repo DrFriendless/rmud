@@ -69,11 +69,9 @@ class Gold < Thing
     other = loc.find("gold")
     super
     if location.is_a? HasGold
-      p "gold vanishes because it is in #{location}"
       location.add_gold(@gp)
       destroy
     elsif other
-      p "gold vanishes because there is #{other} here"
       other.add_gold(@gp)
       destroy
     end

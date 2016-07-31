@@ -7,13 +7,13 @@ class PlayerSoul < Soul
       response.handled = true
       lines = []
       # no reason this should happen, but if it does...
-      if !@location
+      if !command.body.location
         puts "Emergency moving #{@name} to the library."
         move_to_location("lib/Room/library")
       end
-      if @location.lit?
-        lines.push(@location.long)
-        @location.contents.each { |t|
+      if command.room.lit?
+        lines.push(command.room.long)
+        command.room.contents.each { |t|
           if t != self
             lines.push(t.long)
           end

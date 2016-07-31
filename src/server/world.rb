@@ -49,7 +49,6 @@ class World
       if destination; move_tos[obj] = dest(tc.wizard, destination) end
     }
     move_tos.each { |obj,dest|
-      p "moving #{obj} to #{dest}."
       obj.move_to(find_singleton(dest))
     }
   end

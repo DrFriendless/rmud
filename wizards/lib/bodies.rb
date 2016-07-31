@@ -10,6 +10,7 @@ class Body < Thing
 
   attr_accessor :hp
   attr_accessor :maxhp
+  attr_accessor :victim
 
   def initialize
     super
@@ -22,6 +23,13 @@ class Body < Thing
   def after_properties_set
     super
     receive(world.create("lib/LivingSoul/default"))
+    verb(["kill", :someone]) { |response, command, match|
+      victim = command.room.find(match[0].join(' '))
+      if victim != command.body
+        p "You kill #{victim.short}."
+      end
+      response.handled = true
+    }
   end
 
   def wear_slots(slot)
