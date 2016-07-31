@@ -110,7 +110,7 @@ class Thing
     false
   end
 
-  def is_do_not_persist?
+  def do_not_persist?
     false
   end
 

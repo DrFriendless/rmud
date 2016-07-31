@@ -148,7 +148,7 @@ module Container
   def persist_contents(data)
     data[persistence_key] ||= {}
     data[persistence_key][:contents] = @contents.
-        select { |t| !t.is_do_not_persist? }.
+        select { |t| !t.do_not_persist? }.
         map { |t| t.persistence_key }
   end
 

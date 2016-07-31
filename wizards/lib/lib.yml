@@ -48,3 +48,15 @@ Room/hallofdoors:
     long: This is the Grand Hall of a Thousand Doors, not quite at the centre of existence, but right next to it, just like it's right next to everywhere.
     lit: true
     contains: 10gp
+
+LivingSoul/default:
+    long: LivingSoul
+
+LivingSoul/debug:
+    short: LivingSoul
+
+PlayerSoul/default:
+    long: PlayerSoul
+
+PlayerSoul/debug:
+    short: PlayerSoul

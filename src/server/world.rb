@@ -16,17 +16,18 @@ class World
   attr_reader :time
   attr_reader :time_of_day
 
-  def load()
+  def load
     load_wizards
     restore(@database.load)
     reset
   end
 
   # load definitions of objects from YAML.
-  def load_wizards()
+  def load_wizards
     lib = ()
     wizdirs = []
-    do_later = []
+    singletons = {}
+    move_tos = {}
     Dir["./wizards/*"].each { |filename|
       f = File.new(filename)
       if File.directory?(f)
@@ -39,13 +40,21 @@ class World
     }
     wizdirs = [lib] + wizdirs
     wizdirs.each { |dir|
-      load_wizard(dir, do_later)
+      load_wizard(dir, singletons)
     }
-    @all_things += @singletons
-    do_later.each { |proc| proc.call }
+    singletons.each { |tc, destination|
+      obj = tc.instantiate
+      @singletons.push(obj)
+      @all_things.push(obj)
+      if destination; move_tos[obj] = dest(tc.wizard, destination) end
+    }
+    move_tos.each { |obj,dest|
+      p "moving #{obj} to #{dest}."
+      obj.move_to(find_singleton(dest))
+    }
   end
 
-  def load_wizard(dir, do_later)
+  def load_wizard(dir, singletons)
     wizard = File.basename(File.new(dir))
     # load Ruby
     Dir.entries(File.absolute_path(dir.path)).each { |filename|
@@ -60,7 +69,7 @@ class World
         abs_fn = "#{dir.path}/#{filename}"
         yaml = Psych.load_file(abs_fn)
         yaml.each {
-            |k,v| load_from_file(wizard, k, v, do_later)
+            |k,v| load_from_file(wizard, k, v, singletons)
         }
       end
     }
@@ -70,32 +79,25 @@ class World
     (v && v.count("/") == 1) ? wizard + '/' + v : v
   end
 
-  def load_from_file(wizard, key, props, do_later)
+  def load_from_file(wizard, key, props, singletons)
     tcr = ThingClassRef.new(wizard, key)
     tc = tcr.thingclass(self, props)
     @thingClasses[tcr.key] = tc
     if tc.ruby_class.ancestors.include? Singleton
-      obj = tc.instantiate
-      @singletons.push obj
-      if props['destination']
-        dest = dest(wizard, props['destination'])
-        do_later.push Proc.new() {
-          p "moving #{obj} to #{dest}."
-          obj.move_to(find_singleton(dest))
-        }
-      end
+      singletons[tc] = props['destination']
     end
   end
 
-  def persist()
-    @database.save(persist_data)
+  def persist
+    data = {}
+    @all_things.select { |s| !s.do_not_persist? }.each { |s| s.persist(data) }
+    @database.save(data)
   end
 
-  def persist_data()
-    data = {}
-    @all_things.
-        each { |s| s.persist(data) }
-    data
+  def create(key)
+    thing = @thingClasses[key].instantiate
+    @all_things.push(thing)
+    thing
   end
 
   def instantiate_ref(thingclassref)

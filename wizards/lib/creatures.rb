@@ -9,6 +9,7 @@ class Creature < Body
     @queue = EM::Queue.new
     @quickqueue = EM::Queue.new
     @pause = 0
+    @fighting = nil
   end
 
   def quick_command(s)
@@ -57,6 +58,7 @@ class Creature < Body
     super
     if @path; extend_path end
     if @chats; setup_chats end
+    add_creature_verbs
   end
 
   def extend_path
