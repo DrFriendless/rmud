@@ -2,6 +2,7 @@ require_relative '../../src/server/thingutil.rb'
 require_relative '../../src/server/thing.rb'
 require_relative '../../src/shared/effects.rb'
 require_relative './money.rb'
+require_relative './experience.rb'
 
 class Body < Thing
   include Container
@@ -116,8 +117,9 @@ end
 
 # A PlayerBody is special because it can appear and disappear as players log in and out.
 class PlayerBody < Body
+  include HasExperience
+
   attr_accessor :name
-  attr_accessor :loc
   attr_accessor :effect_callback
   attr_writer :short
   attr_writer :long
@@ -136,12 +138,20 @@ class PlayerBody < Body
     "player/#{@name}"
   end
 
-  def persist(data)
-    super
-    if @location
-      data[persistence_key][:loc] = @location.persistence_key
-      data[persistence_key][:name] = @name
-    end
+  def player_persistence_data()
+    data = {}
+    data[:body] = 'lib/PlayerBody/default'
+    data[:loc] = @location.persistence_key
+    data[:gp] = @gp
+    data[:xp] = @xp
+    data
+  end
+
+  def restore_player_persistence_data(data)
+    p "Restoring #{name} => #{data}"
+    @gp = data[:gp]
+    @xp = data[:xp]
+    move_to_location(data[:loc] || "lib/Room/hallofdoors")
   end
 
   def tell(message)

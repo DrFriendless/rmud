@@ -91,6 +91,7 @@ class World
     data = {}
     @all_things.select { |s| !s.do_not_persist? }.each { |s| s.persist(data) }
     @database.save(data)
+    @all_players.each { |p| @database.save_player(p.name, p.player_persistence_data) }
   end
 
   def create(key)
@@ -133,11 +134,13 @@ class World
   end
 
   def instantiate_player(username)
-    thing = instantiate_class(@thingClasses["lib/PlayerBody/default"])
-    # TODO - description of the player and the class of their body should be stored in the database.
+    data = @database.retrieve_player(username)
+    body_class = data[:body] || 'lib/PlayerBody/default'
+    thing = instantiate_class(@thingClasses[body_class] || @thingClasses['lib/PlayerBody/default'])
     thing.name = username
     thing.short = username
     thing.long = "#{username} is a player."
+    thing.restore_player_persistence_data(data)
     @all_things.push(thing)
     @all_players.push(thing)
     thing
@@ -150,6 +153,7 @@ class World
   def remove_player(body)
     @all_things.delete(body)
     @all_players.delete(body)
+    body.move_to_location("lib/Room/lostandfound")
   end
 
   def find_singleton(key)

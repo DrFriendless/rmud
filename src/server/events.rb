@@ -30,7 +30,7 @@ end
 
 # a heartbeat message and a null callback
 class HeartbeatEvent
-  def initialize()
+  def initialize
     @message = HeartbeatMessage.new
     @handler = self
   end
@@ -43,7 +43,7 @@ end
 
 # a persist message and a null callback
 class PersistEvent
-  def initialize()
+  def initialize
     @message = PersistMessage.new
     @handler = self
   end
@@ -57,7 +57,7 @@ end
 
 # a reset message and a null callback
 class ResetEvent
-  def initialize()
+  def initialize
     @message = ResetMessage.new
     @handler = self
   end

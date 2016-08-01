@@ -47,7 +47,7 @@ class PlayerSoul < Soul
       response.handled = true
       lines = command.body.contents.map { |c|
         s = c.short
-        if s && wearing?(c); s += " (worn)" end
+        if s && command.body.wearing?(c); s += " (worn)" end
         s
       }.select(&:itself)
       if lines.size == 0; lines.push("You don't have anything else.") end

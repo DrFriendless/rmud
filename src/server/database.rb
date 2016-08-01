@@ -1,7 +1,7 @@
 require 'mongo'
 
 class Database
-  def initialize()
+  def initialize
     Mongo::Logger.logger.level = ::Logger::INFO
     @client = Mongo::Client.new('mongodb://127.0.0.1:27017/rmud')
   end
@@ -19,6 +19,18 @@ class Database
       result[k] = obj_to_strs(v)
     }
     result
+  end
+
+  def save_player(name, data)
+    p "SAVE name #{name} data #{data}"
+    players = @client[:players]
+    players.update_one({:_id => name}, {"$set" => data})
+  end
+
+  def retrieve_player(name)
+    players = @client[:players]
+    ps = players.find({:_id => name}).to_a
+    ps.length > 0 ? ps[0] : nil
   end
 
   def save(data)
@@ -46,12 +58,6 @@ class Database
       err = $!
       puts "DELETE #{err.result}"
     end
-    #begin
-    #  w.insert_many(to_update)
-    #rescue Mongo::Error::BulkWriteError
-    #  err = $!
-    #  puts "INSERT 1 #{err.result}"
-    #end
     begin
       w.insert_many(to_insert)
     rescue Mongo::Error::BulkWriteError
@@ -70,20 +76,18 @@ class Database
       if us[0][:password] == password
         return us[0]
       else
-        return ()
+        return nil
       end
     else
-      rec = { :username => username, :password => password, :location => "lib/Room/library", :_id => username }
+      rec = { :username => username, :password => password, :location => "lib/Room/library", :_id => username, :gp => 0, :xp => 0 }
       players.insert_one(rec)
       rec
     end
   end
 
-  def load()
+  def load
     rows = []
-    @client[:world].find().each { |r|
-      rows.push(r)
-    }
+    @client[:world].find().each { |r| rows.push(r) }
     rows
   end
 end

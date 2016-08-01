@@ -71,9 +71,6 @@ class EventLoop
         puts "#{player_data[:username]} logs in"
         body = @world.find_player(event.username)
         if !body; body = @world.instantiate_player(event.username) end
-        body.location ||= @world.find_singleton(body.loc)
-        body.location ||= @world.find_singleton("lib/Room/lostandfound")
-        body.move_to(body.location)
         response = Response.new
         response.handled = true
         response.message = body.location.long
