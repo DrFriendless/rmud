@@ -1,3 +1,5 @@
+require_relative '../../src/server/thing'
+
 class Soul < Thing
   def after_properties_set
     verb(["say", :star]) { |response, command, match|

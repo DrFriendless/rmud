@@ -25,7 +25,7 @@ class Wearable < Item
       if command.body.wearing?(self)
         ws = command.body.wear_slots(@slot)
         pos = ws.index(self)
-        ws[pos] = ()
+        ws[pos] = nil
         command.body.location.publish_to_room(RemoveEffect.new(command.body, self))
       else
         response.message = "You're not wearing that."

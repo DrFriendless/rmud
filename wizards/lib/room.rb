@@ -1,5 +1,6 @@
 require_relative '../../src/server/thingutil.rb'
 require_relative '../../src/server/thing.rb'
+require_relative './directions.rb'
 require_relative './money.rb'
 
 class Room < Thing
