@@ -1,3 +1,5 @@
+require_relative './verb.rb'
+
 # A thing in the world
 
 class Thing
@@ -31,7 +33,7 @@ class Thing
     if @identity && !@identities
       @identities = @identity.split(',').map { |i| i.strip.downcase }
     end
-    @identities && @identities.include?(name.downcase)
+    (@identities && @identities.include?(name.downcase)) || (short && short.downcase == name.downcase)
   end
 
   def of_class?(tcr)
