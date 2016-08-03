@@ -7,25 +7,20 @@ module CanBeWorn
         response.message = "You're already #{@wearing_verb} it."
       elsif self.location != command.body
         response.message = "You don't have #{short}."
+      elsif command.body.space_to_wear?(slots)
+        command.body.wear(self)
+        command.body.location.publish_to_room(WearEffect.new(command.body, self))
+      elsif !command.body.could_wear?(slots)
+        response.message = "You could never #{@wear_verb} that."
       else
-        ws = command.body.wear_slots(@slot)
-        if ws.include?(())
-          pos = ws.index(())
-          ws[pos] = self
-          command.body.location.publish_to_room(WearEffect.new(command.body, self))
-        elsif ws.size == 0
-          response.message = "You could never #{@wear_verb} that."
-        else
-          response.message = "You can't, you're already #{@wearing_verb} #{ws[0].short}."
-        end
+        ws = command.body.wearing_in_slots(slots)
+        response.message = "You can't, you're already #{@wearing_verb} #{ws[0].a_short}."
       end
       response.handled = true
     }
     verb([@unwear_verb, :it]) { |response, command, match|
       if command.body.wearing?(self)
-        ws = command.body.wear_slots(@slot)
-        pos = ws.index(self)
-        ws[pos] = nil
+        command.body.remove(self)
         command.body.location.publish_to_room(RemoveEffect.new(command.body, self))
       else
         response.message = "You're not #{@wearing_verb} that."

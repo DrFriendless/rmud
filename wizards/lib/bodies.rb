@@ -4,28 +4,53 @@ require_relative '../../src/shared/effects.rb'
 require_relative './money.rb'
 require_relative './experience.rb'
 
+# FIXME: items can't claim two spots of the same type, e.g. you can't have an item which is two rings.
 module Wearing
   def initialize_wearing
-    @wear_slots = {'necklace' => [nil], 'hat' => [nil], 'ring' => [nil, nil],
+    @wear_slots = {'necklace' => [nil], 'hat' => [nil], 'ring' => [nil, nil], 'amulet' => [nil],
                    'righthand' => [nil], 'lefthand' => [nil], 'shoes' => [nil]}
   end
 
-  def wear_slots(slot)
-    @wear_slots[slot] || []
+  # can we put it on now?
+  def space_to_wear?(slots)
+    slots.all? { |s| @wear_slots[s] && @wear_slots[s].include?(nil) }
+  end
+
+  # can we put it on now?
+  def wearing_in_slots(slots)
+    result = []
+    slots.each { |s|
+      if @wear_slots[s]
+        @wear_slots[s].each { |x| if x && !result.include?(x); result.push(x) end }
+      end
+    }
+    result
+  end
+
+  # do we even have the slots for this
+  def could_wear?(slots)
+    slots.all { |s| @wear_slots[s] && @wear_slots[s].size > 0 }
+  end
+
+  # put it on
+  def wear(item)
+    slots = item.slots
+    slots.each { |s| i = @wear_slots[s].find_index(nil); @wear_slots[s][i] = item }
+  end
+
+  # take it off
+  def remove(item)
+    slots = item.slots
+    slots.each { |s| i = @wear_slots[s].find_index(item); @wear_slots[s][i] = nil }
   end
 
   def wearing?(obj)
     return false unless obj.slots
-    obj.slots.each { |slot|
-      if wear_slots(slot).include?(obj)
-        return true
-      end
-    }
-    false
+    obj.slots.any? { |slot| @wear_slots[slot] && @wear_slots[slot].include?(obj) }
   end
 
   def persist_wearing(data)
-
+    # TODO
   end
 end
 
@@ -81,7 +106,7 @@ class Body < Thing
 
   def after_properties_set
     super
-    receive(world.create("lib/LivingSoul/default"))
+    receive_into_container(world.create("lib/LivingSoul/default"))
     verb(["kill", :someone]) { |response, command, match|
       victim = command.room.find(match[0].join(' '))
       if victim != command.body
@@ -109,18 +134,13 @@ class Body < Thing
     restore_contents(data, by_persistence_key)
     restore_gold(data, by_persistence_key)
     restore_hit_points(data, by_persistence_key)
-    ws = data[:ws]
-    if ws
-      @wear_slots.each_pair { |k,vs|
-        ss = ws[k]
-        puts "ss = #{ss}"
-        vs.each_index { |i|
-          if ss[i]
-            vs[i] = by_persistence_key[ss[i]]
-          end
-        }
-      }
-    end
+    restored_wearing = data[:ws]
+    return unless restored_wearing
+    @wear_slots.each_pair { |slot,spots|
+      restored_slot = restored_wearing[slot]
+      next unless restored_slot
+      spots.each_index { |i| spots[i] = restored_slot[i] && by_persistence_key[restored_slot[i]] }
+    }
   end
 
   def go_to(location, direction)
@@ -161,7 +181,7 @@ class PlayerBody < Body
 
   def after_properties_set
     super
-    receive(world.create("lib/PlayerSoul/default"))
+    receive_into_container(world.create("lib/PlayerSoul/default"))
   end
 
   def persistence_key

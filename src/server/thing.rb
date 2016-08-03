@@ -62,11 +62,11 @@ class Thing
 
   def move_to(dest)
     if @location
-      @location.remove(self)
+      @location.remove_from_container(self)
     end
     @location = nil
     if dest
-      dest.receive(self)
+      dest.receive_into_container(self)
     end
     @location = dest
   end
@@ -77,7 +77,6 @@ class Thing
     #  5/0
     #rescue => exception
     #  puts exception.backtrace
-    #  raise # always reraise
     #end
     # now we can try to get dogs to quack.
   end
@@ -135,5 +134,13 @@ class Thing
       }
     end
     world.destroy(self)
+  end
+
+  # we noticed something happen
+  def effect(effect)
+  end
+
+  # periodically refresh ourselves
+  def reset
   end
 end

@@ -125,7 +125,7 @@ class World
 
   def destroy(obj)
     if obj.location
-      obj.location.remove(obj)
+      obj.location.remove_from_container(obj)
     end
     if obj.is_a? Singleton
       @singletons.delete(obj)
@@ -185,24 +185,17 @@ class World
       else
         # singleton
         by_persistence_key[id] = find_singleton(id)
-        if !by_persistence_key[id]
-          puts "did not load #{id}"
-        end
+        puts "did not load #{id}" unless by_persistence_key[id]
       end
     }
     data.each { |vs|
       id = vs[:_id]
       t = by_persistence_key[id]
-      if t
-        t.restore(vs, by_persistence_key)
-      end
+      t.restore(vs, by_persistence_key) if t
     }
     # if we didn't have a record of something, tell it has just been created
     @singletons.each { |s|
-      if !by_persistence_key[s.persistence_key]
-        puts "on_world_create #{s.persistence_key}"
-        s.on_world_create
-      end
+      s.on_world_create unless by_persistence_key[s.persistence_key]
     }
   end
 

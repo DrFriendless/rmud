@@ -113,13 +113,13 @@ module Container
     false
   end
 
-  def remove(thing)
+  def remove_from_container(thing)
     if @contents.include? thing
       @contents.delete thing
     end
   end
 
-  def receive(thing)
+  def receive_into_container(thing)
     if !@contents.include? thing
       @contents.push thing
     end
