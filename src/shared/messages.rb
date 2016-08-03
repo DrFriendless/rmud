@@ -31,6 +31,10 @@ class CommandMessage
   def room
     @body.location
   end
+
+  def to_json
+    "{\"type\": \"command\", \"command\": \"#{@command}\"}"
+  end
 end
 
 

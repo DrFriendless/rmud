@@ -14,7 +14,7 @@ module Directions
     direction(:northwest, :nw)
   end
 
-  def direction(key, alt=())
+  def direction(key, alt=nil)
     v = instance_variable_get("@#{key}")
     v = local_dest(v)
     if v

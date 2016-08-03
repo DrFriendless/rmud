@@ -29,7 +29,7 @@ module Wearing
 
   # do we even have the slots for this
   def could_wear?(slots)
-    slots.all { |s| @wear_slots[s] && @wear_slots[s].size > 0 }
+    slots.all? { |s| @wear_slots[s] && @wear_slots[s].size > 0 }
   end
 
   # put it on
@@ -138,7 +138,13 @@ class Body < Thing
     @wear_slots.each_pair { |slot,spots|
       restored_slot = restored_wearing[slot]
       next unless restored_slot
-      spots.each_index { |i| spots[i] = restored_slot[i] && by_persistence_key[restored_slot[i]] }
+      spots.each_index { |i|
+        spots[i] = restored_slot[i] && by_persistence_key[restored_slot[i]]
+        # just in case we are no longer holding whatever we're wearing
+        if spots[i].location != self
+          spots[i] = nil
+        end
+      }
     }
   end
 

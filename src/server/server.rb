@@ -191,9 +191,9 @@ end
 def decode_json(json)
   j = JSON.parse(json)
   if j["type"] == "login"
-    return LoginMessage.new(j["username"], j["password"])
+    LoginMessage.new(j["username"], j["password"])
   else
-    return CommandMessage.new(j["command"])
+    CommandMessage.new(j["command"])
   end
 end
 
@@ -224,7 +224,7 @@ class WebSocketController
 
   def reply(response)
     if response.body; @body = response.body end
-    @ws.send(response.to_json())
+    @ws.send(response.to_json)
   end
 end
 

@@ -15,8 +15,15 @@ class Item < Thing
       alias_verb(["take", :it], ["get", :it])
       verb(["drop", :it]) { |response,command,match|
         if @location == command.body
-          move_to(command.body.location)
-          command.body.location.publish_to_room(DropEffect.new(command.body, self))
+          if command.body.wearing?(self)
+            command.body.remove(self)
+          end
+          if command.body.wearing?(self)
+            response.message = "You can't take that off."
+          else
+            move_to(command.body.location)
+            command.body.location.publish_to_room(DropEffect.new(command.body, self))
+          end
         else
           response.message = "You don't have that."
         end

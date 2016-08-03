@@ -14,7 +14,7 @@ class PlayerSoul < Soul
       if command.room.lit?
         lines.push(command.room.long)
         command.room.contents.each { |t|
-          if t != self
+          if t != command.body
             lines.push(t.long)
           end
         }
@@ -47,7 +47,7 @@ class PlayerSoul < Soul
       response.handled = true
       lines = command.body.contents.map { |c|
         s = c.short
-        if s && command.body.wearing?(c); s += " (#{s.worn_adjective})" end
+        if s && command.body.wearing?(c); s += " (#{c.worn_adjective})" end
         s
       }.select(&:itself)
       if lines.size == 0; lines.push("You don't have anything else.") end
