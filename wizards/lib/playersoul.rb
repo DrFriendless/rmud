@@ -46,7 +46,6 @@ class PlayerSoul < Soul
     verb(["inventory"]) { |response, command, match|
       response.handled = true
       lines = command.body.contents.map { |c|
-        p "body = #{command.body.name}"
         s = c.short
         if s && command.body.wearing?(c); s += " (#{s.worn_adjective})" end
         s
@@ -67,6 +66,16 @@ class PlayerSoul < Soul
     }
     verb(["void"]) { |response, command, match|
       command.body.move_to_location("lib/Room/lostandfound")
+      response.handled = true
+    }
+    # called destruct rather than destroy in honour of Lars
+    verb(["destruct", :plus]) { |response, command, match|
+      thing = command.room.find(match[0].join(' ')) || command.body.find(match[0].join(' '))
+      if thing
+        thing.destroy
+      else
+        response.message = "Destroy what?"
+      end
       response.handled = true
     }
   end

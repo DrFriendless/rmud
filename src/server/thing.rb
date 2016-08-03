@@ -125,6 +125,15 @@ class Thing
   end
 
   def destroy
-    world.destroy self
+    if @contents
+      @contents.each { |c|
+        if c.short
+          c.move_to(@location)
+        else
+          world.destroy(c)
+        end
+      }
+    end
+    world.destroy(self)
   end
 end

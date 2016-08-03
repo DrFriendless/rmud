@@ -49,7 +49,8 @@ class Weapon < Item
     @unwear_verb = "unwield"
   end
 
-  def after_properties_set()
+  def after_properties_set
+    super
     after_properties_set_worn
   end
 end
@@ -66,6 +67,7 @@ class Wearable < Item
   end
 
   def after_properties_set
+    super
     after_properties_set_worn
   end
 end

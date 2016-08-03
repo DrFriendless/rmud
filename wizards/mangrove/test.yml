@@ -5,7 +5,7 @@ SingletonCreature/testdobby:
     destination: lib/Room/lostandfound
     maxhp: 1
     identity: Dobby
-    contains: OpenContainer/sack lib/Thing/stick OpenableContainer/chest
+    possessions: OpenContainer/sack lib/Item/stick OpenableContainer/chest
     path:
         - open chest
         - put stick in sack

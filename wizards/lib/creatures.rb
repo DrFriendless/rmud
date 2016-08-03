@@ -59,9 +59,26 @@ class Creature < Body
     if @path; extend_path end
     if @chats; setup_chats end
     add_creature_verbs
+    create_initial_items
   end
 
-  def extend_path
+  private def create_initial_items
+    cs = @possessions
+    if cs
+      cs.split.each { |rs|
+        if is_money?(rs)
+          thing = world.instantiate_gold(rs)
+          if thing; thing.move_to(self) end
+        else
+          tcr = ThingClassRef.new(@thingClass.wizard, rs)
+          thing = world.instantiate_ref(tcr)
+          if thing; thing.move_to(self) end
+        end
+      }
+    end
+  end
+
+  private def extend_path
     p = []
     @path.each { |s|
       if s == 'shuffle'
@@ -75,7 +92,7 @@ class Creature < Body
     p.each { |s| command(s) }
   end
 
-  def setup_chats
+  private def setup_chats
     @chat_table = []
     @chats.each { |ch|
       m = /(.*)=~(.*)/.match(ch)
@@ -85,7 +102,7 @@ class Creature < Body
     }
   end
 
-  def try_to_chat(actor, says)
+  private def try_to_chat(actor, says)
     @chat_table.each { |ch|
       if ch.match(says)
         resp = eval('"' + ch.response + '"', binding)
