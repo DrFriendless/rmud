@@ -18,10 +18,6 @@ class Outdoor < Room
   end
 end
 
-class Weapon < Item
-  # TODO
-end
-
 class Gong < Item
   # TODO define verb
   def carriable?

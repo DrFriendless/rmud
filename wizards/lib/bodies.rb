@@ -4,33 +4,10 @@ require_relative '../../src/shared/effects.rb'
 require_relative './money.rb'
 require_relative './experience.rb'
 
-class Body < Thing
-  include Container
-  include EffectObserver
-  include HasGold
-
-  attr_accessor :hp
-  attr_accessor :maxhp
-  attr_accessor :victim
-
-  def initialize
-    super
-    initialize_contents
-    initialize_gold
-    @wear_slots = {"necklace" => [()], "hat" => [()], "ring" => [(), ()],
-                   "right hand" => [()], "left hand" => [()], "shoes" => [()]}
-  end
-
-  def after_properties_set
-    super
-    receive(world.create("lib/LivingSoul/default"))
-    verb(["kill", :someone]) { |response, command, match|
-      victim = command.room.find(match[0].join(' '))
-      if victim != command.body
-        p "You kill #{victim.short}."
-      end
-      response.handled = true
-    }
+module Wearing
+  def initialize_wearing
+    @wear_slots = {'necklace' => [nil], 'hat' => [nil], 'ring' => [nil, nil],
+                   'righthand' => [nil], 'lefthand' => [nil], 'shoes' => [nil]}
   end
 
   def wear_slots(slot)
@@ -38,10 +15,25 @@ class Body < Thing
   end
 
   def wearing?(obj)
-    wear_slots(obj.slot).include?(obj)
+    return false unless obj.slots
+    obj.slots.each { |slot|
+      if wear_slots(slot).include?(obj)
+        return true
+      end
+    }
+    false
   end
 
-  def injured()
+  def persist_wearing(data)
+
+  end
+end
+
+module HitPoints
+  attr_accessor :hp
+  attr_accessor :maxhp
+
+  def injured?
     @hp < @maxhp
   end
 
@@ -60,12 +52,50 @@ class Body < Thing
     end
   end
 
+  def persist_hit_points(data)
+    data[:maxhp] = @maxhp
+    data[:hp] = @hp
+  end
+
+  def restore_hit_points(data, by_persistence_key)
+    @maxhp = data[:maxhp]
+    @hp = data[:hp]
+  end
+end
+
+class Body < Thing
+  include Container
+  include EffectObserver
+  include HasGold
+  include Wearing
+  include HitPoints
+
+  attr_accessor :victim
+
+  def initialize
+    super
+    initialize_contents
+    initialize_gold
+    initialize_wearing
+  end
+
+  def after_properties_set
+    super
+    receive(world.create("lib/LivingSoul/default"))
+    verb(["kill", :someone]) { |response, command, match|
+      victim = command.room.find(match[0].join(' '))
+      if victim != command.body
+        p "You kill #{victim.short}."
+      end
+      response.handled = true
+    }
+  end
+
   def persist(data)
     super
     persist_contents(data)
     data[persistence_key] ||= {}
-    data[persistence_key][:maxhp] = @maxhp
-    data[persistence_key][:hp] = @hp
+    persist_hit_points(data[persistence_key])
     persist_gold(data)
     ws = {}
     @wear_slots.each_pair { |k,vs|
@@ -78,12 +108,12 @@ class Body < Thing
     super
     restore_contents(data, by_persistence_key)
     restore_gold(data, by_persistence_key)
-    @maxhp = data[:maxhp]
-    @hp = data[:hp]
+    restore_hit_points(data, by_persistence_key)
     ws = data[:ws]
     if ws
       @wear_slots.each_pair { |k,vs|
         ss = ws[k]
+        puts "ss = #{ss}"
         vs.each_index { |i|
           if ss[i]
             vs[i] = by_persistence_key[ss[i]]
@@ -136,6 +166,11 @@ class PlayerBody < Body
 
   def persistence_key
     "player/#{@name}"
+  end
+
+  def persist(data)
+    super
+    data[persistence_key][:name] = @name
   end
 
   def player_persistence_data()

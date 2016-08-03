@@ -135,6 +135,7 @@ class World
 
   def instantiate_player(username)
     data = @database.retrieve_player(username)
+    p "data for #{username} is #{data}"
     body_class = data[:body] || 'lib/PlayerBody/default'
     thing = instantiate_class(@thingClasses[body_class] || @thingClasses['lib/PlayerBody/default'])
     thing.name = username
@@ -169,6 +170,7 @@ class World
   def restore(data)
     by_persistence_key = {}
     data.each { |t|
+      p "t = #{t}"
       id = t[:_id]
       if id.index('@')
         # non-singleton
@@ -181,13 +183,11 @@ class World
         end
       elsif id.start_with?("player")
         by_persistence_key[id] = instantiate_player(t[:name])
-        # where the player will go to when they log in again.
-        by_persistence_key[id].loc = t[:loc]
       else
         # singleton
         by_persistence_key[id] = find_singleton(id)
         if !by_persistence_key[id]
-          p "did not load #{id}"
+          puts "did not load #{id}"
         end
       end
     }

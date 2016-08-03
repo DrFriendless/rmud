@@ -57,7 +57,7 @@ Room/communitycentre:
 Room/vault:
     short: Mangrove City Supplies Vault
     long: You're in the vault of Mangrove City Supplies. You're not allowed in here.
-    contains: Weapon/sword OpenContainer/sack
+    contains: lib/Weapon/sword OpenContainer/sack
 
 Outdoor/mangrovebridge:
     short: The High Bridge

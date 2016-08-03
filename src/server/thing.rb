@@ -3,7 +3,7 @@ require_relative './verb.rb'
 # A thing in the world
 
 class Thing
-  def initialize()
+  def initialize
     @verbs = []
     verb(["examine", :it]) { |response, command, match|
       if examine
@@ -17,7 +17,7 @@ class Thing
   end
 
   # properties loaded from YAML have been set
-  def after_properties_set()
+  def after_properties_set
   end
 
   attr_reader :short
@@ -64,7 +64,7 @@ class Thing
     if @location
       @location.remove(self)
     end
-    @location = ()
+    @location = nil
     if dest
       dest.receive(self)
     end

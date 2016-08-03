@@ -4,7 +4,8 @@ Wearable/goldennecklace:
     examine: The necklace is a fine piece of work, and definitely solid gold.
     weight: 1
     value: 200
-    slot: necklace
+    slots:
+        - necklace
     identity: necklace,golden necklace,valuable necklace,valuable golden necklace
 
 Item/sarcophagus:
@@ -22,3 +23,22 @@ Item/stick:
     identity: stick,brown stick,sticky stick
     value: 0
     weight: 1
+
+Weapon/sword:
+    short: sword
+    long: A long sword is here.
+    examine: The sword has a long blade which is pointy at the far end.
+    identity: sword, long sword
+    slots:
+        - righthand
+    value: 10
+
+Wearable/shield:
+    short: shield
+    long: A wooden shield is here.
+    examine: The shield is a small piece of wood on a strap, that you're supposed to put between you and the bad guy.
+    identity: shield, wooden shield
+    slots:
+        - lefthand
+    value: 10
+

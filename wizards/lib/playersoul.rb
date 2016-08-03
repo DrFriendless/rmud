@@ -46,8 +46,9 @@ class PlayerSoul < Soul
     verb(["inventory"]) { |response, command, match|
       response.handled = true
       lines = command.body.contents.map { |c|
+        p "body = #{command.body.name}"
         s = c.short
-        if s && command.body.wearing?(c); s += " (worn)" end
+        if s && command.body.wearing?(c); s += " (#{s.worn_adjective})" end
         s
       }.select(&:itself)
       if lines.size == 0; lines.push("You don't have anything else.") end
@@ -63,6 +64,10 @@ class PlayerSoul < Soul
         lines.push("    #{v.pattern}")
       }
       response.message = lines.join("\n")
+    }
+    verb(["void"]) { |response, command, match|
+      comand.body.move_to_location("lib/Room/lostandfound")
+      response.handled = true
     }
   end
 end

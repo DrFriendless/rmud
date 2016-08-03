@@ -1,17 +1,11 @@
-Weapon/sword:
-    short: sword
-    long: A long sword is here.
-    examine: The sword has a long blade which is pointy at the far end.
-    identity: sword, long sword
-    value: 10
-
 NecklaceOfRegeneration/regennecklace:
     short: primitive necklace
     long: There's an ugly wooden necklace here.
     examine: This wooden necklace looks to have been made by an extremely primitive culture.
     weight: 1
     value: 2000
-    slot: necklace
+    slots:
+        - necklace
     identity: necklace,wooden necklace,primitive necklace,primitive wooden necklace
 
 OpenableContainer/chest:
