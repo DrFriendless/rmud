@@ -110,7 +110,11 @@ module ClientHandler
     # queue to send things back to the client.
     @queue = EM::Queue.new
     callback = Proc.new do |obj|
-      send_data YAML::dump(obj)
+      begin
+        send_data "<DIV>#{obj.to_json}"
+      rescue
+        p "DATA SENDING FAILED"
+      end
       if obj.quit
         close_connection_after_writing
       end
@@ -120,7 +124,7 @@ module ClientHandler
   end
 
   def receive_data(event)
-    e = YAML::load(event)
+    e = decode_json(event)
     if e.is_a? CommandMessage
       e.body = @body
       EventLoop::enqueue(CommandEvent.new(e, self))
@@ -133,6 +137,7 @@ module ClientHandler
     if response.handled
       if response.body
         @body = response.body
+        @name = response.body.name
         @body.effect_callback = self
         # don't try to send the body back to the client
         response.body = ()

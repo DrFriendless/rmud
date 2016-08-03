@@ -8,6 +8,10 @@ class LoginMessage
 
   attr_reader :username
   attr_reader :password
+
+  def to_json
+    "{\"type\": \"login\", \"username\": \"#{@username}\", \"password\": \"#{@password}\"}"
+  end
 end
 
 

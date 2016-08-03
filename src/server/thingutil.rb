@@ -125,16 +125,3 @@ module Container
     end
   end
 end
-
-module EffectObserver
-  def effect(effect)
-    if @effect_callback
-      e = effect.message_for(self)
-      if e; @effect_callback.effect(e) end
-    end
-  end
-
-  def observes_effects?
-    true
-  end
-end

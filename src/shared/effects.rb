@@ -9,7 +9,15 @@ class Observation
     false
   end
 
+  def to_s
+    @message
+  end
+
   attr_accessor :message
+
+  def to_json
+    JSON.generate({'message' => @message})
+  end
 end
 
 SILENCE = ()

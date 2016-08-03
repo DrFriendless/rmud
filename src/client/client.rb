@@ -5,6 +5,7 @@
 require 'eventmachine'
 require 'highline'
 require 'yaml'
+require 'json'
 require_relative '../shared/messages'
 require_relative '../shared/effects'
 
@@ -24,7 +25,7 @@ class RmudClient < EM::Connection
   end
 
   def send_message(msg)
-    send_data(YAML::dump(msg))
+    send_data(msg.to_json)
   end
 
   def post_init
@@ -37,8 +38,9 @@ class RmudClient < EM::Connection
   end
 
   def receive_data(data)
-    response = YAML::load(data)
-    @cli.say response.message
+    data.split("<DIV>").select { |s| s.length > 0 }.each { |d|
+      @cli.say(JSON.parse(d)['message'])
+    }
     prompt
   end
 

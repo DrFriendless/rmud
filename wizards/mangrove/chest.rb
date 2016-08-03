@@ -3,6 +3,8 @@ module Openable
     @open = true
   end
 
+  attr_reader :open
+
   def after_properties_set_openable
     verb(["open", :it]) { |response, command, match|
       if open
@@ -22,10 +24,6 @@ module Openable
       end
       response.handled = true
     }
-  end
-
-  def open
-    return @open
   end
 
   def persist_openable(data)

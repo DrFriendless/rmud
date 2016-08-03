@@ -90,7 +90,6 @@ end
 
 class Body < Thing
   include Container
-  include EffectObserver
   include HasGold
   include Wearing
   include HitPoints
@@ -207,6 +206,13 @@ class PlayerBody < Body
     @gp = data[:gp]
     @xp = data[:xp]
     move_to_location(data[:loc] || "lib/Room/hallofdoors")
+  end
+
+  def effect(effect)
+    if @effect_callback
+      e = effect.message_for(self)
+      if e; @effect_callback.effect(e) end
+    end
   end
 
   def tell(message)

@@ -14,8 +14,6 @@ SingletonCreature/testdobby:
         - open chest
         - get sack from chest
         - get stick from sack
-        - close chest
-        - open chest
         - put stick in chest
         - close chest
 
