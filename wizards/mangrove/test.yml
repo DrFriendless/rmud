@@ -1,0 +1,21 @@
+SingletonCreature/testdobby:
+    short: Dobby
+    long: Dobby is here. That's a good sign.
+    examine: Dobby does all sorts of things to be a unit test for the MUD.
+    destination: lib/Room/lostandfound
+    maxhp: 1
+    identity: Dobby
+    contains: OpenContainer/sack lib/Thing/stick OpenableContainer/chest
+    path:
+        - open chest
+        - put stick in sack
+        - put sack in chest
+        - close chest
+        - open chest
+        - get sack from chest
+        - get stick from sack
+        - close chest
+        - open chest
+        - put stick in chest
+        - close chest
+

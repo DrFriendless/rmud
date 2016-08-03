@@ -1,0 +1,25 @@
+Room/lostandfound:
+    short: The Maelstrom
+    long: This is the Maelstrom, a swirling chaotic vortex where chaos reigns.
+    contains: Creature/garialite SingletonCreature/testbob Wearable/goldennecklace Weapon/sword Wearable/shield
+    exit: Room/library
+    lit: true
+
+SingletonCreature/testbob:
+    short: Bob
+    long: Bob is here. That's a good sign.
+    examine: Bob does all sorts of things to be a unit test for the MUD.
+    destination: Room/lostandfound
+    maxhp: 1
+    identity: Bob
+    path:
+        - get necklace
+        - wear necklace
+        - remove necklace
+        - get sword
+        - get shield
+        - wear shield
+        - wield sword
+        - unwield sword
+        - remove shield
+
