@@ -136,7 +136,7 @@ class World
 
   def instantiate_player(username)
     data = @database.retrieve_player(username)
-    body_class = data[:body] || 'lib/PlayerBody/default'
+    body_class = (data && data[:body]) || 'lib/PlayerBody/default'
     thing = instantiate_class(@thingClasses[body_class] || @thingClasses['lib/PlayerBody/default'])
     thing.name = username
     thing.short = username

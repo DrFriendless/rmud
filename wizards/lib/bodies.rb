@@ -141,7 +141,7 @@ class Body < Thing
       spots.each_index { |i|
         spots[i] = restored_slot[i] && by_persistence_key[restored_slot[i]]
         # just in case we are no longer holding whatever we're wearing
-        if spots[i].location != self
+        if spots[i] && spots[i].location != self
           spots[i] = nil
         end
       }
@@ -209,9 +209,9 @@ class PlayerBody < Body
 
   def restore_player_persistence_data(data)
     p "Restoring #{name} => #{data}"
-    @gp = data[:gp]
-    @xp = data[:xp]
-    move_to_location(data[:loc] || "lib/Room/hallofdoors")
+    @gp = (data && data[:gp]) || 0
+    @xp = (data && data[:xp]) || 0
+    move_to_location((data && data[:loc]) || "lib/Room/hallofdoors")
   end
 
   def effect(effect)
