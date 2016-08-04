@@ -1,0 +1,10 @@
+Virtual/doortoset:
+    long: A pitch black circular hole is in the north wall.
+    north: Room/mouth
+    destination: lib/Room/hallofdoors
+
+Room/mouth:
+    short: The Mouth of Set
+    long: You're in a dark cavern, with no obvious means of exit... EXCEPT for the massive stone snake head with a wide open mouth. You could walk in there...
+    enter: lib/Room/hallofdoors
+    lit: true

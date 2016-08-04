@@ -168,6 +168,13 @@ Outdoor/plaza:
     contains: Virtual/thothtemple
     southwest: Room/mangrovehunters
     northeast: Room/tavern
+    northwest: Room/wizardtower
+
+Room/wizardtower:
+    short: Wizard's Tower
+    long: This is the bottom floor of the tower of the great wizard, Mangrove the Magtabulous. There's no obvious way to go up to higher levels - maybe you need to be a wizard.
+    exit: Outdoor/plaza
+    lit: true
 
 Virtual/thothtemple:
     identity: temple, Temple of Thoth
