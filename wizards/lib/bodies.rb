@@ -3,6 +3,7 @@ require_relative '../../src/server/thing.rb'
 require_relative '../../src/shared/effects.rb'
 require_relative './money.rb'
 require_relative './experience.rb'
+require_relative './score.rb'
 
 # FIXME: items can't claim two spots of the same type, e.g. you can't have an item which is two rings.
 module Wearing
@@ -207,6 +208,7 @@ end
 # A PlayerBody is special because it can appear and disappear as players log in and out.
 class PlayerBody < Body
   include HasExperience
+  include HasScore
 
   attr_accessor :name
   attr_accessor :effect_callback
@@ -238,14 +240,16 @@ class PlayerBody < Body
     data[:loc] = @location.persistence_key
     data[:gp] = @gp
     data[:xp] = @xp
+    data[:score] = @score
     data
   end
 
   def restore_player_persistence_data(data)
     p "Restoring #{name} => #{data}"
-    @gp = data[:gp]
-    @xp = data[:xp]
-    move_to_location(data[:loc] || "lib/Room/hallofdoors")
+    @gp = (data && data[:gp]) || 0
+    @xp = (data && data[:xp]) || 0
+    @score = (data && data[:score]) || 0
+    move_to_location((data && data[:loc]) || "lib/Room/hallofdoors")
   end
 
   def effect(effect)
