@@ -95,7 +95,7 @@ class Thing
   end
 
   def handle(response, command)
-    if !@verbs; return () end
+    return nil unless @verbs
     @verbs.each { |v|
       match = v.match(command, self)
       if match; v.handle(response, command, match) end

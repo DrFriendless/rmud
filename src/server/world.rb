@@ -142,7 +142,6 @@ class World
     thing.short = username
     thing.long = "#{username} is a player."
     thing.restore_player_persistence_data(data)
-    @all_things.push(thing)
     @all_players.push(thing)
     thing
   end
@@ -203,7 +202,9 @@ class World
     # ticks since epoch
     @time = Time.now.to_i / 2
     @time_of_day = @time % 600
-    @all_things.each { |t| t.heartbeat(@time, @time_of_day) }
+    @all_things.each { |t|
+      t.heartbeat(@time, @time_of_day)
+    }
   end
 
   def reset

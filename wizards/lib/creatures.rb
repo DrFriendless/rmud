@@ -9,7 +9,6 @@ class Creature < Body
     @queue = EM::Queue.new
     @quickqueue = EM::Queue.new
     @pause = 0
-    @fighting = nil
   end
 
   def quick_command(s)
@@ -37,6 +36,7 @@ class Creature < Body
   end
 
   def heartbeat(time, time_of_day)
+    return if super
     if !@quickqueue.empty?
       @quickqueue.pop { |command| do_command(command) }
     elsif @pause > 0
