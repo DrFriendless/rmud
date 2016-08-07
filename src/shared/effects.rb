@@ -35,7 +35,7 @@ class TellRoom < Effect
   end
 
   def message_for(observer)
-    (observer != @actor) ? s : nil
+    (observer != @actor) ? Observation.new(@s) : nil
   end
 end
 
@@ -47,35 +47,35 @@ end
 
 class ArriveEffect < Effect
   def initialize(arriver)
-    @arriver = arriver
+    @actor = arriver
   end
 
   def message_for(observer)
-    if observer == @arriver
+    if observer == @actor
       lines = [observer.location.long] +
-          observer.location.contents.select { |c| c != @arriver }.map { |c| c.long }.select(&:itself)
+          observer.location.contents.select { |c| c != @actor }.map { |c| c.long }.select(&:itself)
       Observation.new(lines.join("\n"))
     else
-      Observation.new("#{@arriver.name} arrives.")
+      Observation.new("#{@actor.name} arrives.")
     end
   end
 
-  attr_reader :arriver
+  attr_reader :actor
 end
 
 class LeaveEffect < Effect
   def initialize(leaver, direction)
-    @leaver = leaver
+    @actor = leaver
     @direction = direction
   end
 
   def message_for(observer)
-    if observer != @leaver
-      Observation.new("#{@leaver.name} departs #{@direction}.")
+    if observer != @actor
+      Observation.new("#{@actor.name} departs #{@direction}.")
     end
   end
 
-  attr_reader :leaver
+  attr_reader :actor
   attr_reader :direction
 end
 

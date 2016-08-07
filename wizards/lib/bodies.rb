@@ -290,7 +290,13 @@ class PlayerBody < Body
     @gp = (data && data[:gp]) || 0
     @xp = (data && data[:xp]) || 0
     @score = (data && data[:score]) || 0
-    move_to_location((data && data[:loc]) || "lib/Room/hallofdoors")
+    loc = data && data[:loc]
+    # some rooms are bad to restart in.
+    if !loc || world.find_singleton(loc)&.norestart
+      loc = "lib/Room/hallofdoors"
+    end
+    p "goto loc #{loc}"
+    move_to_location(loc)
   end
 
   def effect(effect)
@@ -307,6 +313,10 @@ class PlayerBody < Body
 
   def attacked_by(other)
     # let the player choose what to do.
+  end
+
+  def link_dead
+    !effect_callback || !effect_callback.ping?
   end
 end
 

@@ -245,6 +245,7 @@ Outdoor/denseswamp2:
     short: In the deep mangrove swamp.
     long: You're deep in the mangrove swamp. The tall dark trees are intertwined with creeping vines... well, you hope they're vines.
     northwest: Outdoor/denseswamp1
+    southeast: Outdoor/scaryswamp1
 
 Outdoor/denseswamp3:
     short: In the deep mangrove swamp.
@@ -257,3 +258,75 @@ Outdoor/saltflat1:
     long: This is the Great Salt Flat. Most people regard it as the end of the world. There are trees to the east, but to the west there's just salt as far as the eye can see.
     west: Outdoor/saltflat1
     east: Outdoor/southswamp3
+
+Outdoor/scaryswamp1:
+    short: In the scary mangrove swamp.
+    long: You're deep in the mangrove... hey, THIS DOESN'T LOOK GOOD. There are skulls and bones and chunks of bodies here. Pools of blood are floating in the water. This place is not safe. Go back to where you came from.
+    northwest: Outdoor/denseswamp2
+    southwest: OutsideDragonLair/default
+
+OutsideDragonLair/default:
+    short: In the scary mangrove swamp.
+    long: This is a part of the swamp, but it's a really bad part of the swamp and you should go somewhere else. Mangled bodies hang from the trees. You're WALKING IN BLOOD.
+    southwest: DragonLair/default
+    northeast: Outdoor/scaryswamp1
+    norestart: true
+
+DragonLair/default:
+    short: In the dragon's lair.
+    long: This is the dragon's lair.
+    northeast: OutsideDragonLair/default
+
+CapturedByDragon/default:
+    short: In the claws of the dragon.
+    long: You're in the claws of a dragon, flying somewhere high above the great mangrove swamp. Try not to look down.
+    responses:
+      - I really don't think there's any hope for you.
+      - The dragon's claws are like steel, there's not much you can do about this situation.
+      - That's not going to work.
+      - The dragon seems to be invulnerable to your feeble struggles.
+      - You can't do that. You can't do anything.
+    story:
+      -
+      -
+      - The dragon lifts you into the air!
+      -
+      - The dragon flies high into the sky.
+      -
+      - The view is quite nice from here, but you can't really appreciate it at the moment.
+      -
+      - The good news is that the dragon has a firm grip on you.
+      -
+      - You wouldn't want to fall from this height.
+      -
+      - Nope, falling from this height would be certain death.
+      -
+      - Uh, did the dragon's grip just get a little looser?
+      -
+      - Oh no... maybe the dragon's planning to drop you so that you smash into the ground and get splatted!
+      -
+      - Oh, hey! Arrgh! The dragon drops you!
+    norestart: true
+
+Falling/default:
+    long: Ummm... you're falling through the air, and you're probably going to go splat in the swamp somewhere...
+    story:
+     -
+     - Oh well, I hope you've enjoyed playing this game while it lasted.
+     -
+     - It's kinda cool how the ground rushes toward you so fast...
+    destinations:
+      Outdoor/saltflat1:
+        transition:
+      Outdoor/shipwreck:
+        transition: Wow! By some miracle you land in a mangrove tree, and the branches break your fall! Eventually you manage to break free and tumble to the ground.
+    norestart: true
+
+GreenDragon/default:
+    short: fearsome green dragon
+    destination: DragonLair/default
+
+Outdoor/shipwreck:
+    short: Shipwreck in the swamp.
+    long: This is a watery area of the swamp. There are a few mangrove trees here, but to the east they become nmore and more sparse. A large wooden ship is wrecked here.
+    west: Outdoor/harbour

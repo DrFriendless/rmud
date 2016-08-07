@@ -61,7 +61,7 @@ class Room < Thing
               thing = world.instantiate_ref(tcr)
               if thing; thing.move_to(self) end
             elsif thing.location
-              p "#{thing.short} is found at #{thing.location.short}"
+              p "#{thing.short} is found at #{thing.location.short}" if thing.short
             else
               thing.move_to(self)
             end
@@ -73,5 +73,7 @@ class Room < Thing
       }
     end
   end
+
+  attr_reader :norestart
 end
 

@@ -69,8 +69,8 @@ class EventLoop
       player_data = @database.check_password(event.username, event.password)
       if player_data
         puts "#{player_data[:username]} logs in"
-        body = @world.find_player(event.username)
-        if !body; body = @world.instantiate_player(event.username) end
+        body = @world.find_player(event.username) || @world.instantiate_player(event.username)
+        p "#{event.username} is at #{body.location.persistence_key}"
         response = Response.new
         response.handled = true
         response.message = body.location.long

@@ -142,6 +142,10 @@ class World
     thing.short = username
     thing.long = "#{username} is a player."
     thing.restore_player_persistence_data(data)
+    if thing.link_dead
+      puts "#{thing.name} is link dead."
+      thing.move_to_location("lib/Room/lostandfound")
+    end
     @all_players.push(thing)
     thing
   end

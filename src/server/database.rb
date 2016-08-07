@@ -44,7 +44,7 @@ class Database
       to_update.each { |u|
         id = u["_id"]
         diff = data[id].to_a - w.find("_id" => id).first.to_a
-        if !diff.empty?
+        unless diff.empty?
           diff = Hash[*diff.flatten(1)]
           diff["_id"] = id
           updates.push(diff)
