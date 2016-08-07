@@ -84,8 +84,10 @@ module HitPoints
   end
 
   def damage(n)
+    alive = @hp > 0
     @hp -= n
-    # TODO check for death
+    # return whether we were just killed
+    alive && @hp <= 0
   end
 
   def heal(n)
@@ -223,7 +225,10 @@ class Body < Thing
           if dmg > 0
             p "total damage is #{dmg}"
             location.publish_to_room(DamageEffect.new(self, victim, dmg, attack.desc))
-            @victim.damage(dmg)
+            killed = @victim.damage(dmg)
+            if killed
+
+            end
           else
             location.publish_to_room(MissEffect.new(self, victim, attack.desc))
           end
@@ -258,6 +263,8 @@ class PlayerBody < Body
 
   def initialize
     super
+    initialize_score
+    initialize_xp
     @loc = "lib/Room/lostandfound"
   end
 
@@ -280,7 +287,8 @@ class PlayerBody < Body
     data[:body] = 'lib/PlayerBody/default'
     data[:loc] = @location.persistence_key
     data[:gp] = @gp
-    data[:xp] = @xp
+    data[:questxp] = @questxp
+    data[:combatxp] = @combatxp
     data[:score] = @score
     data
   end
@@ -288,7 +296,8 @@ class PlayerBody < Body
   def restore_player_persistence_data(data)
     p "Restoring #{name} => #{data}"
     @gp = (data && data[:gp]) || 0
-    @xp = (data && data[:xp]) || 0
+    @combatxp = (data && data[:combatxp]) || 0
+    @questxp = (data && data[:quetxp]) || 0
     @score = (data && data[:score]) || 0
     loc = data && data[:loc]
     # some rooms are bad to restart in.

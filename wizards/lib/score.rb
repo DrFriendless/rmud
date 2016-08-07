@@ -1,5 +1,5 @@
 module HasScore
-  def initialize_gold
+  def initialize_score
     @score = 0
   end
 

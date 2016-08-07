@@ -1,11 +1,17 @@
 module HasExperience
-  def initialize_gold
-    @xp = 0
+  def initialize_xp
+    @combatxp = 0
+    @questxp = 0
   end
 
-  def add_experience(n)
-    @xp += n
+  def add_combat_experience(n)
+    @combatxp += n
   end
 
-  attr_accessor :xp
+  def add_quest_experience(n)
+    @questxp += n
+  end
+
+  attr_reader :combatxp
+  attr_reader :questxp
 end

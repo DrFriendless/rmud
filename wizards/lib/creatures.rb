@@ -75,6 +75,15 @@ class Creature < Body
   end
 
   private def create_initial_items
+    w = @weapon
+    if w
+      tcr = ThingClassRef.new(@thingClass.wizard, w)
+      thing = world.instantiate_ref(tcr)
+      if thing
+        thing.move_to(self)
+        quick_command("wield #{thing.short}")
+      end
+    end
     cs = @possessions
     if cs
       cs.split.each { |rs|

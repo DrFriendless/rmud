@@ -4,6 +4,8 @@ Creature/librarian:
     examine: The librarian is a tall humanoid creature with the head of an ibis. It looks vicious, but is deathly silent.
     maxhp: 30
     identity: librarian
+    xp: 100
+    weapon: Weapon/blackstaff
 
 Creature/garialite:
     short: garialite
@@ -11,3 +13,29 @@ Creature/garialite:
     examine: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
     maxhp:  40
     identity: garialite
+    xp: 150
+    attacks:
+      - vicious claw:
+          damage: 1.d6
+          damage_type: slashing
+      - vicious claw:
+          damage: 1.d6
+          damage_type: slashing
+      - fearsome bite:
+          damage: 1.d6
+          damage_type: piercing
+          damage: 1.d6
+          damage: bludgeoning
+
+Weapon/blackstaff:
+  short: jet black staff
+  long: A jet black staff is here.
+  examine: The staff seems to be made of some sort of dense wood, with almost no grain, and is of the darkest black.
+  identity: sword, long sword
+  slots:
+    - righthand
+    - lefthand
+  value: 30
+  damage: 1.d12
+  attack_description: staff smite
+  damage_type: bludegoning
