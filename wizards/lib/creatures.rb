@@ -1,7 +1,19 @@
 require 'eventmachine'
 require_relative './bodies.rb'
+require_relative './soul.rb'
 require_relative '../../src/shared/messages.rb'
 require_relative '../../src/server/events.rb'
+
+# tricks creatures have that players don't
+class CreatureSoul < Soul
+  def after_properties_set
+    super
+    verb(["healself"]) { |response, command, match|
+      command.body.heal(command.body.maxhp)
+      response.handled = true
+    }
+  end
+end
 
 class Creature < Body
   def initialize
@@ -56,9 +68,9 @@ class Creature < Body
 
   def after_properties_set
     super
+    receive_into_container(world.create("lib/CreatureSoul/default"))
     if @path; extend_path end
     if @chats; setup_chats end
-    add_creature_verbs
     create_initial_items
   end
 

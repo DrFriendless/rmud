@@ -4,6 +4,7 @@ require_relative '../../src/shared/effects.rb'
 require_relative './money.rb'
 require_relative './experience.rb'
 require_relative './score.rb'
+require_relative './items.rb'
 
 # FIXME: items can't claim two spots of the same type, e.g. you can't have an item which is two rings.
 module Wearing
@@ -14,7 +15,7 @@ module Wearing
 
   # can we put it on now?
   def space_to_wear?(slots)
-    slots.all? { |s| @wear_slots[s] && @wear_slots[s].include?(nil) }
+    slots.all? { |s| @wear_slots[s]&.include?(nil) }
   end
 
   # can we put it on now?
@@ -47,7 +48,7 @@ module Wearing
 
   def wearing?(obj)
     return false unless obj.slots
-    obj.slots.any? { |slot| @wear_slots[slot] && @wear_slots[slot].include?(obj) }
+    obj.slots.any? { |slot| @wear_slots[slot]&.include?(obj) }
   end
 
   def persist_wearing(data)
@@ -55,7 +56,7 @@ module Wearing
   end
 
   def wielded_weapon
-    @wear_slots.each_value { |items| items.each { |x| if x.is_a?(Weapon); return x; end } }
+    @wear_slots.each_value { |items| items.each { |x| if x.is_a?(Weapon) && wearing?(x); return x; end } }
     nil
   end
 end
@@ -188,20 +189,60 @@ class Body < Thing
     tell(message)
   end
 
+  def weaponless_attacks
+    [Attack.new("flailing fists", { :bludgeoning => 1.d4 }, [])]
+  end
+
+  def find_new_victim
+    nil
+  end
+
   def heartbeat(time, time_of_day)
+    attacked = false
     if @victim
-      if @victim.location != location
-        tell("You are no longer in combat.")
-        @victim = nil
-      elsif @victim.dead?
-        @victim = nil
-      else
-        weapon = wielded_weapon
-        dmg = weapon ? weapon.damage : '1'
-        p eval(dmg)
-        # TODO
-      end
+      weapon = wielded_weapon
+      p "weapon #{weapon}"
+      attacks = weapon&.create_attacks || weaponless_attacks
+      p "attacks are #{attacks}"
+      attacks.each { |attack|
+        if @victim.location != location
+          @victim = find_new_victim
+          tell("You are no longer in combat.") unless @victim
+        elsif @victim.dead?
+          p "Victim is dead."
+          @victim = find_new_victim
+        end
+        if @victim
+          attacked = true
+          p "attack is #{attack}"
+          armours = @victim.armours
+          armours.each { |a| a.mutate_attack(attack) }
+          p "attack became #{attack}"
+          attack.annotations.each { |anno| @victim.tell(anno) }
+          dmg = attack.total_damage
+          if dmg > 0
+            p "total damage is #{dmg}"
+            location.publish_to_room(DamageEffect.new(self, victim, dmg, attack.desc))
+            @victim.damage(dmg)
+          else
+            location.publish_to_room(MissEffect.new(self, victim, attack.desc))
+          end
+        end
+      }
     end
+    attacked
+  end
+
+  def armours
+    contents.
+        select { |c| c.is_a? Armour }.
+        reject { |c| (c.is_a? CanBeWorn) && !wearing?(c) }
+  end
+
+  def attacked_by(other)
+    # TODO - possibly change who I'm attacking.
+    # TODO - other sorts of reactions
+    @victim = other unless @victim
   end
 end
 
@@ -262,6 +303,10 @@ class PlayerBody < Body
   def tell(message)
     ob = Observation.new(message)
     @effect_callback.effect(ob)
+  end
+
+  def attacked_by(other)
+    # let the player choose what to do.
   end
 end
 

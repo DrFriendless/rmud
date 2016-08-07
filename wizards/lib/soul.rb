@@ -17,11 +17,16 @@ class Soul < Thing
       elsif !victim
         response.message = "Kill who?"
       else
+        prev_victim = command.body.victim
         command.body.victim = victim
-        p "#{command.body.name} is now attacking #{victim.name}"
+        if victim != prev_victim
+          command.room.publish_to_room(AttackEffect.new(command.body, victim))
+          victim.attacked_by(command.body)
+        end
       end
       response.handled = true
     }
+    alias_verb(["kill", :someone], ["attack", :someone])
   end
 
   def do_not_persist?

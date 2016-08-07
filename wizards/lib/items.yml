@@ -30,11 +30,25 @@ Weapon/sword:
     examine: The sword has a long blade which is pointy at the far end.
     identity: sword, long sword
     slots:
-        - righthand
+      - righthand
     value: 10
     damage: 1.d8
+    attack_description: sword strike
+    damage_type: slashing
 
-Wearable/shield:
+Weapon/wandoflightning:
+    short: wand of lightning
+    long: There is a thin dark blue wand here.
+    examine: The wand is etched with faint runes in a lighter blue colour.
+    identity: wand, wand of lightning, blue wand, lightning wand
+    slots:
+      - righthand
+    value: 100
+    damage: 2.d4+1
+    attack_description: lightning bolt
+    damage_type: lightning
+
+Shield/wooden:
     short: shield
     long: A wooden shield is here.
     examine: The shield is a small piece of wood on a strap, that you're supposed to put between you and the bad guy.
@@ -42,4 +56,12 @@ Wearable/shield:
     slots:
         - lefthand
     value: 10
-
+    piercing_decrease: 1.d100
+    piercing_max: 2.d6
+    slashing_decrease: 1.d100
+    slashing_max: 1.d12
+    bludgeoning_decrease: 1.d100
+    bludgeoning_max: 1.d4
+    breath_decrease: 4.d20
+    breath_max: 20
+    intercept_percent: 35

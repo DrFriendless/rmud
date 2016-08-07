@@ -143,11 +143,11 @@ class ActorActorEffect < Effect
 
   def message_for(observer)
     if observer == @actor1
-      @msg1
+      Observation.new(@msg1)
     elsif observer == @actor2
-      @msg2
+      Observation.new(@msg2)
     else
-      @msg_other
+      Observation.new(@msg_other)
     end
   end
 end
@@ -232,4 +232,46 @@ class SayEffect < Effect
       Observation.new("#{@actor.name} says \"#{@says}\"")
     end
   end
+end
+
+class AttackEffect < ActorActorEffect
+  def initialize(attacker, attackee)
+    super(attacker, attackee, nil, "#{attacker.name} attacks you!", "#{attacker.name} attacks #{attackee.name}!")
+  end
+end
+
+class MissEffect < ActorActorEffect
+  def initialize(attacker, attackee, attack_desc)
+    super(attacker, attackee,
+          "You miss #{attackee.name} with #{attack_desc}.",
+          "#{attacker.name} misses you with #{attack_desc}.",
+          "#{attacker.name} misses #{attackee.name} with #{attack_desc}.")
+  end
+end
+
+class DamageEffect < ActorActorEffect
+  def initialize(attacker, attackee, damage, attack_desc)
+    @damage = damage
+    s1 = case damage
+           when 1..3; "You scratched #{attackee.name} with #{attack_desc}."
+           when 4..8; "You injured #{attackee.name} with #{attack_desc}."
+           when 9..16; "You hurt #{attackee.name} badly with #{attack_desc}."
+           else; "You hurt #{attackee.name} very badly with #{attack_desc}."
+         end
+    s2 = case damage
+           when 1..3; "#{attacker.name} scratched you with #{attack_desc}."
+           when 4..8; "#{attacker.name} injured you with #{attack_desc}."
+           when 9..16; "#{attacker.name} hurt you badly with #{attack_desc}."
+           else; "#{attacker.name} hurt you very badly with #{attack_desc}."
+         end
+    s3 = case damage
+           when 1..3; "#{attacker.name} scratched #{attackee.name} with #{attack_desc}."
+           when 4..8; "#{attacker.name} injured #{attackee.name} with #{attack_desc}."
+           when 9..16; "#{attacker.name} hurt #{attackee.name} badly with #{attack_desc}."
+           else; "#{attacker.name} hurt #{attackee.name} very badly with #{attack_desc}."
+         end
+    super(attacker, attackee, s1, s2, s3)
+  end
+
+  attr_reader :damage
 end

@@ -45,6 +45,9 @@ Room/hallofdoors:
 LivingSoul/default:
     long: LivingSoul
 
+CreatureSoul/default:
+    long: CreatureSoul
+
 LivingSoul/debug:
     short: LivingSoul
 
