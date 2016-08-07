@@ -28,6 +28,17 @@ class Effect
   end
 end
 
+class TellRoom < Effect
+  def initialize(actor, s)
+    @actor = s
+    @s = s
+  end
+
+  def message_for(observer)
+    (observer != @actor) ? s : nil
+  end
+end
+
 class TimeOfDayEffect < Effect
   def initialize(s)
     @message = s
@@ -114,6 +125,29 @@ class ActorItemItemEffect < Effect
       message_for_actor
     else
       message_for_others
+    end
+  end
+end
+
+class ActorActorEffect < Effect
+  def initialize(actor1, actor2, msg1, msg2, msg_other)
+    @actor1 = actor1
+    @actor2 = actor2
+    @msg1 = msg1
+    @msg2 = msg2
+    @msg_other = msg_other
+  end
+
+  attr_reader :actor1
+  attr_reader :actor2
+
+  def message_for(observer)
+    if observer == @actor1
+      @msg1
+    elsif observer == @actor2
+      @msg2
+    else
+      @msg_other
     end
   end
 end
