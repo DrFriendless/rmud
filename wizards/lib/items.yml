@@ -32,6 +32,7 @@ Weapon/sword:
     slots:
         - righthand
     value: 10
+    damage: 1.d8
 
 Wearable/shield:
     short: shield

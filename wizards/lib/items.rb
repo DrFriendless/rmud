@@ -48,6 +48,8 @@ class Weapon < Item
     super
     after_properties_set_worn
   end
+
+  attr_reader :damage
 end
 
 class Wearable < Item

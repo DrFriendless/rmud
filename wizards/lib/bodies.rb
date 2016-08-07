@@ -53,11 +53,30 @@ module Wearing
   def persist_wearing(data)
     # TODO
   end
+
+  def wielded_weapon
+    @wear_slots.each_value { |items| items.each { |x| if x.is_a?(Weapon); return x; end } }
+    nil
+  end
 end
 
 module HitPoints
   attr_accessor :hp
   attr_accessor :maxhp
+
+  def initialize_hp
+    @hp = 0
+    @maxhp = 0
+  end
+
+  def after_properties_set_hp
+    if !@maxhp || @maxhp <= 0
+      @maxhp = 1
+    end
+    if !@hp || @hp <= 0
+      @hp = @maxhp
+    end
+  end
 
   def injured?
     @hp < @maxhp
@@ -87,6 +106,10 @@ module HitPoints
     @maxhp = data[:maxhp]
     @hp = data[:hp]
   end
+
+  def dead?
+    @hp <= 0
+  end
 end
 
 class Body < Thing
@@ -102,18 +125,13 @@ class Body < Thing
     initialize_contents
     initialize_gold
     initialize_wearing
+    initialize_hp
   end
 
   def after_properties_set
     super
+    after_properties_set_hp
     receive_into_container(world.create("lib/LivingSoul/default"))
-    verb(["kill", :someone]) { |response, command, match|
-      victim = command.room.find(match[0].join(' '))
-      if victim != command.body
-        p "You kill #{victim.short}."
-      end
-      response.handled = true
-    }
   end
 
   def persist(data)
@@ -168,6 +186,22 @@ class Body < Thing
   # response from a do
   def reply(message)
     tell(message)
+  end
+
+  def heartbeat(time, time_of_day)
+    if @victim
+      if @victim.location != location
+        tell("You are no longer in combat.")
+        @victim = nil
+      elsif @victim.dead?
+        @victim = nil
+      else
+        weapon = wielded_weapon
+        dmg = weapon ? weapon.damage : '1'
+        p eval(dmg)
+        # TODO
+      end
+    end
   end
 end
 
