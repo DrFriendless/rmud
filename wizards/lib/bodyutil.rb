@@ -105,5 +105,11 @@ module HitPoints
   def dead?
     @hp <= 0
   end
+
+  def health_status
+    dead? ?
+        "You have #{@maxhp} maximum hit points but are currently dead." :
+        "You have #{@hp} hit points out of a maximum of #{@maxhp}."
+  end
 end
 

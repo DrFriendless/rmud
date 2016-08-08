@@ -12,6 +12,14 @@ module HasExperience
     @questxp += n
   end
 
+  def experience_status
+    "You have #{@combatxp} combat XP and #{@questxp} quest XP, making #{experience} total XP."
+  end
+
+  def experience
+    (@combatxp <= @questxp) ? @combatxp * 2 : @questxp * 2
+  end
+
   attr_reader :combatxp
   attr_reader :questxp
 end
