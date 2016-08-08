@@ -4,8 +4,8 @@ module Directions
     direction(:east, :e)
     direction(:north, :n)
     direction(:south, :s)
-    direction(:exit, :out)
-    direction(:enter, :in)
+    direction(:out, :exit)
+    direction(:in, :enter)
     direction(:up, :u)
     direction(:down, :d)
     direction(:southwest, :sw)
@@ -16,6 +16,9 @@ module Directions
 
   def direction(key, alt=nil)
     v = instance_variable_get("@#{key}")
+    if alt && !v
+      v = instance_variable_get("@#{alt}")
+    end
     v = local_dest(v)
     if v
       verb(["#{key}"]) { |response, command, match|

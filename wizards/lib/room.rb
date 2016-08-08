@@ -1,7 +1,7 @@
-require_relative '../../src/server/thingutil.rb'
-require_relative '../../src/server/thing.rb'
-require_relative './directions.rb'
-require_relative './money.rb'
+require_relative '../../src/server/thingutil'
+require_relative '../../src/server/thing'
+require_relative './directions'
+require_relative './money'
 
 class Room < Thing
   include Container

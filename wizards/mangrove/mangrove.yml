@@ -14,6 +14,7 @@ Outdoor/townsquare:
     west: Outdoor/plaza
     south: Outdoor/elfquarter
     northwest: Room/pub
+    northeast: Room/advguild
 
 Room/pub:
     short: Ye Olde Pubbe
@@ -243,9 +244,10 @@ Outdoor/denseswamp1:
 
 Outdoor/denseswamp2:
     short: In the deep mangrove swamp.
-    long: You're deep in the mangrove swamp. The tall dark trees are intertwined with creeping vines... well, you hope they're vines.
+    long: You're deep in the mangrove swamp. The tall dark trees are intertwined with creeping vines... well, you hope they're vines. There's some sort of wooden structure off to the east.
     northwest: Outdoor/denseswamp1
-    southeast: Outdoor/scaryswamp1
+    southwest: Outdoor/scaryswamp1
+    east: Outdoor/brokenbridge1
 
 Outdoor/denseswamp3:
     short: In the deep mangrove swamp.
@@ -263,3 +265,8 @@ Outdoor/shipwreck:
     short: Shipwreck in the swamp.
     long: This is a watery area of the swamp. There are a few mangrove trees here, but to the east they become nmore and more sparse. A large wooden ship is wrecked here.
     west: Outdoor/harbour
+
+Outdoor/brokenbridge1:
+    short: Broken Bridge (west side)
+    long: You're in the deep mangrove swamp, at the west end of a derelict wooden bridge. This end of the bridge seems to have sunk into the swamp, so the east end is higher and you can't jump across the gap. The swamp around here looks way too slimy and dangerous to get down into.
+    west: Outdoor/denseswamp2

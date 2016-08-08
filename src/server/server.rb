@@ -5,10 +5,10 @@ require 'em-http-server'
 require 'websocket-eventmachine-server'
 require 'yaml'
 require 'json'
-require_relative './world.rb'
-require_relative './events.rb'
-require_relative './database.rb'
-require_relative '../shared/messages.rb'
+require_relative './world'
+require_relative './events'
+require_relative './database'
+require_relative '../shared/messages'
 
 # the main event loop in the server
 class EventLoop

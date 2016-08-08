@@ -1,6 +1,6 @@
 require_relative './mangrove'
 require_relative '../../src/shared/effects'
-require_relative '../lib/body.rb'
+require_relative '../lib/body'
 
 DRAGON = "mangrove/GreenDragon/default"
 

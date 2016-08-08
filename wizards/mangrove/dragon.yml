@@ -1,7 +1,7 @@
 Outdoor/scaryswamp1:
     short: In the scary mangrove swamp.
     long: You're deep in the mangrove... hey, THIS DOESN'T LOOK GOOD. There are skulls and bones and chunks of bodies here. Pools of blood are floating in the water. This place is not safe. Go back to where you came from.
-    northwest: Outdoor/denseswamp2
+    northeast: Outdoor/denseswamp2
     southwest: OutsideDragonLair/default
 
 OutsideDragonLair/default:
@@ -60,6 +60,8 @@ Falling/default:
         transition: RARK! Oops, you seem to have crashed into a low flying bird! You bounce off, and are sent spinning through the air. Somehow the accident broke your fall enough that you survived. Wow, talk about lucky!
       Outdoor/shipwreck:
         transition: Wow! By some miracle you land in a mangrove tree, and the branches break your fall! Eventually you manage to break free and tumble to the ground.
+      Outdoor/lmtemple:
+        transition: You crash land on a palm tree! You bounce off and get tangled in some vines! When you get untangled from the vines you fall onto a smaller palm tree. Then you land head-first on some stones. But hey, you're alive. It's your lucky day!
     norestart: true
 
 GreenDragon/default:

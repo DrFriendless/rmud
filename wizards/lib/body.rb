@@ -1,11 +1,11 @@
-require_relative '../../src/server/thingutil.rb'
-require_relative '../../src/server/thing.rb'
-require_relative '../../src/shared/effects.rb'
-require_relative './money.rb'
-require_relative './experience.rb'
-require_relative './score.rb'
-require_relative './items.rb'
-require_relative './bodyutil.rb'
+require_relative '../../src/server/thingutil'
+require_relative '../../src/server/thing'
+require_relative '../../src/shared/effects'
+require_relative './money'
+require_relative './experience'
+require_relative './score'
+require_relative './items'
+require_relative './bodyutil'
 
 class Body < Thing
   include Container
@@ -83,8 +83,24 @@ class Body < Thing
     tell(message)
   end
 
+  def eval_damages(kvs)
+    # TODO - can't encode multiple types of damage in one attack
+    { kvs['damage_type'].intern => eval(kvs['damage']) }
+  end
+
   def weaponless_attacks
-    [Attack.new("flailing fists", { :bludgeoning => 1.d4 }, [])]
+    if @attacks
+      p "@attacks are #{@attacks}"
+      result = []
+      @attacks.each { |h|
+        k = h.keys[0]
+        v = h[k]
+        result.push(Attack.new(k, v['desc'], eval_damages(v), eval_flags(v)))
+      }
+      result
+    else
+      [Attack.new("flailing fists", "You are attacked bare-handed!", { :bludgeoning => 1.d4 }, [])]
+    end
   end
 
   def xp_for_killing
@@ -110,28 +126,33 @@ class Body < Thing
         end
         if @victim
           attacked = true
-          p "attack is #{attack}"
-          armours = @victim.armours
-          armours.each { |a| a.mutate_attack(attack) }
-          p "attack became #{attack}"
-          attack.annotations.each { |anno| @victim.tell(anno) }
-          dmg = attack.total_damage
-          if dmg > 0
-            p "total damage is #{dmg}"
-            location.publish_to_room(DamageEffect.new(self, victim, dmg, attack.desc))
-            killed = @victim.damage(dmg)
-            if killed
-              add_combat_experience(@victim.xp_for_killing)
-            end
-          else
-            location.publish_to_room(MissEffect.new(self, victim, attack.desc))
-          end
+          attack_on(attack, @victim)
         else
           tell("You are no longer in combat.")
         end
       }
     end
     attacked
+  end
+
+  def attack_on(attack, victim)
+    p "attack is #{attack}"
+    armours = victim.armours
+    armours.each { |a| a.mutate_attack(attack) }
+    p "attack became #{attack}"
+    attack.annotations.each { |anno| victim.tell(anno) }
+    dmg = attack.total_damage
+    if dmg > 0
+      p "total damage is #{dmg}"
+      location.publish_to_room(DamageEffect.new(self, victim, dmg, attack.desc))
+      killed = @victim.damage(dmg)
+      @victim.you_died(self)
+      if killed
+        add_combat_experience(@victim.xp_for_killing)
+      end
+    else
+      location.publish_to_room(MissEffect.new(self, victim, attack.desc))
+    end
   end
 
   def armours

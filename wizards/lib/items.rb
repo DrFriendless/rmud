@@ -1,5 +1,5 @@
-require_relative '../../src/server/thing.rb'
-require_relative './item.rb'
+require_relative '../../src/server/thing'
+require_relative './item'
 
 module CanBeWorn
   def after_properties_set_worn()
@@ -54,7 +54,7 @@ class Weapon < Item
   end
 
   def create_attacks
-    [Attack.new(@attack_description, {@damage_type.intern => eval(@damage)}, [:weapon])]
+    [Attack.new(@attack_description, @attack_long, {@damage_type.intern => eval(@damage)}, [:weapon])]
   end
 end
 
@@ -76,11 +76,12 @@ class Wearable < Item
 end
 
 # The damage done by an attack. This is created by the weapon or spell and modified by the victim's armour.
-# suggested damage types: :piercing :slashing :bludgeoning :fire :cold :electricity :acid :necrotic
+# suggested damage types: :piercing :slashing :bludgeoning :fire :cold :electricity :acid :necrotic :poison
 # suggested flags: :missile :breath :weapon :touch :vampiric
 class Attack
-  def initialize(desc, damages, flags=[])
-    @desc = desc
+  def initialize(shortdesc, longdesc, damages, flags=[])
+    @desc = shortdesc
+    @long = longdesc
     @damages = damages
     @flags = flags
     # comments to the players about what happened

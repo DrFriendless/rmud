@@ -1,4 +1,4 @@
-require_relative './verb.rb'
+require_relative './verb'
 
 # A thing in the world
 

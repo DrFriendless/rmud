@@ -1,0 +1,38 @@
+Outdoor/lmtemple:
+    long: You're in the rainforest. You're on top of a large stone structure, obviously byuilt by some sort of intelligent life. Wide stone steps leading up to a high platform suggest that this is some sort of ceremonial location, maybe a temple. In face the altar with blood on it suggests this might be a placed used for sacrifices.
+    short: Rainforest Temple
+    down: Outdoor/lmclearing
+    south: Outdoor/lmclearing
+
+Outdoor/lmclearing:
+    long: You're in the rainforest. The undergrowth has been cleared here to form something of a courtyard next to a mostly ruined stone building. Wide stone steps go north up onto the roof of the building.
+    short: Rainforest Clearing
+    north: Outdoor/lmtemple
+    up: Outdoor/lmtemple
+    south: Outdoor/lmbridge
+
+Outdoor/lmbridge:
+    long: This is a stone bridge over a stream in the rainforest. To the north is some sort of flat stone building. A tall tower is to the west.
+    short: Stone Bridge
+    north: Outdoor/lmclearing
+    contains: SwampPuff/default
+
+SwampPuff/default:
+    short: swamp puff
+    long: A swamp puff skitters around on its spindly legs.
+    examine: A swamp puff looks like the top of a mushroom on spider-like legs.
+    maxhp: 4
+    hp: 4
+    identity: puff, swamp puff
+    level: 1
+    attacks:
+      - poison puff:
+          damage: 1.d4
+          damage_type: poison
+          flags: breath
+          desc: The swamp puff exhales a cloud of spores in your direction!
+
+Outdoor/brokenbridge2:
+    short: Broken Bridge (east side)
+    long: You're in the rainforest, at the east end of a derelict wooden bridge. The other end of the bridge seems to have sunk into the swamp, but if you take a bit of a run-up you can jump down across the gap. There's no way you'd get back though.
+    west: Outdoor/brokenbridge1

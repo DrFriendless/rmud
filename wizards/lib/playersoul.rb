@@ -1,4 +1,4 @@
-require_relative './soul.rb'
+require_relative './soul'
 
 class PlayerSoul < Soul
   def initialize

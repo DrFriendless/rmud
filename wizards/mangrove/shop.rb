@@ -1,4 +1,4 @@
-require_relative '../lib/room.rb'
+require_relative '../lib/room'
 
 class Shop < Room
   def after_properties_set()

@@ -76,5 +76,9 @@ class PlayerBody < Body
   def link_dead
     !effect_callback || !effect_callback.ping?
   end
+
+  def xp_for_killing
+    0
+  end
 end
 

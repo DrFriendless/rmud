@@ -1,0 +1,6 @@
+AdvGuild/default:
+    short: Mangrove Adventurers' Guild
+    long: This is the Adventurers' Guild in the City of Mangrove. The walls are covered in posters and flyers advertising different adventures and quests and missions you might like to go on. There's a desk where you might go for further information, but there's nobody at it. Use the command 'find quests' to find appropriate quests.
+    lit: true
+    out: Outdoor/townsquare
+

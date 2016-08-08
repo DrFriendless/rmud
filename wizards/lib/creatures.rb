@@ -1,8 +1,8 @@
 require 'eventmachine'
-require_relative './body.rb'
-require_relative './soul.rb'
-require_relative '../../src/shared/messages.rb'
-require_relative '../../src/server/events.rb'
+require_relative './body'
+require_relative './soul'
+require_relative '../../src/shared/messages'
+require_relative '../../src/server/events'
 
 # tricks creatures have that players don't
 class CreatureSoul < Soul
@@ -143,6 +143,9 @@ class Creature < Body
 
   def name
     short
+  end
+
+  def you_died(killed_by)
   end
 end
 

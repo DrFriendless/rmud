@@ -18,14 +18,17 @@ Creature/garialite:
       - vicious claw:
           damage: 1.d6
           damage_type: slashing
+          desc: The garialite slashes at you with a claw!
       - vicious claw:
           damage: 1.d6
           damage_type: slashing
+          desc: The garialite slashes at you with a claw!
       - fearsome bite:
           damage: 1.d6
           damage_type: piercing
           damage: 1.d6
-          damage: bludgeoning
+          damage_type: bludgeoning
+          desc: The garialite snaps at you with its crocodilian jaws!
 
 Weapon/blackstaff:
   short: jet black staff

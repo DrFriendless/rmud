@@ -1,5 +1,5 @@
-require_relative '../lib/room.rb'
-require_relative '../../src/shared/effects.rb'
+require_relative '../lib/room'
+require_relative '../../src/shared/effects'
 
 DAWN_TIMES = [0, 10, 20, 30]
 DUSK_TIMES = [300, 310, 320, 330]

@@ -46,7 +46,7 @@ Weapon/wandoflightning:
     value: 100
     damage: 2.d4+1
     attack_description: lightning bolt
-    damage_type: lightning
+    damage_type: electricity
 
 Shield/wooden:
     short: shield
