@@ -1,6 +1,7 @@
 # A PlayerBody is special because it can appear and disappear as players log in and out.
 class PlayerBody < Body
   include HasExperience
+  include HasAlignment
   include HasScore
 
   attr_accessor :name
@@ -12,6 +13,7 @@ class PlayerBody < Body
     super
     initialize_score
     initialize_xp
+    initialize_alignment
     @loc = "lib/Room/lostandfound"
   end
 

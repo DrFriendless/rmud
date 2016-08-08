@@ -87,6 +87,10 @@ class Body < Thing
     [Attack.new("flailing fists", { :bludgeoning => 1.d4 }, [])]
   end
 
+  def xp_for_killing
+    @xp || (@level * 99)
+  end
+
   def find_new_victim
     nil
   end
@@ -95,15 +99,13 @@ class Body < Thing
     attacked = false
     if @victim
       weapon = wielded_weapon
-      p "weapon #{weapon}"
       attacks = weapon&.create_attacks || weaponless_attacks
       p "attacks are #{attacks}"
       attacks.each { |attack|
-        if @victim.location != location
-          @victim = find_new_victim
-          tell("You are no longer in combat.") unless @victim
-        elsif @victim.dead?
+        if @victim.dead
           p "Victim is dead."
+          @victim = find_new_victim
+        elsif @victim.location != location
           @victim = find_new_victim
         end
         if @victim
@@ -119,11 +121,13 @@ class Body < Thing
             location.publish_to_room(DamageEffect.new(self, victim, dmg, attack.desc))
             killed = @victim.damage(dmg)
             if killed
-
+              add_combat_experience(@victim.xp_for_killing)
             end
           else
             location.publish_to_room(MissEffect.new(self, victim, attack.desc))
           end
+        else
+          tell("You are no longer in combat.")
         end
       }
     end
