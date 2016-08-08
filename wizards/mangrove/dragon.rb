@@ -134,9 +134,14 @@ class Falling < Outdoor
       s = @story[i]&.strip
       publish_to_room(TellDragonStoryEffect.new(nil, s)) if s && (s.length > 0)
     else
-      p @destinations
-      # TODO = land somewhere.
-      # TODO - move everything from this location to the landing spot
+      victims = contents.select { |c| c.is_a? Body }
+      victims.each { |victim|
+        dest = @destinations.keys.sample
+        transition = @destinations[dest]['transition']
+        dest = world.dest(wizard,dest)
+        victim.tell(transition) if transition
+        victim.move_to_location(dest)
+      }
     end
   end
 end

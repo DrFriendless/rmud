@@ -55,6 +55,10 @@ class Thing
     @thingClass.world
   end
 
+  def wizard
+    @thingClass.wizard
+  end
+
   def move_to_location(key)
     loc = world.find_singleton(key) || world.find_singleton("lib/Room/lostandfound")
     move_to(loc)

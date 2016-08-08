@@ -54,9 +54,10 @@ Falling/default:
      - Oh well, I hope you've enjoyed playing this game while it lasted.
      -
      - It's kinda cool how the ground rushes toward you so fast...
+     -
     destinations:
       Outdoor/saltflat1:
-        transition:
+        transition: RARK! Oops, you seem to have crashed into a low flying bird! You bounce off, and are sent spinning through the air. Somehow the accident broke your fall enough that you survived. Wow, talk about lucky!
       Outdoor/shipwreck:
         transition: Wow! By some miracle you land in a mangrove tree, and the branches break your fall! Eventually you manage to break free and tumble to the ground.
     norestart: true
