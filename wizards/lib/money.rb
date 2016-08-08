@@ -6,7 +6,7 @@ module HasGold
   end
 
   def add_gold(n)
-    @gp += n
+    @gp += (n || 0)
   end
 
   def pay(n)
@@ -80,6 +80,15 @@ class Gold < Thing
   def weight
     0
   end
+
+  def persist(data)
+    super
+    persist_gold(data)
+  end
+
+  def restore(data, by_persistence_key)
+    restore_gold(data, by_persistence_key)
+  end
 end
 
 GOLD_PATTERN_1 = /^(\d+) ?gp$/
@@ -92,8 +101,12 @@ def parse_money(s)
     return 1
   end
   [ GOLD_PATTERN_1, GOLD_PATTERN_2 ].each { |p|
+    p "pattern #{p} s #{s}"
     match = p.match(s)
-    if match; return match[0].to_i end
+    if match
+      p "MATCH #{match} #{match[0]}"
+      return match[0].to_i
+    end
   }
 end
 
