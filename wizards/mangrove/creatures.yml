@@ -2,6 +2,9 @@ Undead/ghoul:
     short: ghoul
     long: A slavering, writing ghoul glares at you with soulless eyes.
     examine: The ghoul is a pathetic gray corpse, a washed-out echo of its former self.
+    maxhp: 10
+    hp: 10
+    level: 1
     identity: ghoul
 
 Creature/mangrovesnake:
@@ -9,18 +12,21 @@ Creature/mangrovesnake:
     long: A large grey snake with a white underbelly is here.
     examine: The crab-eating mangrove snake is about 3 metres long, with large strong jaws design for cracking crab shells.
     identity: snake, mangrove snake
+    level: 2
 
 Creature/monkey:
     short: a red monkey
     long: A red monkey looks down at you from a perch high above.
     examine: The monkey has russet hair. It's only about a metre tall.
     identity: monkey, red monkey, russet monkey
+    level: 1
 
 SingletonCreature/anbumolli:
     short: Anbumolli
     long: A gray-haired female swamp elf is here.
     examine: Anbumolli is an ancient swamp elf, clad in the colours of the swamp.
     identity: Anbumolli, elf, female elf, swamp elf, female swamp elf
+    level: 1
     path:
         - pause 3
         - south
@@ -63,5 +69,6 @@ SingletonCreature/harry:
     long: Harry, the town idiot, is here.
     examine: Harry is a few sandwiches short of a picnic and has a few 'roos loose in the top paddock.
     identity: Harry
+    level: 1
     chats:
         - "hello =~ Hello #{actor.name}."

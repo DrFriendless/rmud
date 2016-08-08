@@ -4,8 +4,8 @@ Creature/librarian:
     examine: The librarian is a tall humanoid creature with the head of an ibis. It looks vicious, but is deathly silent.
     maxhp: 30
     identity: librarian
-    xp: 100
     weapon: Weapon/blackstaff
+    level: 2
 
 Creature/garialite:
     short: garialite
@@ -13,7 +13,7 @@ Creature/garialite:
     examine: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
     maxhp:  40
     identity: garialite
-    xp: 150
+    level: 2
     attacks:
       - vicious claw:
           damage: 1.d6

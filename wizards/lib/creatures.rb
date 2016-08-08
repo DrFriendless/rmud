@@ -1,5 +1,5 @@
 require 'eventmachine'
-require_relative './bodies.rb'
+require_relative './body.rb'
 require_relative './soul.rb'
 require_relative '../../src/shared/messages.rb'
 require_relative '../../src/server/events.rb'
