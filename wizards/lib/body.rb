@@ -84,13 +84,18 @@ class Body < Thing
   end
 
   def eval_damages(kvs)
-    # TODO - can't encode multiple types of damage in one attack
-    { kvs['damage_type'].intern => eval(kvs['damage']) }
+    d = kvs['damage']
+    d = [d] unless d.is_a? Array
+    result = {}
+    d.each { |dt|
+      fields = dt.split
+      result[fields[1].intern] = eval(fields[0])
+    }
+    result
   end
 
   def weaponless_attacks
     if @attacks
-      p "@attacks are #{@attacks}"
       result = []
       @attacks.each { |h|
         k = h.keys[0]

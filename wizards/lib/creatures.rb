@@ -165,3 +165,19 @@ end
 class SingletonCreature < Creature
   include Singleton
 end
+
+class DamageResistance < Thing
+  include Armour
+
+  def mutate_attack(attack)
+    attack.decrease(:piercing, self, @piercing, 1000000) if @piercing
+    attack.decrease(:slashing, self, @slashing, 1000000) if @slashing
+    attack.decrease(:bludgeoning, self, @bludgeoning, 1000000) if @bludgeoning
+    attack.decrease(:fire, self, @fire, 1000000) if @fire
+    attack.decrease(:cold, self, @cold, 1000000) if @cold
+    attack.decrease(:electricity, self, @electricity, 1000000) if @electrcity
+    attack.decrease(:acid, self, @acid, 1000000) if @acid
+    attack.decrease(:poison, self, @poison, 1000000) if @poison
+    attack.decrease(:necrotic, self, @necrotic, 1000000) if @necrotic
+  end
+end

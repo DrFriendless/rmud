@@ -15,7 +15,10 @@ Outdoor/lmbridge:
     long: This is a stone bridge over a stream in the rainforest. To the north is some sort of flat stone building. A tall tower is to the west.
     short: Stone Bridge
     north: Outdoor/lmclearing
-    contains: SwampPuff/default
+    contains: SwampPuff/default SwampPuff/default
+
+DamageResistance/poison_immunity:
+    poison: 100
 
 SwampPuff/default:
     short: swamp puff
@@ -25,6 +28,7 @@ SwampPuff/default:
     hp: 4
     identity: puff, swamp puff
     level: 1
+    possessions: DamageResistance/poison_immunity
     attacks:
       - poison puff:
           damage: 1.d4
