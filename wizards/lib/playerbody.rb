@@ -80,5 +80,9 @@ class PlayerBody < Body
   def xp_for_killing
     0
   end
+
+  def you_died(killed_by)
+    # TODO
+  end
 end
 

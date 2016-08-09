@@ -36,6 +36,18 @@ Weapon/sword:
     attack_description: sword strike
     damage_type: slashing
 
+Weapon/mace:
+    short: mace
+    long: A mace is here.
+    examine: The mace has a handle and a lumpy pointy bit.
+    identity: mace
+    slots:
+      - righthand
+    value: 10
+    damage: 1.d8
+    attack_description: mace mash
+    damage_type: bludgeoning
+
 Weapon/wandoflightning:
     short: wand of lightning
     long: There is a thin dark blue wand here.

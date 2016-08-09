@@ -123,7 +123,8 @@ class Body < Thing
       attacks = weapon&.create_attacks || weaponless_attacks
       p "attacks are #{attacks}"
       attacks.each { |attack|
-        if @victim.dead
+        break unless @victim
+        if @victim.dead?
           p "Victim is dead."
           @victim = find_new_victim
         elsif @victim.location != location
