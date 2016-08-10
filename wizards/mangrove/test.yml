@@ -1,7 +1,6 @@
 SingletonCreature/testdobby:
     short: Dobby
-    long: Dobby is here. That's a good sign.
-    examine: Dobby does all sorts of things to be a unit test for the MUD.
+    long: Dobby does all sorts of things to be a unit test for the MUD.
     destination: lib/Room/lostandfound
     maxhp: 100
     hp: 100

@@ -1,7 +1,6 @@
 Creature/librarian:
-    short: librarian
-    long: An ibis-headed librarian is here.
-    examine: The librarian is a tall humanoid creature with the head of an ibis. It looks vicious, but is deathly silent.
+    short: an ibis-headed librarian
+    long: The librarian is a tall humanoid creature with the head of an ibis. It looks vicious, but is deathly silent.
     maxhp: 30
     hp: 30
     identity: librarian
@@ -9,9 +8,8 @@ Creature/librarian:
     level: 2
 
 Creature/garialite:
-    short: garialite
-    long: A garialite is here.
-    examine: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
+    short: a garialite
+    long: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
     maxhp:  40
     hp: 40
     identity: garialite
@@ -30,9 +28,8 @@ Creature/garialite:
           desc: The garialite snaps at you with its crocodilian jaws!
 
 Weapon/blackstaff:
-  short: jet black staff
-  long: A jet black staff is here.
-  examine: The staff seems to be made of some sort of dense wood, with almost no grain, and is of the darkest black.
+  short: a jet black staff
+  long: The staff seems to be made of some sort of dense wood, with almost no grain, and is of the darkest black.
   identity: sword, long sword
   slots:
     - righthand

@@ -5,25 +5,20 @@ require_relative './verb'
 class Thing
   def initialize
     @verbs = []
-    verb(["examine", :it]) { |response, command, match|
-      if examine
-        response.message = examine
-        response.handled = true
-      elsif long
-        response.message = long
-        response.handled = true
-      end
-    }
   end
 
   # properties loaded from YAML have been set
   def after_properties_set
+    verb(["examine", :it]) { |response, command, match|
+      p "handled by the wrong examine #{match[0]}"
+      response.message = long
+      response.handled = true
+    }
   end
 
   attr_reader :short
   attr_reader :long
   attr_accessor :location
-  attr_reader :examine
   attr_reader :identity
   attr_reader :value
   attr_reader :weight
@@ -90,7 +85,7 @@ class Thing
   end
 
   def alias_verb(pattern1, pattern2)
-    @verbs.each { |v|
+    @verbs.reverse.each { |v|
       if v.pattern == pattern2
         verb(pattern1, &v.block)
         return
@@ -100,7 +95,7 @@ class Thing
 
   def handle(response, command)
     return nil unless @verbs
-    @verbs.each { |v|
+    @verbs.reverse.each { |v|
       match = v.match(command, self)
       if match; v.handle(response, command, match) end
       if response.handled; return response end

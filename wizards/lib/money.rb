@@ -40,10 +40,6 @@ class Gold < Thing
     "#{@gp} gold pieces"
   end
 
-  def long
-    "There are #{@gp} gold pieces here!"
-  end
-
   def is_called?(s)
     s == "gold" || s == "money" || s == "#{@gp}gp" || s == "#{@gp} gp" || s == "#{@gp} gold" || s == "#{@gp} gold pieces" ||
         (@gp == 1 && s == "1 gold piece")

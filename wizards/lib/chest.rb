@@ -105,7 +105,7 @@ class OpenableContainer < Item
     super
   end
 
-  def examine
+  def long
     s = super
     if open
       cs = contents.map { |c| c.short }.select(&:itself).map { |c| "    #{c}"}
@@ -154,7 +154,7 @@ class OpenContainer < Item
     true
   end
 
-  def examine
+  def long
     s = super
     cs = contents.map { |c| c.short }.select { |c| c }.map { |c| "    #{c}"}
     if cs.size > 0

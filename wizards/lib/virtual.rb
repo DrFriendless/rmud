@@ -7,7 +7,6 @@ class Virtual < Thing
   def initialize
     super
     @short = nil
-    @long = nil
   end
 
   # properties loaded from YAML have been set
@@ -16,6 +15,7 @@ class Virtual < Thing
     add_direction_verbs
     if @examine_it
       verb(["examine", :it]) { |response, command, match|
+        p "handling in virtual examine"
         response.message = @examine_it
         response.handled = true
       }
@@ -57,6 +57,5 @@ class Virtual < Thing
   end
 
   attr_reader :short
-  attr_reader :long
   attr_reader :destination
 end

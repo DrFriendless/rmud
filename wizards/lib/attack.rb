@@ -20,8 +20,7 @@ class Attack
     return if dmg == 0
     dec = percent_decrease * dmg / 100
     dec = dec > max_decrease ? max_decrease : dec
-    return if dec == 0
-    @damages[type] -= dec
+    @damages[type] = [dmg-dec, 0].max
     if dec > 0
       @annotations.push("Your #{armour.short} blocks the #{@desc}!") if armour.short
     end

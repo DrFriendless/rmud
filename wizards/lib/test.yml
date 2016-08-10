@@ -7,8 +7,7 @@ Room/lostandfound:
 
 SingletonCreature/testbob:
     short: Bob
-    long: Bob is here. That's a good sign.
-    examine: Bob does all sorts of things to be a unit test for the MUD.
+    long: Bob does all sorts of things to be a unit test for the MUD.
     destination: Room/lostandfound
     maxhp: 20
     hp: 20

@@ -15,7 +15,7 @@ class PlayerSoul < Soul
         lines.push(command.room.long)
         command.room.contents.each { |t|
           if t != command.body
-            lines.push(t.long)
+            lines.push(t.short)
           end
         }
         response.message = lines.join("\n")

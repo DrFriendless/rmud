@@ -7,8 +7,7 @@ Room/library:
 
 SingletonCreature/bast:
     short: Bast
-    long: Bast is here.
-    examine: Bast is a small black cat. She has pointy ears and supernaturally piercing yellow eyes.
+    long: Bast is a small black cat. She has pointy ears and supernaturally piercing yellow eyes.
     maxhp: 1
     identity: Bast, black cat, small black cat, cat
     destination: lib/Room/library
@@ -29,12 +28,12 @@ SingletonCreature/bast:
         - extend
 
 PlayerBody/default:
-    short: player
-    long: A player is here.
+    short: a player
+    long: Players are the scariest monsters in the game.
     maxhp: 20
 
 Gold/default:
-    short: gold
+    short: some gold
 
 Room/hallofdoors:
     short: The Hall of a Thousand Doors

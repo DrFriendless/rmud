@@ -21,9 +21,8 @@ DamageResistance/poison_immunity:
     poison: 100
 
 SwampPuff/default:
-    short: swamp puff
-    long: A swamp puff skitters around on its spindly legs.
-    examine: A swamp puff looks like the top of a mushroom on spider-like legs.
+    short: a swamp puff
+    long: A swamp puff looks like the top of a mushroom on spider-like legs.
     maxhp: 4
     hp: 4
     identity: puff, swamp puff
