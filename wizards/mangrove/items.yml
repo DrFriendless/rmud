@@ -24,6 +24,6 @@ OpenContainer/sack:
 
 Gong/gong:
     short: a great gong
-    long: A large gong stands on the ground here.
+    long: The gong is as tall as a human, and made of brass.
     identity: gong, great gong, large gong
 

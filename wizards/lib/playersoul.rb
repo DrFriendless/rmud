@@ -48,10 +48,10 @@ class PlayerSoul < Soul
       lines = command.body.contents.map { |c|
         s = c.short
         if s && command.body.wearing?(c); s += " (#{c.worn_adjective})" end
+        if s; s = "    #{s}" end
         s
       }.select(&:itself)
-      if lines.size == 0; lines.push("You don't have anything else.") end
-      lines = ["You have #{command.body.gp} gold pieces.",""] + lines
+      lines = ["You have: ","    #{command.body.gp} gold pieces."] + lines
       response.message = lines.join("\n")
     }
     alias_verb(["i"], ["inventory"])

@@ -1,5 +1,5 @@
 # The damage done by an attack. This is created by the weapon or spell and modified by the victim's armour.
-# suggested damage types: :piercing :slashing :bludgeoning :fire :cold :electricity :acid :necrotic :poison
+# suggested damage types: :piercing :slashing :bludgeoning :fire :cold :electricity :acid :necrotic :poison :holy :unholy
 # suggested flags: :missile :breath :weapon :touch :vampiric
 class Attack
   def initialize(shortdesc, longdesc, damages, flags=[])

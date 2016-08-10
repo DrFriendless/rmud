@@ -117,11 +117,6 @@ class Thing
   def heartbeat(time, time_of_day)
   end
 
-  def a_short
-    # todo - a/an
-    "a #{short}"
-  end
-
   def destroy
     if @contents
       @contents.each { |c|

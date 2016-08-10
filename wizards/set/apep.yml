@@ -1,5 +1,5 @@
 Virtual/doortoset:
-    long: A pitch black circular hole is in the north wall.
+    short: A pitch black circular hole is in the north wall.
     north: Room/mouth
     destination: lib/Room/hallofdoors
     identity: hole, black hole, black circular hole, circular hole

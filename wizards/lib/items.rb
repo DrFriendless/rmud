@@ -15,7 +15,7 @@ module CanBeWorn
         response.message = "You could never #{@wear_verb} that."
       else
         ws = command.body.wearing_in_slots(slots)
-        response.message = "You can't, you're already #{ws[0].wearing_verb} #{ws[0].a_short}."
+        response.message = "You can't, you're already #{ws[0].wearing_verb} #{ws[0].short}."
       end
       response.handled = true
     }

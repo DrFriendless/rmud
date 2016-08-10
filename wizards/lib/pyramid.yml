@@ -18,7 +18,7 @@ Virtual/ladderdown:
     climb_it_yes: Room/antechamber
     down: Room/antechamber
     destination: Room/hallofdoors
-    long: A ladder goes down into the real world.
+    short: A ladder goes down into the real world.
 
 Virtual/ladderup:
     identity: ladder

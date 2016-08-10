@@ -154,7 +154,7 @@ end
 
 class TakeEffect < ActorItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} picks up #{@item.a_short}.")
+    Observation.new("#{@actor.name} picks up #{@item.short}.")
   end
 end
 
@@ -190,31 +190,31 @@ end
 
 class TradeEffect < ActorItemItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} trades #{@item1.a_short} for #{@item2.a_short}.")
+    Observation.new("#{@actor.name} trades #{@item1.short} for #{@item2.short}.")
   end
 end
 
 class GetFromEffect < ActorItemItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} gets #{@item1.a_short} from #{@item2.a_short}.")
+    Observation.new("#{@actor.name} gets #{@item1.short} from #{@item2.short}.")
   end
 end
 
 class PutIntoEffect < ActorItemItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} puts #{@item1.a_short} into #{@item2.a_short}.")
+    Observation.new("#{@actor.name} puts #{@item1.short} into #{@item2.short}.")
   end
 end
 
 class OpenEffect < ActorItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} opens #{@item.a_short}.")
+    Observation.new("#{@actor.name} opens #{@item.short}.")
   end
 end
 
 class CloseEffect < ActorItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} closes #{@item.a_short}.")
+    Observation.new("#{@actor.name} closes #{@item.short}.")
   end
 end
 

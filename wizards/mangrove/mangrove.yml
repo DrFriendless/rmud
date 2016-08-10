@@ -1,5 +1,5 @@
 Virtual/doortomangrove:
-    long: A silvery door, inscribed with an etching of a mangrove swamp, goes east.
+    short: A silvery door, inscribed with an etching of a mangrove swamp, goes east.
     east: Outdoor/townsquare
     destination: lib/Room/hallofdoors
 
@@ -30,13 +30,13 @@ Room/tavern:
 
 Virtual/shop:
     identity: shop
-    long: A shop is here.
+    short: Mangrove City Supplies is here.
     examine_it: Mangrove City Supplies. It seems to be a general merchandise store. A sign says "WE BUY AND SELL".
     enter_it: Shop/mangroveshop
 
 Virtual/communitycentre:
+    short: The Mangrove City Community Centre is here.
     identity: community centre, centre
-    long: The community centre is here.
     examine_it: Mangrove City Community Centre. A sign says "Adventurers Welcome"
     enter_it: Room/communitycentre
 
@@ -178,6 +178,7 @@ Room/wizardtower:
     lit: true
 
 Virtual/thothtemple:
+    short: The Temple of Thoth is here!
     identity: temple, Temple of Thoth
     examine_it: The temple of Thoth has some sort of distinctive ibis shape about it.
     enter_it: Room/thothtemple
