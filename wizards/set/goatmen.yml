@@ -1,0 +1,22 @@
+Creature/goatman:
+    short: a goatman
+    long: Goatmen are bipedal goats, no doubt created by some demon lord as a parody of the human form. They are generally brutish and carry nasty scythes that they fight with.
+    identity: goatman, goat man, goat-man
+    level: 2
+    possessions: Weapon/scythe
+    maxhp: 40
+    hp: 40
+    path:
+        - wield scythe
+
+Weapon/scythe:
+    short: a scythe
+    long: The scythe has a wooden handle and a long sharp blade. Very sharp indeed.
+    identity: scythe
+    slots:
+      - righthand lefthand
+    value: 20
+    damage: 2.d6
+    attack_description: scythe slash
+    damage_type: slashing
+

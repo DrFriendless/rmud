@@ -1,0 +1,22 @@
+Creature/anubian:
+    short: an anubian
+    long: An anubian is some sort of elemental. Although it has the head of a jackal and the torso of a man, its lower body is a mass of swirling sand. It has large claws which seem to be rock hard.
+    identity: anubian, sand elemental, elemental
+    level: 3
+    maxhp: 50
+    hp: 50
+    possessions: DamageResistance/sandlike
+    attacks:
+      - stony claw:
+          damage: 1.d8
+          damage_type: slashing
+          desc: The anubian swipes at you with a stony claw!
+      - stony claw:
+          damage: 1.d8
+          damage_type: piercing
+          desc: The anubian swipes at you with a stony claw!
+
+DamageResistance/sandlike:
+    slashing: 8.d20
+    piercing: 8.d20
+    bludgeoning: 4.d20

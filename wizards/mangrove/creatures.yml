@@ -5,25 +5,47 @@ Undead/ghoul:
     hp: 10
     level: 1
     identity: ghoul
+    attacks:
+      - vicious talon:
+          damage:
+            - 1.d4 slashing
+            - 1.d4 necrotic
+          desc: The ghoul slashes at you with a rotting talon!
 
 Creature/mangrovesnake:
     short: a crab-eating mangrove snake
     long: The crab-eating mangrove snake is about 3 metres long, with large strong jaws design for cracking crab shells.
     identity: snake, mangrove snake
-    level: 2
+    maxhp: 10
+    hp: 10
+    level: 1
+    attacks:
+      - powerful jaws:
+          damage:
+            - 1.d4 bludgeoning
+          desc: The snake crushes you with its powerful jaws!
 
 Creature/monkey:
     short: a red monkey
     long: The monkey has russet hair. It's only about a metre tall.
     identity: monkey, red monkey, russet monkey
+    maxhp: 5
+    hp: 5
     level: 1
+    attacks:
+      - puny fists:
+          damage:
+            - 1.d4-1 bludgeoning
+          desc: The monkey pounds on you with its tiny fists!
 
 SingletonCreature/anbumolli:
     short: Anbumolli
     long: Anbumolli is an ancient swamp elf, clad in the colours of the swamp.
     identity: Anbumolli, elf, female elf, swamp elf, female swamp elf
     level: 1
+    possessions: Weapon/elvenshortsword
     path:
+        - wield sword
         - pause 3
         - south
         - get gold
@@ -60,9 +82,21 @@ SingletonCreature/anbumolli:
         - "gold =~ I'm collecting gold to buy books for Thoth."
         - "sacrific =~ By sacrificing gold to Thoth, I will be wealthy in the afterlife."
 
+Weapon/elvenshortsword:
+    short: an elven short sword
+    long: This is a pretty standard elven short sword - finely made and a pleasure to look at, but nothing magical.
+    identity: sword, short sword, elven short sword
+    slots:
+      - righthand
+    value: 20
+    damage: 1.d8
+    attack_description: sword swipe
+    damage_type: slashing
+
+
 SingletonCreature/harry:
     short: Harry
-    long: Harry, the row idiot, is a few sandwiches short of a picnic and has a few 'roos loose in the top paddock.
+    long: Harry, the town idiot, is a few sandwiches short of a picnic and has a few 'roos loose in the top paddock.
     identity: Harry
     level: 1
     chats:
