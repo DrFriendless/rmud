@@ -1,0 +1,39 @@
+Virtual/doortoset:
+    short: A pitch black circular hole is in the north wall.
+    north: Room/mouth
+    destination: lib/Room/hallofdoors
+    identity: hole, black hole, black circular hole, circular hole
+    examine_it: tell "The hole seems to be a tunnel to somewhere, but it's supernaturally dark. You will need to go in to see more."
+    enter_it: goto("Room/mouth")
+
+Room/mouth:
+    short: The Mouth of Apep
+    long: You're in a dark cavern, with no obvious means of exit... EXCEPT for the massive stone snake head with a wide open mouth. You could walk in there...
+    enter: Room/body1
+    lit: true
+
+Room/body1:
+    short: Inscription Room
+    long: You're in the body of Apep. The body continues east and west. An inscription on the wall reads 'The Lord of Chaos shall devour the falcon, and then shall be the end of time.'
+    west: Room/body2
+    east: Room/mouth
+
+Room/body2:
+    short: Hall of Horus
+    east: Room/body1
+    west: Room/body3
+
+Room/body3:
+    short: Hall of Geb
+    east: Room/body2
+    west: Room/body4
+
+Room/body4:
+    short: Hall of Hathor
+    east: Room/body3
+    west: Room/body5
+
+Room/body5:
+    short: Hall of Nephthys
+    east: Room/body4
+    west: lib/Room/hallofdoors
