@@ -78,3 +78,13 @@ OpenContainer/corpse:
     value: 0
     identity: corpse
 
+Item/royaljelly:
+    short: a tub of royal jelly
+    long: This is a small crockery urn containing creamy white stuff.
+    value: 200
+    weight: 1
+    eat_it:
+      - heal(50)
+      - tell "You feel much restored."
+      - selfdestruct()
+    identity: jelly, royal jelly

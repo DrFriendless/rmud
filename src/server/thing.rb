@@ -9,10 +9,23 @@ class Thing
 
   # properties loaded from YAML have been set
   def after_properties_set
-    verb(["examine", :it]) { |response, command, match|
-      p "handled by the wrong examine #{match[0]}"
-      response.message = long
-      response.handled = true
+    require_relative './verb_funcs'
+    instance_variables.each { |name|
+      if name.to_s.end_with?('_it')
+        v = name.to_s[1..-4]
+        var = instance_variable_get(name)
+        if var.is_a?(String)
+          f = eval(var, binding)
+          verb([v, :it]) { |response, command, match| f.call(response, command, match) }
+        elsif var.is_a? Array
+          funcs = var.map { |f| eval(f, binding) }
+          verb([v, :it]) { |response, command, match|
+            funcs.each { |func|
+              func.call(response, command, match)
+            }
+          }
+        end
+      end
     }
   end
 

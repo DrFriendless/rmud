@@ -3,7 +3,8 @@ Virtual/doortoset:
     north: Room/mouth
     destination: lib/Room/hallofdoors
     identity: hole, black hole, black circular hole, circular hole
-    examine_it: The hole seems to be a tunnel to somewhere, but it's supernaturally dark. You will need to go in to see more.
+    examine_it: tell "The hole seems to be a tunnel to somewhere, but it's supernaturally dark. You will need to go in to see more."
+    enter_it: goto("Room/mouth")
 
 Room/mouth:
     short: The Mouth of Apep

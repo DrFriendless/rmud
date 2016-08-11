@@ -33,22 +33,22 @@ Room/tavern:
 Virtual/tavern:
     identity: tavern, Wizard's Arms
     short: The Wizard's Arms tavern is to the northeast.
-    examine_it: The Wizard's Arms is a tall building with a pointed roof, with so many sparkly magical things on it that it keeps the entire plaza lit all night.
+    examine_it: tell "The Wizard's Arms is a tall building with a pointed roof, with so many sparkly magical things on it that it keeps the entire plaza lit all night."
     lightsource: true
-    enter_it: Room/tavern
+    enter_it: goto "Room/tavern"
     northeast: Room/tavern
 
 Virtual/shop:
     identity: shop
     short: Mangrove City Supplies is here.
-    examine_it: Mangrove City Supplies. It seems to be a general merchandise store. A sign says "WE BUY AND SELL".
-    enter_it: Shop/mangroveshop
+    examine_it: tell "Mangrove City Supplies. It seems to be a general merchandise store. A sign says 'WE BUY AND SELL'."
+    enter_it: goto "Shop/mangroveshop"
 
 Virtual/communitycentre:
     short: The Mangrove City Community Centre is here.
     identity: community centre, centre
-    examine_it: Mangrove City Community Centre. A sign says "Adventurers Welcome"
-    enter_it: Room/communitycentre
+    examine_it: tell "Mangrove City Community Centre. A sign says 'Adventurers Welcome'."
+    enter_it: goto "Room/communitycentre"
 
 Shop/mangroveshop:
     short: Mangrove City Supplies
@@ -68,7 +68,7 @@ Room/communitycentre:
 Room/vault:
     short: Mangrove City Supplies Vault
     long: You're in the vault of Mangrove City Supplies. You're not allowed in here.
-    contains: lib/Weapon/sword OpenContainer/sack lib/Weapon/mace
+    contains: lib/Weapon/sword OpenContainer/sack lib/Weapon/mace lib/Shield/wooden
 
 Outdoor/mangrovebridge:
     short: The High Bridge
@@ -79,14 +79,13 @@ Outdoor/mangrovebridge:
 
 Virtual/mangrovebridge:
     identity: bridge, rainbow bridge, coloured bridge, colored bridge
-    examine_it: The bridge is wide enough for two carriages, and rises above the mangrove swamp. You notice an ancient trap door in the bridge, at the top of its arch.
+    examine_it: tell "The bridge is wide enough for two carriages, and rises above the mangrove swamp. You notice an ancient trap door in the bridge, at the top of its arch."
     climb_it_no: Which direction do you want to go?
 
 Virtual/trapdoor:
     identity: trap door, trapdoor
-    examine_it: The trap door is wide enough for you to go through, but do you really want to drop into the swamp?
-    enter_it: lib/Room/hallofdoors
-    enter_departure: through the trap door
+    examine_it: tell "The trap door is wide enough for you to go through, but do you really want to drop into the swamp?"
+    enter_it: goto("lib/Room/hallofdoors","through the trap door")
 
 Outdoor/northtower:
     short: The North Tower
@@ -98,14 +97,14 @@ Outdoor/northtower:
 
 Virtual/swamp1:
     identity: swamp
-    examine_it: It looks like you could get down into the swamp from here.
-    enter_it: Outdoor/mangroveswamp1
+    examine_it: tell "It looks like you could get down into the swamp from here."
+    enter_it: goto("Outdoor/mangroveswamp1")
 
 Virtual/northtower:
     identity: tower,guard tower
-    examine_it: The tower is solidly built of imported stone. It seems to have a flat roof.
+    examine_it: tell "The tower is solidly built of imported stone. It seems to have a flat roof."
     climb_it_no: Maybe it would be safer to just go in and use the stairs?
-    enter_it: Room/northtower
+    enter_it: goto("Room/northtower")
     enter: Room/northtower
 
 Room/northtower:
@@ -180,8 +179,8 @@ Outdoor/plaza:
 Virtual/wizardtower:
     short: The tall, and eccentrically wonky, tower of the Wizard Mangrove is to the northwest.
     identity: tower, wizard's tower, tall tower, wonky tower
-    examine_it: The wizard's tower looks like it has been added onto many times, without much concern for the laws of physics.
-    enter_it: Room/wizardtower
+    examine_it: tell "The wizard's tower looks like it has been added onto many times, without much concern for the laws of physics."
+    enter_it: goto("Room/wizardtower")
     northwest: Room/wizardtower
     destination: Outdoor/plaza
 
@@ -201,14 +200,14 @@ Room/wizardtower2:
 
 Virtual/mangrovemirror:
     identity: mirror, silvery mirror, magic mirror, magical mirror
-    examine_it: The mirror is taller than a human, and rests on the ground. It does not reflect what's in the room, but you can see movement in it. Maybe it's a gateway to somewhere else?
-    enter_it: lib/Room/hallofdoors
+    examine_it: tell "The mirror is taller than a human, and rests on the ground. It does not reflect what's in the room, but you can see movement in it. Maybe it's a gateway to somewhere else?"
+    enter_it: goto("lib/Room/hallofdoors")
 
 Virtual/thothtemple:
     short: The magnificent Temple of Thoth is in the middle of the plaza.
     identity: temple, Temple of Thoth
-    examine_it: The temple of Thoth has some sort of distinctive ibis shape about it.
-    enter_it: Room/thothtemple
+    examine_it: tell "The temple of Thoth has some sort of distinctive ibis shape about it."
+    enter_it: goto("Room/thothtemple")
 
 Room/thothtemple:
     short: Temple of Thoth
@@ -219,8 +218,8 @@ Room/thothtemple:
 Virtual/mangrovehunters:
     short: The Mangrove Hunters Guild is to the southwest.
     identity: guild, hunters guild, Mangrove hunters guild
-    examine_it: The hunters guild is a large sturdy wooden building of the type that hunters enjoy.
-    enter_it: Room/mangrovehunters
+    examine_it: tell "The hunters guild is a large sturdy wooden building of the type that hunters enjoy."
+    enter_it: goto("Room/mangrovehunters")
     southwest: Room/mangrovehunters
     destination: Outdoor/plaza
 
@@ -231,11 +230,11 @@ Room/mangrovehunters:
 
 Virtual/statue:
     identity: statue, Thoth, statue of Thoth
-    examine_it: The statue is made of gold, marble, and precious stones.
+    examine_it: tell "The statue is made of gold, marble, and precious stones."
 
 Virtual/pedestal:
     identity: pedestal, pillar, coin slot
-    examine_it: The pillar is obviously designed to have coins placed in it as a sacrifice to Thoth.
+    examine_it: tell "The pillar is obviously designed to have coins placed in it as a sacrifice to Thoth."
 
 Outdoor/elfquarter:
     short: Mangrove Elf Quarter
