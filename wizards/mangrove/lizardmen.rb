@@ -5,7 +5,7 @@ class SwampPuff < Creature
     location.publish_to_room(SwampPuffDieEffect.new("The swamp puff explodes is a cloud of poisonous gas!"))
     location.contents.each { |c|
       if c.is_a? Body
-        attack = Attack.new("exploding gas", "Blah", {:poison => 2.d6 }, [:breath])
+        attack = Attack.new('#{attackee} is hit by a puff of poisonous gas.', {:poison => 2.d6 }, [:breath])
         attack_on(attack, c)
       end
     }

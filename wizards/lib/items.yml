@@ -29,7 +29,7 @@ Weapon/sword:
       - righthand
     value: 10
     damage: 1.d8
-    attack_description: sword strike
+    attack_description: "#{attacker} slashed at #{attackee} with a long sword."
     damage_type: slashing
 
 Weapon/mace:
@@ -40,7 +40,7 @@ Weapon/mace:
       - righthand
     value: 10
     damage: 1.d8
-    attack_description: mace mash
+    attack_description: "#{attacker} tried to smash #{attackee} with a mace."
     damage_type: bludgeoning
 
 Weapon/wandoflightning:
@@ -51,7 +51,7 @@ Weapon/wandoflightning:
       - righthand
     value: 100
     damage: 2.d4+1
-    attack_description: lightning bolt
+    attack_description: "#{attacker} zapped #{attackee} with a bolt of lightning from a wand."
     damage_type: electricity
 
 Shield/wooden:

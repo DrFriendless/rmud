@@ -33,7 +33,7 @@ SwampPuff/default:
           damage: 1.d4
           damage_type: poison
           flags: breath
-          desc: The swamp puff exhales a cloud of spores in your direction!
+          description: "The swamp puff exhales a cloud of spores toward #{attackee}."
 
 Outdoor/brokenbridge2:
     short: Broken Bridge (east side)

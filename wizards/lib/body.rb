@@ -100,11 +100,11 @@ class Body < Thing
       @attacks.each { |h|
         k = h.keys[0]
         v = h[k]
-        result.push(Attack.new(k, v['desc'], eval_damages(v), eval_flags(v)))
+        result.push(Attack.new(v['description'], eval_damages(v), eval_flags(v)))
       }
       result
     else
-      [Attack.new("flailing fists", "You are attacked bare-handed!", { :bludgeoning => 1.d4 }, [])]
+      [Attack.new('#{attacker} attacked #{attackee} bare-handed.', { :bludgeoning => 1.d4 }, [])]
     end
   end
 
@@ -142,6 +142,7 @@ class Body < Thing
   end
 
   def attack_on(attack, victim)
+    victim.location.publish_to_room(TryToHitEffect.new(self, victim, attack.description))
     p "attack is #{attack}"
     armours = victim.armours
     armours.each { |a| a.mutate_attack(attack) }
@@ -150,14 +151,14 @@ class Body < Thing
     dmg = attack.total_damage
     if dmg > 0
       p "total damage is #{dmg}"
-      location.publish_to_room(DamageEffect.new(self, victim, dmg, attack.desc))
+      location.publish_to_room(DamageEffect.new(self, victim, dmg))
       killed = @victim.damage(dmg)
       @victim.you_died(self)
       if killed
         add_combat_experience(@victim.xp_for_killing)
       end
     else
-      location.publish_to_room(MissEffect.new(self, victim, attack.desc))
+      location.publish_to_room(MissEffect.new(self, victim))
     end
   end
 

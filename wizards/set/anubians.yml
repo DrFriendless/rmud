@@ -10,11 +10,11 @@ Creature/anubian:
       - stony claw:
           damage: 1.d8
           damage_type: slashing
-          desc: The anubian swipes at you with a stony claw!
+          description: "The anubian swipes at #{attackee} you with a stony claw!"
       - stony claw:
           damage: 1.d8
           damage_type: piercing
-          desc: The anubian swipes at you with a stony claw!
+          description: "The anubian swipes at #{attackee} with a stony claw!"
 
 DamageResistance/sandlike:
     slashing: 8.d20

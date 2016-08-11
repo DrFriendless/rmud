@@ -27,6 +27,17 @@ class PlayerSoul < Soul
       response.handled = true
       response.quit = true
     }
+    verb(["heal"]) { |response, command, match|
+      response.handled = true
+      command.body.heal(100000)
+    }
+    verb(["heal", :someone]) { |response, command, match|
+      someone = command.room.find(match[0].join(' '))
+      return unless someone
+      response.handled = true
+      command.room.publish_to_room(HealEffect.new(command.body, someone))
+      someone.heal(100000)
+    }
     verb(["time"]) { |response, command, match|
       response.handled = true
       tod = world.time_of_day

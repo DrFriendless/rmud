@@ -54,7 +54,7 @@ class Weapon < Item
   end
 
   def create_attacks
-    [Attack.new(@attack_description, @attack_long, {@damage_type.intern => eval(@damage)}, [:weapon])]
+    [Attack.new(@attack_description, {@damage_type.intern => eval(@damage)}, [:weapon])]
   end
 end
 
@@ -77,6 +77,8 @@ end
 
 
 module Armour
+  # the effect of armour is to change the attack somehow
+  # hence a vulnerability can be expressed as an armour as well.
   def mutate_attack(attack)
     attack
   end

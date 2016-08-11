@@ -2,9 +2,9 @@
 # suggested damage types: :piercing :slashing :bludgeoning :fire :cold :electricity :acid :necrotic :poison :holy :unholy
 # suggested flags: :missile :breath :weapon :touch :vampiric
 class Attack
-  def initialize(shortdesc, longdesc, damages, flags=[])
-    @desc = shortdesc
-    @long = longdesc
+  def initialize(description, damages, flags=[])
+    5/0 unless description
+    @description = description
     @damages = damages
     @flags = flags
     # comments to the players about what happened
@@ -22,14 +22,14 @@ class Attack
     dec = dec > max_decrease ? max_decrease : dec
     @damages[type] = [dmg-dec, 0].max
     if dec > 0
-      @annotations.push("Your #{armour.short} blocks the #{@desc}!") if armour.short
+      @annotations.push("#{armour.short} prevents #{dec} #{type} damage!") if armour.short
     end
   end
 
   def intercept(armour, blocked)
     if blocked
       @damages = {}
-      @annotations.push("Your #{armour.short} prevents the #{@desc}!") if armour.short
+      @annotations.push("#{armour.short} prevents the attack!") if armour.short
     end
   end
 
@@ -46,6 +46,5 @@ class Attack
   end
 
   attr_reader :annotations
-  attr_reader :desc
-  attr_reader :long
+  attr_reader :description
 end

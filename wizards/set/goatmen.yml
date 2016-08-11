@@ -17,6 +17,6 @@ Weapon/scythe:
       - righthand lefthand
     value: 20
     damage: 2.d6
-    attack_description: scythe slash
+    attack_description: "#{attacker} slashed at #{attackee} with a vicious scythe."
     damage_type: slashing
 

@@ -17,15 +17,15 @@ Creature/garialite:
     attacks:
       - vicious claw:
           damage: 1.d6 slashing
-          desc: The garialite slashes at you with a claw!
+          description: "The garialite slashes at #{attackee} with a claw!"
       - vicious claw:
           damage: 1.d6 slashing
-          desc: The garialite slashes at you with a claw!
+          description: "The garialite slashes at #{attackee} with a claw!"
       - fearsome bite:
           damage:
             - 1.d6 piercing
             - 1.d6 bludgeoning
-          desc: The garialite snaps at you with its crocodilian jaws!
+          description: "The garialite snaps at #{attackee} with its crocodilian jaws!"
 
 Weapon/blackstaff:
   short: a jet black staff
@@ -36,5 +36,5 @@ Weapon/blackstaff:
     - lefthand
   value: 30
   damage: 1.d12
-  attack_description: staff smite
+  attack_description: "#{attacker} tried to smash #{attackee} with a jet black staff."
   damage_type: bludegoning

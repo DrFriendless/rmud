@@ -143,10 +143,10 @@ class ActorActorEffect < Effect
 
   def message_for(observer)
     if observer == @actor1
-      Observation.new(@msg1)
+      if @msg1; Observation.new(@msg1) end
     elsif observer == @actor2
-      Observation.new(@msg2)
-    else
+      if @msg2; Observation.new(@msg2) end
+    elsif @msg_other
       Observation.new(@msg_other)
     end
   end
@@ -240,35 +240,62 @@ class AttackEffect < ActorActorEffect
   end
 end
 
-class MissEffect < ActorActorEffect
+class TryToHitEffect < Effect
   def initialize(attacker, attackee, attack_desc)
+    @attacker = attacker
+    @attackee = attackee
+    @message = attack_desc
+  end
+
+  def message_for(observer)
+    attacker = @attacker.name
+    attackee = @attackee.name
+    if observer == @attacker
+      attacker = "You"
+    elsif observer == @attackee
+      attackee = "you"
+    end
+    Observation.new(eval('"' + @message + '"', binding))
+  end
+end
+
+class MissEffect < ActorActorEffect
+  def initialize(attacker, attackee)
     super(attacker, attackee,
-          "You miss #{attackee.name} with #{attack_desc}.",
-          "#{attacker.name} misses you with #{attack_desc}.",
-          "#{attacker.name} misses #{attackee.name} with #{attack_desc}.")
+          "You miss #{attackee.name}.",
+          "#{attacker.name} misses you.",
+          "#{attacker.name} misses #{attackee.name}.")
+  end
+end
+
+class HealEffect < ActorActorEffect
+  def initialize(actor1, actor2)
+    super(actor1, actor2, nil,
+          "#{actor1.name} heals you.",
+          "#{actor1.name} lays hands on #{actor2.name}.")
   end
 end
 
 class DamageEffect < ActorActorEffect
-  def initialize(attacker, attackee, damage, attack_desc)
+  def initialize(attacker, attackee, damage)
     @damage = damage
     s1 = case damage
-           when 1..3; "You scratched #{attackee.name} with #{attack_desc}."
-           when 4..8; "You injured #{attackee.name} with #{attack_desc}."
-           when 9..16; "You hurt #{attackee.name} badly with #{attack_desc}."
-           else; "You hurt #{attackee.name} very badly with #{attack_desc}."
+           when 1..3; "You scratched #{attackee.name}."
+           when 4..8; "You injured #{attackee.name}."
+           when 9..16; "You hurt #{attackee.name} badly.."
+           else; "You hurt #{attackee.name} very badly."
          end
     s2 = case damage
-           when 1..3; "#{attacker.name} scratched you with #{attack_desc}."
-           when 4..8; "#{attacker.name} injured you with #{attack_desc}."
-           when 9..16; "#{attacker.name} hurt you badly with #{attack_desc}."
-           else; "#{attacker.name} hurt you very badly with #{attack_desc}."
+           when 1..3; "#{attacker.name} scratched you."
+           when 4..8; "#{attacker.name} injured you."
+           when 9..16; "#{attacker.name} hurt you badly."
+           else; "#{attacker.name} hurt you very badly."
          end
     s3 = case damage
-           when 1..3; "#{attacker.name} scratched #{attackee.name} with #{attack_desc}."
-           when 4..8; "#{attacker.name} injured #{attackee.name} with #{attack_desc}."
-           when 9..16; "#{attacker.name} hurt #{attackee.name} badly with #{attack_desc}."
-           else; "#{attacker.name} hurt #{attackee.name} very badly with #{attack_desc}."
+           when 1..3; "#{attacker.name} scratched #{attackee.name}."
+           when 4..8; "#{attacker.name} injured #{attackee.name}."
+           when 9..16; "#{attacker.name} hurt #{attackee.name} badly."
+           else; "#{attacker.name} hurt #{attackee.name} very badly."
          end
     super(attacker, attackee, s1, s2, s3)
   end

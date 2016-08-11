@@ -10,7 +10,7 @@ Undead/ghoul:
           damage:
             - 1.d4 slashing
             - 1.d4 necrotic
-          desc: The ghoul slashes at you with a rotting talon!
+          description: "The ghoul slashes at #{attackee} with a rotting talon!"
 
 Creature/mangrovesnake:
     short: a crab-eating mangrove snake
@@ -23,7 +23,7 @@ Creature/mangrovesnake:
       - powerful jaws:
           damage:
             - 1.d4 bludgeoning
-          desc: The snake crushes you with its powerful jaws!
+          description: "The snake crushes #{attackee} with its powerful jaws!"
 
 Creature/monkey:
     short: a red monkey
@@ -36,7 +36,7 @@ Creature/monkey:
       - puny fists:
           damage:
             - 1.d4-1 bludgeoning
-          desc: The monkey pounds on you with its tiny fists!
+          description: "The monkey pounds furiously on #{attackee} with its tiny fists!"
 
 SingletonCreature/anbumolli:
     short: Anbumolli
@@ -90,7 +90,7 @@ Weapon/elvenshortsword:
       - righthand
     value: 20
     damage: 1.d8
-    attack_description: sword swipe
+    attack_description: "#{attacker} slashed at #{attackee} with an elven short sword."
     damage_type: slashing
 
 
