@@ -38,11 +38,11 @@ class Attack
   end
 
   def vampiric?
-    @flags.include?(:vampiric)
+    flag?(:vampiric)
   end
 
   def flag?(f)
-    @flags.include?(f)
+    @flags && @flags.include?(f)
   end
 
   attr_reader :annotations

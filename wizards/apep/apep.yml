@@ -20,8 +20,17 @@ Room/body1:
 
 Room/body2:
     short: Hall of Horus
+    long: You're in the body of Apep. To the north there is a door with a hieroglyph of Horus on it.
+    contains: Creature/garialite Door/horus
+    guard_north: garialite
     east: Room/body1
     west: Room/body3
+
+Door/horus:
+    examine_it: tell("The door is painted with a hieroglyph of a falcon with the sun on top of its head.")
+    north: Outdoor/horus1
+    open: false
+    identity: door, horus door, north door
 
 Room/body3:
     short: Hall of Geb

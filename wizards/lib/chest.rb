@@ -176,6 +176,20 @@ class Corpse < OpenContainer
     end
   end
 
+  def persist(data)
+    super
+    data[persistence_key][:short] = @short
+    data[persistence_key][:long] = @long
+    data[persistence_key][:identity] = @identities.join(',')
+  end
+
+  def restore(data, by_persistence_key)
+    @short = data[:short]
+    @long = data[:long]
+    @identity = data[:identity]
+    @identities = nil
+  end
+
   attr_writer :short
   attr_writer :long
 end

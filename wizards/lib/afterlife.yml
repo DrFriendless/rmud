@@ -5,3 +5,23 @@ Room/library:
     exit: Room/hallofdoors
     lit: true
 
+Creature/librarian:
+    short: an ibis-headed librarian
+    long: The librarian is a tall humanoid creature with the head of an ibis. It looks vicious, but is deathly silent.
+    maxhp: 30
+    hp: 30
+    identity: librarian
+    weapon: Weapon/blackstaff
+    level: 2
+
+Weapon/blackstaff:
+  short: a jet black staff
+  long: The staff seems to be made of some sort of dense wood, with almost no grain, and is of the darkest black.
+  identity: sword, long sword
+  slots:
+    - righthand
+    - lefthand
+  value: 30
+  damage: 1.d12
+  attack_description: "#{attacker} tried to smash #{attackee} with a jet black staff."
+  damage_type: bludegoning

@@ -131,6 +131,8 @@ Outdoor/mangroveswamp2:
     south: Outdoor/mangroveswamp1
     east: Outdoor/mangroveswamp3
     contains: Undead/ghoul NecklaceOfRegeneration/regennecklace
+    guard_north: ghoul
+    guard_north_message: "The ghoul snarls viciously, and won't let you go that way!"
     north: Outdoor/mangroveswamp6
 
 Outdoor/mangroveswamp3:

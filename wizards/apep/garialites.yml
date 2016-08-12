@@ -1,0 +1,20 @@
+Creature/garialite:
+    short: a garialite
+    long: The garialite is a creature like a crocodile, with disturbingly man-like body structure.
+    maxhp:  40
+    hp: 40
+    identity: garialite, crocodile
+    level: 2
+    attacks:
+      - vicious claw:
+          damage: 1.d6 slashing
+          description: "The garialite slashes at #{attackee} with a claw!"
+      - vicious claw:
+          damage: 1.d6 slashing
+          description: "The garialite slashes at #{attackee} with a claw!"
+      - fearsome bite:
+          damage:
+            - 1.d6 piercing
+            - 1.d6 bludgeoning
+          description: "The garialite snaps at #{attackee} with its crocodilian jaws!"
+
