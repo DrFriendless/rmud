@@ -1,11 +1,12 @@
 SingletonCreature/testdobby:
     short: Dobby
     long: Dobby does all sorts of things to be a unit test for the MUD.
-    destination: lib/Room/lostandfound
+    destination: lib/Room/test
     maxhp: 100
     hp: 100
     identity: Dobby
     possessions: OpenContainer/sack lib/Item/stick OpenableContainer/chest
+    level: 1
     path:
         - healself
         - open chest

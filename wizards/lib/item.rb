@@ -1,6 +1,10 @@
 class Item < Thing
     def after_properties_set
       super
+      verb(["examine", :it]) { |response, command, match|
+        response.message = long
+        response.handled = true
+      }
       verb(["get", :it]) { |response,command,match|
         if @location == command.body.location
           if carriable?

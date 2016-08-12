@@ -82,8 +82,20 @@ class PlayerSoul < Soul
       }
       response.message = lines.join("\n")
     }
+    verb(["lux"]) { |response, command, match|
+      command.room.lit = true
+      response.handled = true
+    }
     verb(["void"]) { |response, command, match|
       command.body.move_to_location("lib/Room/lostandfound")
+      response.handled = true
+    }
+    verb(["test"]) { |response, command, match|
+      command.body.move_to_location("lib/Room/test")
+      response.handled = true
+    }
+    verb(["junk"]) { |response, command, match|
+      command.body.move_to_location("lib/Room/junk")
       response.handled = true
     }
     # called destruct rather than destroy in honour of Lars

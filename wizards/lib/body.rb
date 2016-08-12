@@ -109,6 +109,10 @@ class Body < Thing
   end
 
   def xp_for_killing
+    if !@xp && !@level
+      p "#{short} has no level defined."
+      return 0
+    end
     @xp || (@level * 99)
   end
 
@@ -143,18 +147,18 @@ class Body < Thing
 
   def attack_on(attack, victim)
     victim.location.publish_to_room(TryToHitEffect.new(self, victim, attack.description))
-    p "attack is #{attack}"
+    #p "attack is #{attack}"
     armours = victim.armours
     armours.each { |a| a.mutate_attack(attack) }
-    p "attack became #{attack}"
+    #p "attack became #{attack}"
     attack.annotations.each { |anno| victim.tell(anno) }
     dmg = attack.total_damage
     if dmg > 0
-      p "total damage is #{dmg}"
+      #p "total damage is #{dmg}"
       location.publish_to_room(DamageEffect.new(self, victim, dmg))
       killed = @victim.damage(dmg)
-      @victim.you_died(self)
       if killed
+        @victim.you_died(self)
         add_combat_experience(@victim.xp_for_killing)
       end
     else
@@ -172,6 +176,24 @@ class Body < Thing
     # TODO - possibly change who I'm attacking.
     # TODO - other sorts of reactions
     @victim = other unless @victim
+  end
+
+  def you_died(killed_by)
+    corpse = world.create_corpse(self)
+    corpse.move_to(location)
+    contents.each { |c|
+      if c.short
+        c.move_to(corpse)
+      else
+        c.destroy
+      end
+    }
+    if gp > 0
+      money = world.create("lib/Gold/default")
+      money.add_gold(gp)
+      money.move_to(corpse)
+      pay(gp)
+    end
   end
 end
 

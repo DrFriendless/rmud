@@ -97,10 +97,8 @@ def parse_money(s)
     return 1
   end
   [ GOLD_PATTERN_1, GOLD_PATTERN_2 ].each { |p|
-    p "pattern #{p} s #{s}"
     match = p.match(s)
     if match
-      p "MATCH #{match} #{match[0]}"
       return match[0].to_i
     end
   }

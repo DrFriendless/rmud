@@ -14,7 +14,7 @@ class PlayerBody < Body
     initialize_score
     initialize_xp
     initialize_alignment
-    @loc = "lib/Room/lostandfound"
+    @loc = "lib/Room/library"
   end
 
   def after_properties_set
@@ -82,6 +82,7 @@ class PlayerBody < Body
   end
 
   def you_died(killed_by)
+    super
     # TODO
   end
 end

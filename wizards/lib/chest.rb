@@ -46,7 +46,7 @@ module AccessibleContainer
         item.move_to(command.body)
         command.room.publish_to_room(GetFromEffect.new(command.body, item, self))
       else
-        response.message = "There is no such thing in the #{short}."
+        response.message = "There is no such thing in #{short}."
       end
       response.handled = true
     }
@@ -164,4 +164,18 @@ class OpenContainer < Item
     end
     s
   end
+end
+
+CORPSE_DURATION = 60
+
+class Corpse < OpenContainer
+  def heartbeat(time, time_of_day)
+    @creation_time = world.time unless @creation_time
+    if time >= @creation_time + CORPSE_DURATION
+      destroy
+    end
+  end
+
+  attr_writer :short
+  attr_writer :long
 end

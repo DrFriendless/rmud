@@ -36,3 +36,25 @@ Virtual/ravine:
     identity: ravine
     examine_it: tell "The ravine is too wide to jump, and it's almost certainly bottomless."
 
+SingletonCreature/bast:
+    short: Bast
+    long: Bast is a small black cat. She has pointy ears and supernaturally piercing yellow eyes.
+    maxhp: 1
+    identity: Bast, black cat, small black cat, cat
+    destination: lib/Room/hallofdoors
+    level: 1
+    path:
+        - south
+        - east
+        - west
+        - north
+        - southeast
+        - northeast
+        - southwest
+        - northwest
+        - up
+        - down
+        - in
+        - out
+        - shuffle
+        - extend

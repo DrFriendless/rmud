@@ -75,5 +75,6 @@ class Room < Thing
   end
 
   attr_reader :norestart
+  attr_accessor :lit
 end
 

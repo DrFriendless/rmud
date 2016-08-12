@@ -33,6 +33,7 @@ class Thing
   attr_reader :long
   attr_accessor :location
   attr_reader :identity
+  attr_writer :identities
   attr_reader :value
   attr_reader :weight
   attr_reader :verbs

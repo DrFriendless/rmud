@@ -1,0 +1,7 @@
+Room/library:
+    short: The Great Library
+    long: This is the Great Library, the temple of Thoth. Every book or scroll ever created is here. In fact, Thoth seem to have a great many duplicates, like anyone who really loves books.
+    contains: Item/stick Creature/librarian SingletonCreature/bast
+    exit: Room/hallofdoors
+    lit: true
+

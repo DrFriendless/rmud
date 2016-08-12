@@ -100,6 +100,14 @@ class World
     thing
   end
 
+  def create_corpse(body)
+    corpse = create("lib/Corpse/prototype")
+    corpse.short = "corpse of #{body.short}"
+    corpse.long = "This is the corpse of #{body.short}."
+    corpse.identities = ["corpse", "body", corpse.short, body.name]
+    corpse
+  end
+
   def instantiate_ref(thingclassref)
     if !@thingClasses[thingclassref.key]
       puts "Can't instantiate #{thingclassref.key}."

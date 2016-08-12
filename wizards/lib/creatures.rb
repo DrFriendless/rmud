@@ -146,6 +146,8 @@ class Creature < Body
   end
 
   def you_died(killed_by)
+    super
+    self.destroy
   end
 end
 

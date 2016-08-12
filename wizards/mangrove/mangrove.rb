@@ -13,8 +13,8 @@ class Outdoor < Room
     end
   end
 
-  def lit?()
-    world.time_of_day < 340
+  def lit?
+    super || (world.time_of_day < 340)
   end
 end
 
