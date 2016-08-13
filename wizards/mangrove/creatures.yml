@@ -79,15 +79,15 @@ SingletonCreature/anbumolli:
         - get gold
         - extend
     chats:
-        - "gold =~ I'm collecting gold to buy books for Thoth."
-        - "sacrific =~ By sacrificing gold to Thoth, I will be wealthy in the afterlife."
+        - 'gold =~ say("I''m collecting gold to buy books for Thoth.")'
+        - 'sacrific =~ say("By sacrificing gold to Thoth, I will be wealthy in the afterlife.")'
 
 Weapon/elvenshortsword:
     short: an elven short sword
     long: This is a pretty standard elven short sword - finely made and a pleasure to look at, but nothing magical.
     identity: sword, short sword, elven short sword
     slots:
-      - righthand
+        - righthand
     value: 20
     damage: 1.d8
     attack_description: "#{attacker} slashed at #{attackee} with an elven short sword."
@@ -100,4 +100,6 @@ SingletonCreature/harry:
     identity: Harry
     level: 1
     chats:
-        - "hello =~ Hello #{actor.name}."
+        - 'hello =~ say("Hello #{actor.name}.")'
+    reactions:
+        - 'ArriveEffect say("Hello #{actor.name}.")'

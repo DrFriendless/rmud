@@ -20,9 +20,23 @@ def heal(n)
   end
 end
 
+def say(s)
+  Proc.new do |response, command, match|
+    command.body.quick_command("say " + s)
+    response.handled = true
+  end
+end
+
 def selfdestruct()
   Proc.new do |response, command, match|
     destroy
+    response.handled = true
+  end
+end
+
+def do(cmd)
+  Proc.new do |response, command, match|
+    command.body.quick_command(eval(cmd))
     response.handled = true
   end
 end

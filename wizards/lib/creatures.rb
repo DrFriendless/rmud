@@ -71,6 +71,7 @@ class Creature < Body
     receive_into_container(world.create("lib/CreatureSoul/default"))
     if @path; extend_path end
     if @chats; setup_chats end
+    if @reactions; setup_reactions end
     create_initial_items
   end
 
@@ -114,30 +115,65 @@ class Creature < Body
   end
 
   private def setup_chats
+    require_relative '../../src/server/verb_funcs'
     @chat_table = []
     @chats.each { |ch|
-      m = /(.*)=~(.*)/.match(ch)
+      m = /^(.*)=~(.*)$/.match(ch)
       if m
-        @chat_table.push(Chat.new(m[1].strip, m[2].strip))
+        puts ch
+        @chat_table.push(ChatMatch.new(m[1].strip, m[2].strip))
       end
     }
   end
 
-  private def try_to_chat(actor, says)
+  private def setup_reactions
+    require_relative '../../src/server/verb_funcs'
+    @reaction_table = []
+    @reactions.each { |eff|
+      m = /^(\w+) (.+)$/.match(eff)
+      if m
+        clazz = Object.const_get(m[1])
+        if clazz
+          @reaction_table.push(ReactionMatch.new(clazz, m[2].strip))
+        else
+          puts "No class #{m[1]} found in reactions parsing."
+        end
+      end
+    }
+  end
+
+  private def invoke_response(response_func)
+    fake_response = Response.new
+    fake_command = CommandMessage.new(nil)
+    fake_command.body = self
+    response_func.call(fake_response, fake_command, nil)
+  end
+
+  private def try_to_chat(effect)
     @chat_table.each { |ch|
-      if ch.match(says)
-        resp = eval('"' + ch.response + '"', binding)
-        quick_command("'#{resp}")
+      if ch.match(effect.says)
+        invoke_response(effect.instance_eval(ch.response))
+      end
+    }
+  end
+
+  private def try_to_react(effect)
+    @reaction_table.each { |reac|
+      if reac.match(effect)
+        invoke_response(effect.instance_eval(reac.response))
       end
     }
   end
 
   def effect(effect)
-    if effect.is_a?(SayEffect) && effect.actor == self
+    if effect.actor == self
       return
     end
     if @chats && effect.is_a?(SayEffect)
-      try_to_chat(effect.actor, effect.says)
+      try_to_chat(effect)
+    end
+    if @reactions
+      try_to_react(effect)
     end
   end
 
@@ -151,7 +187,7 @@ class Creature < Body
   end
 end
 
-class Chat
+class ChatMatch
   def initialize(pattern, response)
     @pattern = pattern.downcase
     @response = response
@@ -159,6 +195,19 @@ class Chat
 
   def match(s)
     /#{@pattern}/ =~ s.downcase
+  end
+
+  attr_reader :response
+end
+
+class ReactionMatch
+  def initialize(clazz, response)
+    @clazz = clazz
+    @response = response
+  end
+
+  def match(e)
+    e.is_a? @clazz
   end
 
   attr_reader :response
@@ -181,5 +230,30 @@ class DamageResistance < Thing
     attack.decrease(:acid, self, @acid, 1000000) if @acid
     attack.decrease(:poison, self, @poison, 1000000) if @poison
     attack.decrease(:necrotic, self, @necrotic, 1000000) if @necrotic
+  end
+end
+
+class FakeBindings
+  def initialize()
+    @vars = {}
+  end
+
+  def put(k, v)
+    @vars[k] = v
+    self
+  end
+
+  def merge!(hash)
+    hash.each_pair { |k,v|
+      @vars[k] = v
+    }
+  end
+
+  def method_missing(methname, *args)
+    @vars[methname]
+  end
+
+  def eval(&block)
+    instance_eval &block
   end
 end
