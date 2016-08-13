@@ -5,6 +5,7 @@ Creature/garialite:
     hp: 40
     identity: garialite, crocodile
     level: 2
+    possessions: DamageResistance/garialiteskin
     attacks:
       - vicious claw:
           damage: 1.d6 slashing
@@ -18,3 +19,10 @@ Creature/garialite:
             - 1.d6 bludgeoning
           description: "The garialite snaps at #{attackee} with its crocodilian jaws!"
 
+DamageResistance/garialiteskin:
+    piercing: 4.d20
+    piercing_max: 4
+    slashing: 4.d20
+    slashing_max: 4
+    bludgeoning: 2.d20
+    bludgeoning_max: 2

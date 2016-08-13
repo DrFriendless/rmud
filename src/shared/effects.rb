@@ -30,12 +30,12 @@ end
 
 class TellRoom < Effect
   def initialize(actor, s)
-    @actor = s
+    @actor = actor
     @s = s
   end
 
   def message_for(observer)
-    (observer != @actor) ? Observation.new(@s) : nil
+    (observer != @actor) && Observation.new(@s)
   end
 end
 
@@ -131,18 +131,18 @@ end
 
 class ActorActorEffect < Effect
   def initialize(actor1, actor2, msg1, msg2, msg_other)
-    @actor1 = actor1
+    @actor = actor1
     @actor2 = actor2
     @msg1 = msg1
     @msg2 = msg2
     @msg_other = msg_other
   end
 
-  attr_reader :actor1
+  attr_reader :actor
   attr_reader :actor2
 
   def message_for(observer)
-    if observer == @actor1
+    if observer == @actor
       if @msg1; Observation.new(@msg1) end
     elsif observer == @actor2
       if @msg2; Observation.new(@msg2) end
@@ -242,21 +242,24 @@ end
 
 class TryToHitEffect < Effect
   def initialize(attacker, attackee, attack_desc)
-    @attacker = attacker
-    @attackee = attackee
+    @actor = attacker
+    @actor2 = attackee
     @message = attack_desc
   end
 
   def message_for(observer)
-    attacker = @attacker.name
-    attackee = @attackee.name
-    if observer == @attacker
+    attacker = @actor.name
+    attackee = @actor2.name
+    if observer == @actor
       attacker = "You"
-    elsif observer == @attackee
+    elsif observer == @actor2
       attackee = "you"
     end
     Observation.new(eval('"' + @message + '"', binding))
   end
+
+  attr_reader :actor
+  attr_accessor :actor2
 end
 
 class MissEffect < ActorActorEffect

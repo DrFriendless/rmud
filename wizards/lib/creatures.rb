@@ -166,6 +166,7 @@ class Creature < Body
   end
 
   def effect(effect)
+    p effect.class
     if effect.actor == self
       return
     end
@@ -221,39 +222,16 @@ class DamageResistance < Thing
   include Armour
 
   def mutate_attack(attack)
-    attack.decrease(:piercing, self, @piercing, 1000000) if @piercing
-    attack.decrease(:slashing, self, @slashing, 1000000) if @slashing
-    attack.decrease(:bludgeoning, self, @bludgeoning, 1000000) if @bludgeoning
-    attack.decrease(:fire, self, @fire, 1000000) if @fire
-    attack.decrease(:cold, self, @cold, 1000000) if @cold
-    attack.decrease(:electricity, self, @electricity, 1000000) if @electrcity
-    attack.decrease(:acid, self, @acid, 1000000) if @acid
-    attack.decrease(:poison, self, @poison, 1000000) if @poison
-    attack.decrease(:necrotic, self, @necrotic, 1000000) if @necrotic
-  end
-end
-
-class FakeBindings
-  def initialize()
-    @vars = {}
-  end
-
-  def put(k, v)
-    @vars[k] = v
-    self
-  end
-
-  def merge!(hash)
-    hash.each_pair { |k,v|
-      @vars[k] = v
-    }
-  end
-
-  def method_missing(methname, *args)
-    @vars[methname]
-  end
-
-  def eval(&block)
-    instance_eval &block
+    attack.decrease(:piercing, self, @piercing, @piercing_max || 1000000) if @piercing
+    attack.decrease(:slashing, self, @slashing, @slashing_max || 1000000) if @slashing
+    attack.decrease(:bludgeoning, self, @bludgeoning, @bludgeoning_max || 1000000) if @bludgeoning
+    attack.decrease(:fire, self, @fire, @fire_max || 1000000) if @fire
+    attack.decrease(:cold, self, @cold, @cold_max || 1000000) if @cold
+    attack.decrease(:electricity, self, @electricity, @electricity_max || 1000000) if @electricity
+    attack.decrease(:acid, self, @acid, @acid_max || 1000000) if @acid
+    attack.decrease(:poison, self, @poison, @poison_max || 1000000) if @poison
+    attack.decrease(:necrotic, self, @necrotic, @necrotic_max || 1000000) if @necrotic
+    attack.decrease(:holy, self, @holy, @holy_max || 1000000) if @holy
+    attack.decrease(:unholy, self, @unholy, @unholy_max || 1000000) if @unholy
   end
 end

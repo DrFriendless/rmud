@@ -160,7 +160,7 @@ class OpenContainer < Item
     if cs.size > 0
       s += " The #{short} contains:\n" + cs.join("\n")
     else
-      s += " The #{short} but has nothing in it."
+      s += " The #{short} has nothing in it."
     end
     s
   end
