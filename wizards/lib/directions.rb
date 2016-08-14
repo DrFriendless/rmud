@@ -12,7 +12,6 @@ module Guarded
     result.message = nil
     if gk
       guard = location.find(gk)
-      p "found guard"
       if guard && (!guard.is_a? Corpse)
         result.guard = guard
         result.blocked = true

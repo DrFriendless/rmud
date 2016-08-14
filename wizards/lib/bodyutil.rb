@@ -83,6 +83,7 @@ module HitPoints
   end
 
   def heal(n)
+    if @ghost; return end
     if @hp < @maxhp
       @hp += n
       if @hp > @maxhp; @hp = @maxhp end
@@ -107,9 +108,11 @@ module HitPoints
   end
 
   def health_status
-    dead? ?
-        "You have #{@maxhp} maximum hit points but are currently dead." :
-        "You have #{@hp} hit points out of a maximum of #{@maxhp}."
+    if @ghost
+      "You are a ghost. Other than that you feel OK."
+    else
+      "You have #{@hp} hit points out of a maximum of #{@maxhp}."
+    end
   end
 end
 

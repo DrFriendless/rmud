@@ -120,7 +120,6 @@ class Creature < Body
     @chats.each { |ch|
       m = /^(.*)=~(.*)$/.match(ch)
       if m
-        puts ch
         @chat_table.push(ChatMatch.new(m[1].strip, m[2].strip))
       end
     }
@@ -166,7 +165,6 @@ class Creature < Body
   end
 
   def effect(effect)
-    p effect.class
     if effect.actor == self
       return
     end
@@ -222,16 +220,26 @@ class DamageResistance < Thing
   include Armour
 
   def mutate_attack(attack)
-    attack.decrease(:piercing, self, @piercing, @piercing_max || 1000000) if @piercing
-    attack.decrease(:slashing, self, @slashing, @slashing_max || 1000000) if @slashing
-    attack.decrease(:bludgeoning, self, @bludgeoning, @bludgeoning_max || 1000000) if @bludgeoning
-    attack.decrease(:fire, self, @fire, @fire_max || 1000000) if @fire
-    attack.decrease(:cold, self, @cold, @cold_max || 1000000) if @cold
-    attack.decrease(:electricity, self, @electricity, @electricity_max || 1000000) if @electricity
-    attack.decrease(:acid, self, @acid, @acid_max || 1000000) if @acid
-    attack.decrease(:poison, self, @poison, @poison_max || 1000000) if @poison
-    attack.decrease(:necrotic, self, @necrotic, @necrotic_max || 1000000) if @necrotic
-    attack.decrease(:holy, self, @holy, @holy_max || 1000000) if @holy
-    attack.decrease(:unholy, self, @unholy, @unholy_max || 1000000) if @unholy
+    attack.decrease(:piercing, self, en(@piercing), en(@piercing_max, 1000000)) if @piercing
+    attack.decrease(:slashing, self, en(@slashing), en(@slashing_max, 1000000)) if @slashing
+    attack.decrease(:bludgeoning, self, en(@bludgeoning), en(@bludgeoning_max, 1000000)) if @bludgeoning
+    attack.decrease(:fire, self, en(@fire), en(@fire_max, 1000000)) if @fire
+    attack.decrease(:cold, self, en(@cold), en(@cold_max, 1000000)) if @cold
+    attack.decrease(:electricity, self, en(@electricity), en(@electricity_max, 1000000)) if @electricity
+    attack.decrease(:acid, self, en(@acid), en(@acid_max, 1000000)) if @acid
+    attack.decrease(:poison, self, en(@poison), en(@poison_max, 1000000)) if @poison
+    attack.decrease(:necrotic, self, en(@necrotic), en(@necrotic_max, 1000000)) if @necrotic
+    attack.decrease(:holy, self, en(@holy), en(@holy_max, 1000000)) if @holy
+    attack.decrease(:unholy, self, en(@unholy), en(@unholy_max, 1000000)) if @unholy
+  end
+
+  def en(x, default=0)
+    if x == nil
+      default
+    elsif x.is_a? String
+      eval(x)
+    else
+      x
+    end
   end
 end

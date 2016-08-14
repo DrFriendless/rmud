@@ -26,6 +26,8 @@ class Effect
   def message_for(observer)
     Observation.new(@message)
   end
+
+  attr_reader :actor
 end
 
 class TellRoom < Effect
@@ -59,8 +61,6 @@ class ArriveEffect < Effect
       Observation.new("#{@actor.name} arrives.")
     end
   end
-
-  attr_reader :actor
 end
 
 class LeaveEffect < Effect
@@ -74,8 +74,6 @@ class LeaveEffect < Effect
       Observation.new("#{@actor.name} departs #{@direction}.")
     end
   end
-
-  attr_reader :actor
   attr_reader :direction
 end
 
@@ -84,8 +82,6 @@ class ActorItemEffect < Effect
     @actor = actor
     @item = item
   end
-
-  attr_reader :actor
   attr_reader :item
 
   def message_for_actor
@@ -110,7 +106,6 @@ class ActorItemItemEffect < Effect
     @item2 = item2
   end
 
-  attr_reader :actor
   attr_reader :item1
   attr_reader :item2
 
@@ -138,7 +133,6 @@ class ActorActorEffect < Effect
     @msg_other = msg_other
   end
 
-  attr_reader :actor
   attr_reader :actor2
 
   def message_for(observer)
@@ -218,13 +212,26 @@ class CloseEffect < ActorItemEffect
   end
 end
 
+class DieEffect < Effect
+  def initialize(actor)
+    @actor = actor
+  end
+
+  def message_for(observer)
+    if observer != @actor
+      Observation.new("#{@actor.name} died!")
+    else
+      Observation.new("You died.")
+    end
+  end
+end
+
 class SayEffect < Effect
   def initialize(actor, says)
     @actor = actor
     @says = says
   end
 
-  attr_reader :actor
   attr_reader :says
 
   def message_for(observer)
@@ -258,7 +265,6 @@ class TryToHitEffect < Effect
     Observation.new(eval('"' + @message + '"', binding))
   end
 
-  attr_reader :actor
   attr_accessor :actor2
 end
 

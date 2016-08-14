@@ -155,6 +155,8 @@ module ClientHandler
   def effect(effect)
     @queue.push(effect)
   end
+
+  attr_writer :body
 end
 
 class HTTPHandler < EM::HttpServer::Server

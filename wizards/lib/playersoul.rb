@@ -14,7 +14,7 @@ class PlayerSoul < Soul
       if command.room.lit?
         lines.push(command.room.long)
         command.room.contents.each { |t|
-          if t != command.body
+          if (t != command.body) && t.short
             lines.push(t.short)
           end
         }

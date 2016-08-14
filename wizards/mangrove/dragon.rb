@@ -9,11 +9,8 @@ class OutsideDragonLair < Outdoor
     super
     if effect.is_a? ArriveEffect
       victim = effect.actor
-      p "ODL1 #{victim.name}"
       captured_loc = world.find_singleton("mangrove/CapturedByDragon/default")
       lair_loc = world.find_singleton("mangrove/DragonLair/default")
-      p "ODL2 #{victim.is_a? Body}"
-      p "ODL3 #{lair_loc.dragon_available?}"
       return unless (victim.is_a? Body) && lair_loc.dragon_available?
       dragon = world.find_singleton(DRAGON)
       dragon.move_to(self)
@@ -97,7 +94,6 @@ end
 class DragonLair < Outdoor
   def dragon_available?
     dragon = world.find_singleton(DRAGON)
-    p "dragon.location #{dragon.location.persistence_key}"
     return false unless dragon && dragon.location == self
     contents.each { |c|
       # the dragon currently has guests so he won't leave.

@@ -158,6 +158,7 @@ class Body < Thing
       location.publish_to_room(DamageEffect.new(self, victim, dmg))
       killed = @victim.damage(dmg)
       if killed
+        location.publish_to_room(DieEffect.new(@victim))
         @victim.you_died(self)
         add_combat_experience(@victim.xp_for_killing)
       end

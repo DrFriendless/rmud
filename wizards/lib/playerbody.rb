@@ -1,3 +1,5 @@
+require_relative '../lib/body'
+
 # A PlayerBody is special because it can appear and disappear as players log in and out.
 class PlayerBody < Body
   include HasExperience
@@ -15,6 +17,7 @@ class PlayerBody < Body
     initialize_xp
     initialize_alignment
     @loc = "lib/Room/library"
+    @ghost = false
   end
 
   def after_properties_set
@@ -39,6 +42,7 @@ class PlayerBody < Body
     data[:questxp] = @questxp
     data[:combatxp] = @combatxp
     data[:score] = @score
+    data[:ghost] = @ghost
     data
   end
 
@@ -48,10 +52,11 @@ class PlayerBody < Body
     @combatxp = (data && data[:combatxp]) || 0
     @questxp = (data && data[:quetxp]) || 0
     @score = (data && data[:score]) || 0
+    @ghost = (data && data[:ghost])
     loc = data && data[:loc]
     # some rooms are bad to restart in.
     if !loc || world.find_singleton(loc)&.norestart
-      loc = "lib/Room/hallofdoors"
+      loc = "lib/Room/library"
     end
     p "goto loc #{loc}"
     move_to_location(loc)
@@ -70,6 +75,7 @@ class PlayerBody < Body
   end
 
   def attacked_by(other)
+    return if @ghost
     # let the player choose what to do.
   end
 
@@ -83,7 +89,18 @@ class PlayerBody < Body
 
   def you_died(killed_by)
     super
-    # TODO
+    @victim = nil
+    @ghost = true
+    @short = "ghost of Mangrove"
+    tell("Your soul leaves your body.")
+  end
+
+  def receive_into_container(thing)
+    if @ghost && ((thing.is_a? Item) || (thing.is_a? Gold))
+      location.receive_into_container(thing)
+    else
+      super
+    end
   end
 end
 
