@@ -222,6 +222,7 @@ ThothTemple/thothtemple:
 BookOfTheDead/default:
     long: The book is larger than a man, with an uncountable number of pages. Each page tells the story of a life.
     identity: book, book of the dead
+    read_it: The story of everyone who ever lived (in this world) is here. Some of it's interesting, but only some of it.
 
 Virtual/mangrovehunters:
     short: The Mangrove Hunters Guild is to the southwest.

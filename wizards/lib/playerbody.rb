@@ -107,5 +107,9 @@ class PlayerBody < Body
   def ghost?
     @ghost
   end
+
+  def reincarnate
+    @ghost = false
+  end
 end
 

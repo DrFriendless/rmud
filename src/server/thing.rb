@@ -38,10 +38,14 @@ class Thing
   attr_reader :weight
   attr_reader :verbs
 
-  def is_called?(name)
+  def calc_identities
     if @identity && !@identities
       @identities = @identity.split(',').map { |i| i.strip.downcase }
     end
+  end
+
+  def is_called?(name)
+    calc_identities
     (@identities && @identities.include?(name.downcase)) || (short && short.downcase == name.downcase)
   end
 

@@ -178,8 +178,10 @@ class Corpse < OpenContainer
 
   def persist(data)
     super
+    puts persistence_key
     data[persistence_key][:short] = @short
     data[persistence_key][:long] = @long
+    calc_identities
     data[persistence_key][:identity] = @identities.join(',')
   end
 
