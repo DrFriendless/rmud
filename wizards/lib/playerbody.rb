@@ -16,7 +16,7 @@ class PlayerBody < Body
     initialize_score
     initialize_xp
     initialize_alignment
-    @loc = "lib/Room/library"
+    @loc = "lib/GreatLibrary/library"
     @ghost = false
   end
 
@@ -56,7 +56,7 @@ class PlayerBody < Body
     loc = data && data[:loc]
     # some rooms are bad to restart in.
     if !loc || world.find_singleton(loc)&.norestart
-      loc = "lib/Room/library"
+      loc = "lib/Room/hallofdoors"
     end
     p "goto loc #{loc}"
     move_to_location(loc)
@@ -71,11 +71,12 @@ class PlayerBody < Body
 
   def tell(message)
     ob = Observation.new(message)
-    @effect_callback.effect(ob)
+    # sometimes a tell might occur before the player is fully loaded
+    @effect_callback.effect(ob) if @effect_callback
   end
 
   def attacked_by(other)
-    return if @ghost
+    return if ghost?
     # let the player choose what to do.
   end
 
@@ -96,11 +97,15 @@ class PlayerBody < Body
   end
 
   def receive_into_container(thing)
-    if @ghost && ((thing.is_a? Item) || (thing.is_a? Gold))
+    if ghost? && ((thing.is_a? Item) || (thing.is_a? Gold))
       location.receive_into_container(thing)
     else
       super
     end
+  end
+
+  def ghost?
+    @ghost
   end
 end
 

@@ -176,7 +176,7 @@ Outdoor/plaza:
     short: Mangrove City Plaza
     long:  This is the splendid plaza in the city of Mangrove. There are many fine buildings here.
     east: Outdoor/townsquare
-    enter: Room/thothtemple
+    enter: ThothTemple/thothtemple
 
 Virtual/wizardtower:
     short: The tall, and eccentrically wonky, tower of the Wizard Mangrove is to the northwest.
@@ -209,13 +209,15 @@ Virtual/thothtemple:
     short: The magnificent Temple of Thoth is in the middle of the plaza.
     identity: temple, Temple of Thoth
     examine_it: tell "The temple of Thoth has some sort of distinctive ibis shape about it."
-    enter_it: goto("Room/thothtemple")
+    enter_it: goto("ThothTemple/thothtemple")
+    destination: Outdoor/plaza
 
-Room/thothtemple:
+ThothTemple/thothtemple:
     short: Temple of Thoth
     long: This is the luxurious temple of Thoth. A statue of the ibis-headed god stands in the middle of the room. A pedestal in front of the status is a simple pillar with a coin slot. An inscription on it says "SACRIFICES".
     exit: Outdoor/plaza
     contains: Virtual/statue Virtual/pedestal
+    lit: true
 
 Virtual/mangrovehunters:
     short: The Mangrove Hunters Guild is to the southwest.

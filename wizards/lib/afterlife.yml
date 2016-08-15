@@ -1,8 +1,56 @@
-Room/library:
+Room/hall1:
+    short: The White Hall
+    long: You're in the afterlife. It seems to a hall of glowing white light. A sign on a door to the west says "Chaos". The hall only goes north from here.
+    north: Room/hall2
+    west: 'tell("You can''t open the door.")'
+    lit: true
+
+Room/hall2:
+    short: The White Hall
+    long: You're in the long white hall of the afterlife. A sign on a door to the east says "Junk".
+    north: Room/hall3
+    south: Room/hall1
+    east: 'tell("You can''t open the door.")'
+    lit: true
+
+Room/hall3:
+    short: The White Hall
+    long: You're in the long white hall of the afterlife. A sign on a door to the west says "Testing".
+    north: Room/hall4
+    south: Room/hall2
+    west: 'tell("You can''t open the door.")'
+    lit: true
+
+Room/hall4:
+    short: The White Hall
+    long: You're in the long white hall of the afterlife. A sign on a door to the east says "Private".
+    north: Room/hall5
+    south: Room/hall3
+    east: 'tell("You can''t open the door.")'
+    lit: true
+
+Room/hall5:
+    short: The White Hall
+    long: You're in the long white hall of the afterlife. A sign on a door to the west says "Library". The hall only goes south from here.
+    south: Room/hall4
+    east: GreatLibrary/library
+    lit: true
+
+Room/private:
+    short: Thoth's Private Residence
+    long: I could tell you what it's like but then I'd have to kill you.
+    contains: Thoth/default
+    lit: true
+
+GreatLibrary/library:
     short: The Great Library
-    long: This is the Great Library, the temple of Thoth. Every book or scroll ever created is here. In fact, Thoth seem to have a great many duplicates, like anyone who really loves books.
+    long: This is the Great Library, the temple of Thoth. Every book or scroll ever created is here. In fact, Thoth seem to have a great many duplicates, like anyone who really loves books. There are exits in all directions.
     contains: Item/stick Creature/librarian SingletonCreature/bast
     exit: Room/hallofdoors
+    north: Room/hallofdoors
+    south: Room/hallofdoors
+    east: Room/hallofdoors
+    west: Room/hallofdoors
     lit: true
 
 Creature/librarian:
@@ -25,3 +73,13 @@ Weapon/blackstaff:
   damage: 1.d12
   attack_description: "#{attacker} tried to smash #{attackee} with a jet black staff."
   damage_type: bludegoning
+
+Thoth/default:
+  short: Thoth
+  long: Thoth, the ibis-headed god, is the Great Librarian.
+  maxhp: 10000
+  hp: 10000
+  level: 100
+  damage: 10.d100
+  identity: Thoth, god, ibis
+  attack_description: "Thoth deletes #{attackee} from existence."

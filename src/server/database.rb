@@ -79,7 +79,7 @@ class Database
         return nil
       end
     else
-      rec = { :username => username, :password => password, :location => "lib/Room/library", :_id => username, :gp => 0, :xp => 0 }
+      rec = { :username => username, :password => password, :location => "lib/Room/hallofdoors", :_id => username, :gp => 0, :xp => 0 }
       players.insert_one(rec)
       rec
     end

@@ -109,7 +109,7 @@ module HitPoints
 
   def health_status
     if @ghost
-      "You are a ghost. Other than that you feel OK."
+      "You are a ghost. Other than that you feel OK. You should get to a holy place to get that fixed."
     else
       "You have #{@hp} hit points out of a maximum of #{@maxhp}."
     end

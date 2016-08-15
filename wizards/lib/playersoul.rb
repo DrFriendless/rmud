@@ -8,8 +8,8 @@ class PlayerSoul < Soul
       lines = []
       # no reason this should happen, but if it does...
       if !command.body.location
-        puts "Emergency moving #{@name} to the library."
-        move_to_location("lib/Room/library")
+        puts "Emergency moving #{@name} to the Hall of Doors."
+        move_to_location("lib/Room/hallofdoors")
       end
       if command.room.lit?
         lines.push(command.room.long)

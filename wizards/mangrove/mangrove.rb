@@ -42,3 +42,26 @@ class NecklaceOfRegeneration < Wearable
     end
   end
 end
+
+class ThothTemple < Room
+  def receive_into_container(thing)
+    super
+    if thing.ghost?
+      thing.tell("It is time for you to enter the Book of the Dead.")
+    end
+  end
+end
+
+class BookOfTheDead < Virtual
+  def after_properties_set
+    verb(["enter", :it]) { |response,command,match|
+      if command.body.ghost?
+        command.room.publish_to_room(EnterBookEffect.new(command.body))
+        command.body.move_to_location("lib/Room/Hall1")
+      else
+        response.message = "Only the dead may enter the book."
+      end
+      response.handled
+    }
+  end
+end
