@@ -214,10 +214,14 @@ Virtual/thothtemple:
 
 ThothTemple/thothtemple:
     short: Temple of Thoth
-    long: This is the luxurious temple of Thoth. A statue of the ibis-headed god stands in the middle of the room. A pedestal in front of the status is a simple pillar with a coin slot. An inscription on it says "SACRIFICES".
+    long: This is the luxurious temple of Thoth. A statue of the ibis-headed god stands in the middle of the room. A pedestal in front of the status is a simple pillar with a coin slot. An inscription on it says "SACRIFICES". The Book of the Dead is mounted on a large pedestal.
     exit: Outdoor/plaza
-    contains: Virtual/statue Virtual/pedestal
+    contains: Virtual/statue Virtual/pedestal BookOfTheDead/default
     lit: true
+
+BookOfTheDead/default:
+    long: The book is larger than a man, with an uncountable number of pages. Each page tells the story of a life.
+    identity: book, book of the dead
 
 Virtual/mangrovehunters:
     short: The Mangrove Hunters Guild is to the southwest.

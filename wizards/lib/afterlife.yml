@@ -33,7 +33,7 @@ Room/hall5:
     short: The White Hall
     long: You're in the long white hall of the afterlife. A sign on a door to the west says "Library". The hall only goes south from here.
     south: Room/hall4
-    east: GreatLibrary/library
+    west: GreatLibrary/library
     lit: true
 
 Room/private:

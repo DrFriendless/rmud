@@ -52,16 +52,30 @@ class ThothTemple < Room
   end
 end
 
+class EnterBookEffect < Effect
+  def initialize(actor)
+    @actor = actor
+  end
+
+  def message_for(observer)
+    if observer == @actor
+      Observation.new("You approach the Book of Dead and are sucked into the pages! Your story is added to the book.")
+    else
+      Observation.new("#{@actor.short} approaches the Book of Dead and is sucked into the pages!")
+    end
+  end
+end
+
 class BookOfTheDead < Virtual
   def after_properties_set
     verb(["enter", :it]) { |response,command,match|
       if command.body.ghost?
         command.room.publish_to_room(EnterBookEffect.new(command.body))
-        command.body.move_to_location("lib/Room/Hall1")
+        command.body.move_to_location("lib/Room/hall1")
       else
         response.message = "Only the dead may enter the book."
       end
-      response.handled
+      response.handled = true
     }
   end
 end
