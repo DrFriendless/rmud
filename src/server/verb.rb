@@ -64,11 +64,9 @@ class Verb
       false
     elsif pattern[0] == :money
       require_relative './money'
-      puts "#{pattern} #{words}"
       (1..words.size).each { |n|
         matches.push(words.take(n))
         if is_money?(words[0,n].join(" ")) && match_words(pattern.drop(1), words.drop(n), verb_owner, matches, verb_invoker)
-          p "#{words[0,n].join(" ")} is moeny"
           return true
         else
           matches.pop

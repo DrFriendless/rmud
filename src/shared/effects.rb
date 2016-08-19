@@ -226,6 +226,21 @@ class DieEffect < Effect
   end
 end
 
+class DropGoldEffect < Effect
+  def initialize(actor, quantity)
+    @actor = actor
+    @quantity = quantity
+  end
+
+  attr_reader :quantity
+
+  def message_for(observer)
+    if observer != @actor
+      Observation.new("#{@actor.name} drops some money.")
+    end
+  end
+end
+
 class SayEffect < Effect
   def initialize(actor, says)
     @actor = actor

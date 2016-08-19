@@ -95,6 +95,9 @@ ALL_GP = /^all gp$/
 PATTERNS = [ GOLD_PATTERN_1, GOLD_PATTERN_2, GOLD_PATTERN_3, ALL_GOLD, ALL_GP ]
 
 def parse_money_quantity(s)
+  if s.is_a? Integer
+    return s
+  end
   if GOLD_PATTERN_3 =~ s
     return 1
   end

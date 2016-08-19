@@ -27,6 +27,17 @@ class Soul < Thing
       response.handled = true
     }
     alias_verb(["kill", :someone], ["attack", :someone])
+    verb(["drop", :money]) { |response, command, match|
+      quantity = parse_money(match[0].join(' '), command.body.gp)
+      if quantity == 0
+        command.body.tell("OK, you drop nothing.")
+      elsif command.body.pay(quantity)
+        obj = world.instantiate_gold(quantity)
+        obj.move_to(command.body.location)
+        command.room.publish_to_room(DropGoldEffect.new(command.body, quantity))
+      end
+      response.handled = true
+    }
   end
 
   def do_not_persist?
