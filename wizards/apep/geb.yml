@@ -1,0 +1,5 @@
+Outdoor/geb1:
+    short: By the river.
+    long: Something to do with geese.
+    out: lib/Room/hallofdoors
+

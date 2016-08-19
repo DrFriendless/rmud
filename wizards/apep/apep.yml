@@ -32,17 +32,44 @@ Door/horus:
     open: false
     identity: door, horus door, north door
 
+Door/geb:
+    examine_it: tell("The door is painted with a hieroglyph of a goose.")
+    south: Outdoor/geb1
+    open: false
+    identity: door, geb door, south door
+
+Door/hathor:
+    examine_it: tell("The door is painted with a hieroglyph of a falcon.")
+    north: Outdoor/hathor1
+    open: false
+    identity: door, hathor door, north door
+
+Door/nephthys:
+    examine_it: tell("The door is painted with a hieroglyph of a house with a basket.")
+    south: Outdoor/nephthys1
+    open: false
+    identity: door, nephthys door, south door
+
 Room/body3:
     short: Hall of Geb
+    long: You're in the body of Apep. To the south there is a door with a hieroglyph of Geb on it.
     east: Room/body2
     west: Room/body4
+    contains: Creature/garialite Door/geb
+    guard_south: garialite
 
 Room/body4:
     short: Hall of Hathor
+    long: You're in the body of Apep. To the north there is a door with a hieroglyph of Hathor on it.
     east: Room/body3
     west: Room/body5
+    contains: Creature/garialite Door/hathor
+    guard_north: garialite
 
 Room/body5:
     short: Hall of Nephthys
+    long: You're in the body of Apep. To the south there is a door with a hieroglyph of Nephthys on it.
     east: Room/body4
     west: lib/Room/hallofdoors
+    contains: Creature/garialite Door/nephthys
+    guard_south: garialite
