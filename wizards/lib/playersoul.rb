@@ -71,6 +71,11 @@ class PlayerSoul < Soul
       lines = [ command.body.health_status, command.body.experience_status ]
       response.message = lines.join("\n")
     }
+    verb(["score"]) { |response, command, match|
+      response.handled = true
+      lines = world.scores
+      response.message = lines.join("\n")
+    }
     alias_verb(["st"], ["status"])
     alias_verb(["stat"], ["status"])
     verb(["verbs"]) { |response, command, match|

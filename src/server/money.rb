@@ -1,4 +1,4 @@
-require_relative '../../src/server/thing'
+require_relative './thing'
 
 module HasGold
   def initialize_gold
@@ -90,9 +90,11 @@ end
 GOLD_PATTERN_1 = /^(\d+) ?gp$/
 GOLD_PATTERN_2 = /^(\d+) gold( pieces)?$/
 GOLD_PATTERN_3 = /^1 gold piece$/
-PATTERNS = [ GOLD_PATTERN_1, GOLD_PATTERN_2, GOLD_PATTERN_3 ]
+ALL_GOLD = /^all gold$/
+ALL_GP = /^all gp$/
+PATTERNS = [ GOLD_PATTERN_1, GOLD_PATTERN_2, GOLD_PATTERN_3, ALL_GOLD, ALL_GP ]
 
-def parse_money(s)
+def parse_money_quantity(s)
   if GOLD_PATTERN_3 =~ s
     return 1
   end
@@ -102,6 +104,18 @@ def parse_money(s)
       return match[0].to_i
     end
   }
+end
+
+def parse_money(s, all)
+  if is_all_money?(s)
+    all
+  else
+    parse_money_quantity(s)
+  end
+end
+
+def is_all_money?(s)
+  [ALL_GOLD, ALL_GP].any? { |p| p =~ s }
 end
 
 def is_money?(s)

@@ -13,6 +13,13 @@ class Thoth < SingletonCreature
         ghost.heal(1000000)
         location.publish_to_room(ReincarnateEffect.new(self, ghost))
         ghost.tell("You feel as if you have turned over a new leaf.")
+        if ghost.score > 0
+          ghost.gp = ghost.score
+          ghost.score = 0
+          location.publish_to_room(SayEffect.new(self, "${ghost.name}, you have put aside funds for the afterlife, which is now. I return those funds to you, and wish you well in your new life."))
+        else
+          location.publish_to_room(SayEffect.new(self, "${ghost.name}, as you have not seen fit to invest in the afterlife, I cannot help you further."))
+        end
       else
         location.publish_to_room(TellRoom.new(self, "You are overwhelmed by the smell of wet paper."))
         location.publish_to_room(LeaveEffect.new(self, "to a quieter place"))

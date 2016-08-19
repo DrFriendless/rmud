@@ -1,7 +1,7 @@
 require_relative '../../src/server/thingutil'
 require_relative '../../src/server/thing'
+require_relative '../../src/server/money'
 require_relative './directions'
-require_relative './money'
 
 class Room < Thing
   include Container
@@ -15,6 +15,7 @@ class Room < Thing
   end
 
   def after_properties_set
+    super
     add_direction_verbs
   end
 

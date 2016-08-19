@@ -26,6 +26,9 @@ class Verb
     if pattern.size == 1 && (pattern[0] == :star || pattern[0] == "*") && words.empty?
       return true
     end
+    if words[0] == "sac"
+      p "#{pattern} #{verb_owner.persistence_key}"
+    end
     if pattern.empty? || words.empty?; return false end
     if pattern[0] == :star
       (0..words.size).each { |n|
@@ -59,6 +62,19 @@ class Verb
         end
       }
       false
+    elsif pattern[0] == :money
+      require_relative './money'
+      puts "#{pattern} #{words}"
+      (1..words.size).each { |n|
+        matches.push(words.take(n))
+        if is_money?(words[0,n].join(" ")) && match_words(pattern.drop(1), words.drop(n), verb_owner, matches, verb_invoker)
+          p "#{words[0,n].join(" ")} is moeny"
+          return true
+        else
+          matches.pop
+        end
+      }
+      return false
     elsif pattern[0] == :it
       (1..words.size).each { |n|
         matches.push(words.take(n))

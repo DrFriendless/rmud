@@ -1,5 +1,6 @@
 require_relative '../lib/room'
 require_relative '../../src/shared/effects'
+require_relative '../../src/server/money'
 
 DAWN_TIMES = [0, 10, 20, 30]
 DUSK_TIMES = [300, 310, 320, 330]
@@ -50,6 +51,35 @@ class ThothTemple < Room
       thing.tell("It is time for you to enter the Book of the Dead.")
     end
   end
+
+  def after_properties_set
+    super
+    verb(["sacrifice", :money]) { |response,command,match|
+      quantity = parse_money(match[0].join(' '), command.body.gp)
+      if quantity == 0
+        command.body.tell("That is no sacrifice at all!")
+      elsif command.body.pay(quantity)
+        command.body.score += quantity
+        command.room.publish_to_room(SacrificeEffect.new(command.body))
+      end
+      response.handled = true
+    }
+    alias_verb(["sacrifice", :money, "to", "thoth"], ["sacrifice", :money])
+    alias_verb(["sac", :money, "to", "thoth"], ["sacrifice", :money])
+    alias_verb(["sac", :money], ["sacrifice", :money])
+  end
+end
+
+class SacrificeEffect < Effect
+  def initialize(actor)
+    @actor = actor
+  end
+
+def message_for(observer)
+  if observer != @actor
+    Observation.new("#{@actor.short} makes a donation to Thoth.")
+  end
+end
 end
 
 class EnterBookEffect < Effect

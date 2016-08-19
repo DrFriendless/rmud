@@ -33,6 +33,11 @@ class Database
     ps.length > 0 ? ps[0] : nil
   end
 
+  def retrieve_scores
+    players = @client[:players]
+    players.find({}).map { |p| { :score => p[:score], :name => p[:_id] } }
+  end
+
   def save(data)
     begin
       data = mongoify(data)

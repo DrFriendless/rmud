@@ -109,7 +109,7 @@ class World
   end
 
   def instantiate_ref(thingclassref)
-    if !@thingClasses[thingclassref.key]
+    unless @thingClasses[thingclassref.key]
       puts "Can't instantiate #{thingclassref.key}."
       return
     end
@@ -119,7 +119,7 @@ class World
   end
 
   def instantiate_gold(s)
-    n = parse_money(s)
+    n = parse_money_quantity(s)
     gold = instantiate_class(@thingClasses["lib/Gold/default"])
     gold.add_gold(n)
     gold
@@ -222,5 +222,11 @@ class World
 
   def reset
     @singletons.each { |t| t.reset }
+  end
+
+  def scores
+    ss = @database.retrieve_scores
+    ss.sort! { |s1,s2| -s1[:score] <=> -s2[:score] }
+    ss.map { |s| "#{s[:score]}\t#{s[:name]}"}
   end
 end

@@ -1,7 +1,7 @@
 require_relative '../../src/server/thingutil'
 require_relative '../../src/server/thing'
 require_relative '../../src/shared/effects'
-require_relative './money'
+require_relative '../../src/server/money'
 require_relative './experience'
 require_relative './score'
 require_relative './items'

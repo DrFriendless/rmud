@@ -64,7 +64,7 @@ class EventLoop
 # a message arrived, execute it
   def handle_event(event)
     if event.is_a? CommandMessage
-      return handle_command(event)
+      handle_command(event)
     elsif event.is_a? LoginMessage
       player_data = @database.check_password(event.username, event.password)
       if player_data
