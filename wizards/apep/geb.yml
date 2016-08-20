@@ -26,7 +26,7 @@ Arcadia/meadow:
     long: You're in Arcadia, a realm of gently sloping hills and stunning vistas lit by golden sunshine. There is a grassy meadow here.
     north: Arcadia/geb1
     down: Arcadia/geb1
-    contains: SingletonCreature/phaedra
+    contains: SingletonCreature/phaedra Creature/poisonsnake
 
 Creature/vampiregoose:
     short: a vampire goose
@@ -37,11 +37,21 @@ Creature/vampiregoose:
 Creature/poisonsnake:
     short: a poisonous snake
     long: The poisonous snake is a green snake about as long as a person. You can tell it's poisonous because it looks very scary.
+    identity: snake, poisonous snake, poison snake, green snake, venomous snake
     maxhp: 6
     level: 1
+    attacks:
+      - fangs:
+          damage:
+            - 1.d4+1 piercing
+            - 1.d4 poison
+          description: "The snake attacks #{attackee} with its venomous fangs!"
+    reactions:
+        - ArriveEffect command("kill phaedra")
 
 SingletonCreature/gooseherd:
     short: Alvan the Gooseherder
+    name: Alvan
     identity: Alvan, gooseherder, gooseherd
     level: 5
     chats:
@@ -53,9 +63,11 @@ SingletonCreature/gooseherd:
 
 SingletonCreature/phaedra:
     short: Phaedra the lovely maiden
+    name: Phaedra
     long: Phaedra is a young girl, fresh of face with golden locks.
     level: 1
     maxhp: 10
+    identity: Phaedra, maiden, girl, lovely maiden, young girl
     reactions:
         - ArriveEffect command("extendpath")
     chats:
