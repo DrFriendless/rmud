@@ -26,6 +26,7 @@ Arcadia/meadow:
     long: You're in Arcadia, a realm of gently sloping hills and stunning vistas lit by golden sunshine. There is a grassy meadow here.
     north: Arcadia/geb1
     down: Arcadia/geb1
+    contains: SingletonCreature/phaedra
 
 Creature/vampiregoose:
     short: a vampire goose
@@ -49,3 +50,28 @@ SingletonCreature/gooseherd:
         - goose =~ say("I was tending my geese, but they seem to have run off.")
     reactions:
         - ArriveEffect say("Have you seen my geese?")
+
+SingletonCreature/phaedra:
+    short: Phaedra the lovely maiden
+    long: Phaedra is a young girl, fresh of face with golden locks.
+    level: 1
+    maxhp: 10
+    reactions:
+        - ArriveEffect command("extendpath")
+    chats:
+        - e =~ emote('looks at you uncomprehendingly.')
+    path:
+        - emote dances happily.
+        - emote sings gaily.
+        - emote sings 'Veris laeta facies mundo propinquatur'
+        - emote sings 'Hiemalis acies victa iam fugatur'
+        - emote sings 'in vestitu vario Flora principatur, nemorum dulcisono quae cantu celebratur'
+        - emote sings 'Florae fusus gremio Phoebus novo more risum dat, hoc vario iam stipatae flore'
+        - emote sings 'Zephyrus nectareo spirans it odore'
+        - emote sings 'certatim pro bravio curramus in amore'
+        - emote sings 'Cytharizat cantico dulcis Philomena'
+        - emote sings 'flore rident vario prata iam serena'
+        - emote sings 'salit coetus avium silvae per amoena'
+        - emote sings 'chorus promit virginum iam gaudia millena'
+        -
+        - emote giggles and skips around gaily.

@@ -34,9 +34,9 @@ def selfdestruct()
   end
 end
 
-def do(cmd)
+def command(cmd)
   Proc.new do |response, command, match|
-    command.body.quick_command(eval(cmd))
+    command.body.quick_command(cmd)
     response.handled = true
   end
 end

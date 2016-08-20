@@ -13,6 +13,10 @@ class CreatureSoul < Soul
       command.body.heal(command.body.maxhp)
       response.handled = true
     }
+    verb(["extendpath"]) { |response, command, match|
+      command.body.extend_path
+      response.handled = true
+    }
   end
 end
 
@@ -101,7 +105,7 @@ class Creature < Body
     end
   end
 
-  private def extend_path
+  def extend_path
     p = []
     @path.each { |s|
       if s == 'shuffle'
