@@ -196,5 +196,9 @@ class Body < Thing
       pay(gp)
     end
   end
+
+  def lightsource?
+    @contents.any? { |thing| thing.lightsource? }
+  end
 end
 

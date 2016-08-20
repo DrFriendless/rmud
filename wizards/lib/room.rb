@@ -41,7 +41,9 @@ class Room < Thing
   end
 
   def lit?
-    @lit == true || @lit == "true"
+    (@lit == true) ||
+        (@lit == "true") ||
+        (@contents.any? { |thing| thing.lightsource? })
   end
 
   def reset

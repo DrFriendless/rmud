@@ -155,4 +155,8 @@ class Thing
   # periodically refresh ourselves
   def reset
   end
+
+  def lightsource?
+    @lightsource
+  end
 end

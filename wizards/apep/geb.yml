@@ -1,5 +1,51 @@
-Outdoor/geb1:
-    short: By the river.
-    long: Something to do with geese.
+Arcadia/geb1:
+    short: Arcadia, on the slopes
+    long: You're in Arcadia, a realm of gently sloping grassy hills and lush valleys, lit by golden light. There is a river down the hill to the north, or you can climb higher up the hill.
     out: lib/Room/hallofdoors
+    down: Arcadia/river1
+    north: Arcadia/river1
+    south: Arcadia/meadow
+    up: Arcadia/meadow
+    contains: SingletonCreature/gooseherd Virtual/nodoor
 
+Virtual/nodoor:
+    identity: door, geb door
+    examine_it: tell('The door has vanished')
+    open_it: tell('There is no door here.')
+    close_it: tell('The door seems to have vanished.')
+    enter_it: tell("You can't do that, there is no door.")
+
+Arcadia/river1:
+    short: Arcadia, by the river
+    long: You're in Arcadia, a realm of lush valleys and lazy pleasant rivers. A peaceful river flows past.
+    south: Arcadia/geb1
+    up: Arcadia/geb1
+
+Arcadia/meadow:
+    short: Arcadia, in the hige meadow.
+    long: You're in Arcadia, a realm of gently sloping hills and stunning vistas lit by golden sunshine. There is a grassy meadow here.
+    north: Arcadia/geb1
+    down: Arcadia/geb1
+
+Creature/vampiregoose:
+    short: a vampire goose
+    long: A vampire goose looks mostly like a normal goose except it has two tiny fangs on the end of its beak, and a splash of red feathers under its wings.
+    maxhp: 4
+    level: 1
+
+Creature/poisonsnake:
+    short: a poisonous snake
+    long: The poisonous snake is a green snake about as long as a person. You can tell it's poisonous because it looks very scary.
+    maxhp: 6
+    level: 1
+
+SingletonCreature/gooseherd:
+    short: Alvan the Gooseherder
+    identity: Alvan, gooseherder, gooseherd
+    level: 5
+    chats:
+        - 'hello =~ say("Hello #{actor.name}, I''m Alvan, the gooseherd.")'
+        - geese =~ say("I was tending my geese, but they seem to have run off.")
+        - goose =~ say("I was tending my geese, but they seem to have run off.")
+    reactions:
+        - ArriveEffect say("Have you seen my geese?")

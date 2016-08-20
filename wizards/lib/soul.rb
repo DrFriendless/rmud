@@ -38,6 +38,11 @@ class Soul < Thing
       end
       response.handled = true
     }
+    verb(["emote", :plus]) { |response, command, match|
+      does = match[0].join(' ')
+      command.room.publish_to_room(EmoteEffect.new(command.body, does))
+      response.handled = true
+    }
   end
 
   def do_not_persist?

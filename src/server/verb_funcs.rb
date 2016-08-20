@@ -40,3 +40,10 @@ def do(cmd)
     response.handled = true
   end
 end
+
+def emote(s)
+  Proc.new do |response, command, match|
+    command.body.quick_command("emote " + s)
+    response.handled = true
+  end
+end

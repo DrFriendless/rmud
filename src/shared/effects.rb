@@ -256,6 +256,21 @@ class SayEffect < Effect
   end
 end
 
+class EmoteEffect < Effect
+  def initialize(actor, does)
+    @actor = actor
+    @does = does
+  end
+
+  attr_reader :does
+
+  def message_for(observer)
+    if observer != @actor
+      Observation.new("#{@actor.name} #{@does}")
+    end
+  end
+end
+
 class AttackEffect < ActorActorEffect
   def initialize(attacker, attackee)
     super(attacker, attackee, nil, "#{attacker.name} attacks you!", "#{attacker.name} attacks #{attackee.name}!")

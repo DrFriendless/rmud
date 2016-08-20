@@ -43,6 +43,7 @@ class PlayerBody < Body
     data[:combatxp] = @combatxp
     data[:score] = @score
     data[:ghost] = @ghost
+    data[:wizard] = @wizard
     data
   end
 
@@ -52,13 +53,14 @@ class PlayerBody < Body
     @combatxp = (data && data[:combatxp]) || 0
     @questxp = (data && data[:quetxp]) || 0
     @score = (data && data[:score]) || 0
+    @wizard = (data && data[:wizard]) || 0
     @ghost = (data && data[:ghost])
     loc = data && data[:loc]
     # some rooms are bad to restart in.
     if !loc || world.find_singleton(loc)&.norestart
-      loc = "lib/Room/hallofdoors"
+      loc = 'lib/Room/hallofdoors'
     end
-    p "goto loc #{loc}"
+    p "restored to location #{loc}"
     move_to_location(loc)
   end
 

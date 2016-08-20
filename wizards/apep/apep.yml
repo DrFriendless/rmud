@@ -34,7 +34,7 @@ Door/horus:
 
 Door/geb:
     examine_it: tell("The door is painted with a hieroglyph of a goose.")
-    south: Outdoor/geb1
+    south: Arcadia/geb1
     open: false
     identity: door, geb door, south door
 
