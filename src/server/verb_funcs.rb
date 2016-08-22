@@ -54,3 +54,11 @@ def emote(s)
     response.handled = true
   end
 end
+
+def afterlife(s1,s2)
+  Proc.new do |response, command, match|
+    command.room.publish_to_room(ScriptedEffect.new(command.body, s1, s2))
+    command.body.move_to_location("lib/Room/hall1")
+    response.handled = true
+  end
+end

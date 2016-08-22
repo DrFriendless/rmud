@@ -341,3 +341,19 @@ class DamageEffect < ActorActorEffect
 
   attr_reader :damage
 end
+
+class ScriptedEffect < Effect
+  def initialize(actor, s1, s2)
+    @actor = actor
+    @s1 = s1
+    @s2 = s2
+  end
+
+  def message_for(observer)
+    if observer == @actor
+      Observation.new(eval('"' + @s1 + '"', binding))
+    else
+      Observation.new(eval('"' + @s2 + '"', binding))
+    end
+  end
+end

@@ -8,8 +8,9 @@ Virtual/doortoset:
 
 Room/mouth:
     short: The Mouth of Apep
-    long: You're in a dark cavern, with no obvious means of exit... EXCEPT for the massive stone snake head with a wide open mouth. You could walk in there...
+    long: You're in a dark cavern, with no obvious means of exit... EXCEPT for the massive stone snake head with a wide open mouth. You could enter there. On the other hand there is also a tiny shrine to Ra here.
     enter: Room/body1
+    contains: Shrine/ra
     lit: true
 
 Room/body1:
@@ -73,3 +74,9 @@ Room/body5:
     west: lib/Room/hallofdoors
     contains: Creature/garialite Door/nephthys
     guard_south: garialite
+
+Shrine/ra:
+    examine_it: tell 'The shrine is not much more than a painting of the sun, with the inscription "Serpent, turn over that Ra may see thee." Appropriate actions here would be "pray to Ra" or "worship Ra."'
+    identity: shrine, shrine to ra, small shrine, painting, inscription
+    effect_actor: You feel the warmth of Ra's guidance, and are drawn to another place.
+    effect_observer: "#{@actor.name} kneels at the shrine to Ra, and vanishes!"
