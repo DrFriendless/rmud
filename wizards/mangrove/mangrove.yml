@@ -14,7 +14,7 @@ Outdoor/townsquare:
     west: Outdoor/plaza
     south: Outdoor/elfquarter
     northwest: Room/pub
-    northeast: Room/advguild
+    northeast: AdvGuild/mangrove
 
 Room/pub:
     short: Ye Olde Pubbe
@@ -37,6 +37,7 @@ Virtual/tavern:
     lightsource: true
     enter_it: goto "Room/tavern"
     northeast: Room/tavern
+    destination: Outdoor/plaza
 
 Virtual/shop:
     identity: shop
@@ -236,6 +237,7 @@ Room/mangrovehunters:
     short: Mangrove Hunters Guild
     long: This solid building proclaims itself to be the Mangrove Hunters Guild. Heads of various terrifying swamp creatures line the walls.
     exit: Outdoor/plaza
+    lit: true
 
 Virtual/statue:
     identity: statue, Thoth, statue of Thoth

@@ -1,10 +1,12 @@
 # The damage done by an attack. This is created by the weapon or spell and modified by the victim's armour.
-# suggested damage types: :piercing :slashing :bludgeoning :fire :cold :electricity :acid :necrotic :poison :holy :unholy
+# suggested damage types: :piercing :slashing :bludgeoning :fire :cold :electricity :acid :necrotic :poison :holy :unholy :poison
 # suggested flags: :missile :breath :weapon :touch :vampiric
 class Attack
   def initialize(description, damages, flags=[])
     5/0 unless description
     @description = description
+    @poison = damages[:poison] || 0
+    damages.delete(:poison)
     @damages = damages
     @flags = flags
     # comments to the players about what happened
@@ -47,4 +49,5 @@ class Attack
 
   attr_reader :annotations
   attr_reader :description
+  attr_reader :poison
 end

@@ -21,6 +21,7 @@ class Body < Thing
     initialize_gold
     initialize_wearing
     initialize_hp
+    @poison = 0
   end
 
   def after_properties_set
@@ -40,6 +41,7 @@ class Body < Thing
       ws[k] = vs.map { |v| if v; v.persistence_key; else; () end }
     }
     data[persistence_key][:ws] = ws
+    data[persistence_key][:poison] = @poison || 0
   end
 
   def restore(data, by_persistence_key)
@@ -60,6 +62,7 @@ class Body < Thing
         end
       }
     }
+    @poison = data[:poison] || 0
   end
 
   def go_to(location, direction)
@@ -121,6 +124,11 @@ class Body < Thing
   end
 
   def heartbeat(time, time_of_day)
+    if (@poison > 0) && (rand(10) < @poison)
+      tell("You are unable to act due to poisoning.")
+      @poison -= 1
+      return true
+    end
     attacked = false
     if @victim
       weapon = wielded_weapon
@@ -152,10 +160,19 @@ class Body < Thing
     armours.each { |a| a.mutate_attack(attack) }
     #p "attack became #{attack}"
     attack.annotations.each { |anno| victim.tell(anno) }
+    if attack.poison > 0
+      @victim.poisoned(attack.poison)
+      @victim.tell("You are poisoned!")
+    end
     dmg = attack.total_damage
     if dmg > 0
       #p "total damage is #{dmg}"
       location.publish_to_room(DamageEffect.new(self, victim, dmg))
+      possible_damage = [victim.hp, dmg].min()
+      if attack.vampiric? and possible_damage > 0
+        tell("You draw life force from your victim!")
+        @hp += possible_damage
+      end
       killed = @victim.damage(dmg)
       if killed
         location.publish_to_room(DieEffect.new(@victim))
@@ -179,14 +196,34 @@ class Body < Thing
     @victim = other unless @victim
   end
 
+  def poisoned(amount)
+    @poison += amount
+  end
+
+  def heal_poison(amount)
+    if @poison > 0
+      @poison -= amount
+      if @poison < 0
+        @poison = 0
+      end
+      if @poison == 0
+        tell("You are no longer poisoned.")
+      end
+    end
+  end
+
   def you_died(killed_by)
+    unwear_all
     corpse = world.create_corpse(self)
     corpse.move_to(location)
-    contents.each { |c|
+    # copy because we're modifying contents
+    Array.new(contents).each { |c|
       if c.short
         c.move_to(corpse)
+        p "move #{c.persistence_key} to corpse"
       else
         c.destroy
+        p "destroy #{c.persistence_key}"
       end
     }
     if gp > 0

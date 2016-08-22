@@ -95,6 +95,7 @@ class PlayerBody < Body
     @victim = nil
     @ghost = true
     @short = "ghost of Mangrove"
+    @poison = 0
     tell("Your soul leaves your body.")
   end
 

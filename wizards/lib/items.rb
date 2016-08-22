@@ -51,10 +51,11 @@ class Weapon < Item
   def after_properties_set
     super
     after_properties_set_worn
+    @flags = @damage_flags ? @damage_flags.split(' ').map { |s| s.intern } : []
   end
 
   def create_attacks
-    [Attack.new(@attack_description, {@damage_type.intern => eval(@damage)}, [:weapon])]
+    [Attack.new(@attack_description, {@damage_type.intern => eval(@damage)}, [:weapon] + @flags)]
   end
 end
 

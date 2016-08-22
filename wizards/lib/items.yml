@@ -54,6 +54,18 @@ Weapon/wandoflightning:
     attack_description: "#{attacker} zapped #{attackee} with a bolt of lightning from a wand."
     damage_type: electricity
 
+Weapon/athame:
+    short: an evil athame
+    long: The athame is a double-edged dagger with a black handle. The blade is carved with esoteric runes, so it would seem that the weapon is enchanted.
+    identity: athame, evil athame
+    slots:
+      - righthand
+    value: 200
+    damage: 1.d6
+    damage_type: piercing
+    damage_flags: vampiric
+    attack_description: "#{attacker} tabs at #{attackee} with an evil athame."
+
 Shield/wooden:
     short: a shield
     long: The shield is a small piece of wood on a strap, that you're supposed to put between you and the bad guy.
@@ -85,6 +97,7 @@ Item/royaljelly:
     weight: 1
     eat_it:
       - heal(50)
+      - healpoison(20)
       - tell "You feel much restored."
       - selfdestruct()
-    identity: jelly, royal jelly
+    identity: jelly, royal jelly, tub

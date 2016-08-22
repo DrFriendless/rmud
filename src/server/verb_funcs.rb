@@ -20,6 +20,13 @@ def heal(n)
   end
 end
 
+def healpoison(n)
+  Proc.new do |response, command, match|
+    command.body.heal_poison(n)
+    response.handled = true
+  end
+end
+
 def say(s)
   Proc.new do |response, command, match|
     command.body.quick_command("say " + s)

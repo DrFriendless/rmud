@@ -22,7 +22,7 @@ Arcadia/river1:
     up: Arcadia/geb1
 
 Arcadia/meadow:
-    short: Arcadia, in the hige meadow.
+    short: Arcadia, in the high meadow.
     long: You're in Arcadia, a realm of gently sloping hills and stunning vistas lit by golden sunshine. There is a grassy meadow here.
     north: Arcadia/geb1
     down: Arcadia/geb1

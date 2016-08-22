@@ -5,6 +5,10 @@ module Wearing
                    'righthand' => [nil], 'lefthand' => [nil], 'shoes' => [nil]}
   end
 
+  def unwear_all
+    @wear_slots.each_pair { |k,v| v.each_index { |i| @wear_slots[k][i] = nil if @wear_slots[k][i] } }
+  end
+
   # can we put it on now?
   def space_to_wear?(slots)
     slots.all? { |s| @wear_slots[s]&.include?(nil) }
@@ -111,7 +115,11 @@ module HitPoints
     if @ghost
       "You are a ghost. Other than that you feel OK. You should get to a holy place to get that fixed."
     else
-      "You have #{@hp} hit points out of a maximum of #{@maxhp}."
+      s = "You have #{@hp} hit points out of a maximum of #{@maxhp}."
+      if @poison > 0
+        s += " You are poisoned."
+      end
+      s
     end
   end
 end

@@ -49,6 +49,7 @@ class Room < Thing
   def reset
     cs = @contains
     if cs
+      p cs
       cs.split.each { |rs|
         if is_money?(rs)
           tcr = ThingClassRef.new(nil, "lib/Gold/default")
