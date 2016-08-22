@@ -83,7 +83,7 @@ class Creature < Body
   private def create_initial_items
     w = @weapon
     if w
-      tcr = ThingClassRef.new(@thingClass.wizard, w)
+      tcr = ThingClassRef.new(wizard, w)
       thing = world.instantiate_ref(tcr)
       if thing
         thing.move_to(self)
@@ -99,8 +99,8 @@ class Creature < Body
             if thing; thing.move_to(self) end
           end
         else
-          tcr = ThingClassRef.new(@thingClass.wizard, rs)
-          if !find_by_class(tcr)
+          tcr = ThingClassRef.new(wizard, rs)
+          unless find_by_class(tcr)
             thing = world.instantiate_ref(tcr)
             if thing; thing.move_to(self) end
           end
@@ -207,7 +207,7 @@ end
 class Bast < SingletonCreature
   def you_died(killed_by)
     super
-    witnesses = killed_by.location.contents.select { |x| x.is_a? Body && x.conscious? }
+    witnesses = killed_by.location.contents.select { |x| (x.is_a? Body) && x.conscious? && x != killed_by }
     quest = killed_by.find_quest("lib/BastQuest/default")
     if quest
       if witnesses.length > 0

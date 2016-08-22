@@ -74,7 +74,12 @@ class PlayerBody < Body
   end
 
   def has_quest(id)
-    @completed_quests.include?(id) || (@contents.map { |x| x.persistence_key }.include?(id))
+    @completed_quests.include?(id) || (@contents.map { |x| x.class_name }.include?(id))
+  end
+
+  def find_quest(id)
+    qs = @contents.select { |x| (x.is_a? Quest) && (x.id == id) }
+    qs[0] if qs.length > 0
   end
 
   def effect(effect)

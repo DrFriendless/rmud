@@ -60,7 +60,11 @@ class Thing
   end
 
   def persistence_key
-    @thingClass.persistence_key + "@#{object_id}"
+    class_name + "@#{object_id}"
+  end
+
+  def class_name
+    @thingClass.persistence_key
   end
 
   def world
@@ -120,7 +124,7 @@ class Thing
   end
 
   def local_dest(v)
-    world.dest(@thingClass.wizard, v)
+    world.dest(wizard, v)
   end
 
   def carriable?

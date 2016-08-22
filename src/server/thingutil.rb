@@ -70,7 +70,7 @@ end
 # marker to indicate that there is one of these and it always exists.
 module Singleton
   def persistence_key
-    @thingClass.persistence_key
+    class_name
   end
 end
 

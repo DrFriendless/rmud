@@ -18,7 +18,7 @@ class Quest < Thing
   end
 
   def after_properties_set
-    @id = @thingClass.persistence_key
+    @id = class_name
   end
 
   attr_reader :id

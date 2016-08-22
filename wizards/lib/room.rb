@@ -25,7 +25,7 @@ class Room < Thing
           quest_keys = @quests.split
           count = 0
           quest_keys.each { |qk|
-            key = world.dest(@thingClass.wizard, qk)
+            key = world.dest(wizard, qk)
             unless command.body.has_quest(key)
               count += 1
               q = world.create(key)
@@ -49,7 +49,7 @@ class Room < Thing
         else
           quest_keys = @quests.split
           quest_keys.each { |qk|
-            key = world.dest(@thingClass.wizard, qk)
+            key = world.dest(wizard, qk)
             if command.body.has_quest(key)
               command.body.tell("You cannot accept that quest again.")
             else
@@ -102,7 +102,7 @@ class Room < Thing
             if thing; thing.move_to(self) end
           end
         else
-          tcr = ThingClassRef.new(@thingClass.wizard, rs)
+          tcr = ThingClassRef.new(wizard, rs)
           if tcr.singleton?
             thing = world.find_singleton(tcr.key)
             if !thing
