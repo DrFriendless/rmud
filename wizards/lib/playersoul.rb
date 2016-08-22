@@ -105,7 +105,7 @@ class PlayerSoul < Soul
     }
     verb(["quests"]) { |response, command, match|
       require_relative './quest'
-      quests = @contents.select { |q| q.is_a? Quest }
+      quests = command.body.contents.select { |q| q.is_a? Quest }
       lines = quests.map { |q| q.status }
       lines = [ "You have no quests in progress. "] if lines.size == 0
       response.message = lines.join("\n")

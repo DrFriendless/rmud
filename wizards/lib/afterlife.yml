@@ -44,8 +44,9 @@ Room/private:
 
 GreatLibrary/library:
     short: The Great Library
-    long: This is the Great Library, the temple of Thoth. Every book or scroll ever created is here. In fact, Thoth seem to have a great many duplicates, like anyone who really loves books. There are exits in all directions.
-    contains: Item/stick Creature/librarian SingletonCreature/bast
+    long: This is the Great Library, the temple of Thoth. Every book or scroll ever created is here. In fact, Thoth seem to have a great many duplicates, like anyone who really loves books. There are exits in all directions. Use the 'find quests'command to get quests here.
+    contains: Item/stick Creature/librarian Bast/bast
+    quests: BastQuest/default
     exit: Room/hallofdoors
     north: Room/hallofdoors
     south: Room/hallofdoors

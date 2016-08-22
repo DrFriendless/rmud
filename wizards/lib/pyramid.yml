@@ -36,7 +36,7 @@ Virtual/ravine:
     identity: ravine
     examine_it: tell "The ravine is too wide to jump, and it's almost certainly bottomless."
 
-SingletonCreature/bast:
+Bast/bast:
     short: Bast
     long: Bast is a small black cat. She has pointy ears and supernaturally piercing yellow eyes.
     maxhp: 1
@@ -58,3 +58,8 @@ SingletonCreature/bast:
         - out
         - shuffle
         - extend
+
+BastQuest/default:
+    key: bast
+    description: You are required to kill the cat Bast 9 times without being witnessed.
+    xp_awards: 729

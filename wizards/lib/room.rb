@@ -17,6 +17,50 @@ class Room < Thing
   def after_properties_set
     super
     add_direction_verbs
+    verb(["find", "quests"]) { |response,command,match|
+      if command.body.is_a? PlayerBody
+        if command.body.ghost?
+          command.body.tell("Ghosts can't get quests.")
+        else
+          quest_keys = @quests.split
+          count = 0
+          quest_keys.each { |qk|
+            key = world.dest(@thingClass.wizard, qk)
+            unless command.body.has_quest(key)
+              count += 1
+              q = world.create(key)
+              p "#{q.persistence_key} #{q.id}"
+              command.body.tell(q.description)
+              command.body.tell("Use the command 'accept #{q.key}' to accept this quest.")
+              q.destroy
+            end
+          }
+          if count == 0
+            command.body.tell("There are no more quests available here for you.")
+          end
+        end
+        response.handled = true
+      end
+    }
+    verb(["accept", :word]) { |response,command,match|
+      if command.body.is_a? PlayerBody
+        if command.body.ghost?
+          command.body.tell("Ghosts can't get quests.")
+        else
+          quest_keys = @quests.split
+          quest_keys.each { |qk|
+            key = world.dest(@thingClass.wizard, qk)
+            if command.body.has_quest(key)
+              command.body.tell("You cannot accept that quest again.")
+            else
+              q = world.create(key)
+              q.move_to(command.body)
+            end
+          }
+        end
+      end
+      response.handled = true
+    }
   end
 
   def publish_to_room(effect)

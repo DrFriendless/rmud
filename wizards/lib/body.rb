@@ -236,5 +236,9 @@ class Body < Thing
   def lightsource?
     @contents.any? { |thing| thing.lightsource? }
   end
+
+  def conscious?
+    true
+  end
 end
 

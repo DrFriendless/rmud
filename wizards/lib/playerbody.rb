@@ -18,6 +18,7 @@ class PlayerBody < Body
     initialize_alignment
     @loc = "lib/GreatLibrary/library"
     @ghost = false
+    @completed_quests = []
   end
 
   def after_properties_set
@@ -44,6 +45,7 @@ class PlayerBody < Body
     data[:score] = @score
     data[:ghost] = @ghost
     data[:wizard] = @wizard
+    data[:completed_quests] = @completed_quests
     data
   end
 
@@ -55,6 +57,7 @@ class PlayerBody < Body
     @score = (data && data[:score]) || 0
     @wizard = (data && data[:wizard]) || 0
     @ghost = (data && data[:ghost])
+    @completed_quests = (data && data[:completed_quests]) || []
     loc = data && data[:loc]
     # some rooms are bad to restart in.
     if !loc || world.find_singleton(loc)&.norestart
@@ -62,6 +65,16 @@ class PlayerBody < Body
     end
     p "restored to location #{loc}"
     move_to_location(loc)
+  end
+
+  def complete_quest(id, xp)
+    @completed_quests.push(id)
+    add_quest_experience(xp)
+    tell("You gained #{xp} quest XP.")
+  end
+
+  def has_quest(id)
+    @completed_quests.include?(id) || (@contents.map { |x| x.persistence_key }.include?(id))
   end
 
   def effect(effect)

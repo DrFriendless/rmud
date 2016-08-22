@@ -94,12 +94,16 @@ class Creature < Body
     if cs
       cs.split.each { |rs|
         if is_money?(rs)
-          thing = world.instantiate_gold(rs)
-          if thing; thing.move_to(self) end
+          if gp == 0
+            thing = world.instantiate_gold(rs)
+            if thing; thing.move_to(self) end
+          end
         else
           tcr = ThingClassRef.new(@thingClass.wizard, rs)
-          thing = world.instantiate_ref(tcr)
-          if thing; thing.move_to(self) end
+          if !find_by_class(tcr)
+            thing = world.instantiate_ref(tcr)
+            if thing; thing.move_to(self) end
+          end
         end
       }
     end
@@ -200,3 +204,18 @@ class SingletonCreature < Creature
   include Singleton
 end
 
+class Bast < SingletonCreature
+  def you_died(killed_by)
+    super
+    witnesses = killed_by.location.contents.select { |x| x.is_a? Body && x.conscious? }
+    quest = killed_by.find_quest("lib/BastQuest/default")
+    if quest
+      if witnesses.length > 0
+        killed_by.tell("Your murder of Bast was witnessed by #{witnesses[0].short}")
+      else
+        quest.record_kill(killed_by)
+        killed_by.tell(quest.status)
+      end
+    end
+  end
+end

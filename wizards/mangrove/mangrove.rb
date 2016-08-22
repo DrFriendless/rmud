@@ -27,7 +27,9 @@ class Gong < Item
 end
 
 class Undead < Creature
-
+  def conscious?
+    false
+  end
 end
 
 class NecklaceOfRegeneration < Wearable

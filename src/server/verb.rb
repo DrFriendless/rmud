@@ -70,6 +70,16 @@ class Verb
         end
       }
       return false
+    elsif pattern[0] == :word
+      if words.length > 0
+        matches.push(words.take(1))
+        if match_words(pattern.drop(1), words.drop(1), verb_owner, matches, verb_invoker)
+          return true
+        else
+          matches.pop
+        end
+      end
+      return false
     elsif pattern[0] == :it
       (1..words.size).each { |n|
         matches.push(words.take(n))
