@@ -31,7 +31,7 @@ class PlayerBody < Body
 
   def persist(data)
     super
-    data[persistence_key][:name] = @name
+    data[:name] = @name
   end
 
   def player_persistence_data()

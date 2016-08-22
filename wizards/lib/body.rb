@@ -33,15 +33,14 @@ class Body < Thing
   def persist(data)
     super
     persist_contents(data)
-    data[persistence_key] ||= {}
-    persist_hit_points(data[persistence_key])
+    persist_hit_points(data)
     persist_gold(data)
     ws = {}
     @wear_slots.each_pair { |k,vs|
       ws[k] = vs.map { |v| if v; v.persistence_key; else; () end }
     }
-    data[persistence_key][:ws] = ws
-    data[persistence_key][:poison] = @poison || 0
+    data[:ws] = ws
+    data[:poison] = @poison || 0
   end
 
   def restore(data, by_persistence_key)

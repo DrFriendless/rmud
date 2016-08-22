@@ -54,7 +54,6 @@ class Thing
   end
 
   def persist(data)
-    data[persistence_key] ||= {}
   end
 
   def restore(data, by_persistence_key)

@@ -89,7 +89,11 @@ class World
 
   def persist
     data = {}
-    @all_things.select { |s| !s.do_not_persist? }.each { |s| s.persist(data) }
+    @all_things.select { |s| !s.do_not_persist? }.each { |s|
+      pk = s.persistence_key
+      data[pk] = {}
+      s.persist(data[pk])
+    }
     @database.save(data)
     @all_players.each { |p| @database.save_player(p.name, p.player_persistence_data) }
   end

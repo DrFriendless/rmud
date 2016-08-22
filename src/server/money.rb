@@ -18,7 +18,7 @@ module HasGold
   end
 
   def persist_gold(data)
-    data[persistence_key][:gp] = @gp
+    data[:gp] = @gp
   end
 
   def restore_gold(data, by_persistence_key)

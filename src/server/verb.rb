@@ -26,9 +26,6 @@ class Verb
     if pattern.size == 1 && (pattern[0] == :star || pattern[0] == "*") && words.empty?
       return true
     end
-    if words[0] == "sac"
-      p "#{pattern} #{verb_owner.persistence_key}"
-    end
     if pattern.empty? || words.empty?; return false end
     if pattern[0] == :star
       (0..words.size).each { |n|

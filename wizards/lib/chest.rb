@@ -27,7 +27,7 @@ module Openable
   end
 
   def persist_openable(data)
-    data[persistence_key][:open] = @open
+    data[:open] = @open
   end
 
   def restore_openable(data, by_persistence_key)
@@ -178,11 +178,10 @@ class Corpse < OpenContainer
 
   def persist(data)
     super
-    puts persistence_key
-    data[persistence_key][:short] = @short
-    data[persistence_key][:long] = @long
+    data[:short] = @short
+    data[:long] = @long
     calc_identities
-    data[persistence_key][:identity] = @identities.join(',')
+    data[:identity] = @identities.join(',')
   end
 
   def restore(data, by_persistence_key)

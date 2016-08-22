@@ -50,7 +50,7 @@ class Door < Thing
 
   def persist(data)
     super
-    data[persistence_key][:open] = @open
+    data[:open] = @open
   end
 
   def restore(data, by_persistence_key)

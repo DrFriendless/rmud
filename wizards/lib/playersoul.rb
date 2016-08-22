@@ -103,6 +103,14 @@ class PlayerSoul < Soul
       command.body.move_to_location("lib/Room/junk")
       response.handled = true
     }
+    verb(["quests"]) { |response, command, match|
+      require_relative './quest'
+      quests = @contents.select { |q| q.is_a? Quest }
+      lines = quests.map { |q| q.status }
+      lines = [ "You have no quests in progress. "] if lines.size == 0
+      response.message = lines.join("\n")
+      response.handled = true
+    }
     # called destruct rather than destroy in honour of Lars
     verb(["destruct", :plus]) { |response, command, match|
       thing = command.room.find(match[0].join(' ')) || command.body.find(match[0].join(' '))

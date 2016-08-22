@@ -82,8 +82,7 @@ module Container
   attr_reader :contents
 
   def persist_contents(data)
-    data[persistence_key] ||= {}
-    data[persistence_key][:contents] = @contents.
+    data[:contents] = @contents.
         select { |t| !t.do_not_persist? }.
         map { |t| t.persistence_key }
   end
