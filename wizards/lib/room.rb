@@ -29,7 +29,6 @@ class Room < Thing
             unless command.body.has_quest(key)
               count += 1
               q = world.create(key)
-              p "#{q.persistence_key} #{q.id}"
               command.body.tell(q.description)
               command.body.tell("Use the command 'accept #{q.key}' to accept this quest.")
               q.destroy
@@ -93,16 +92,16 @@ class Room < Thing
   def reset
     cs = @contains
     if cs
-      p cs
       cs.split.each { |rs|
         if is_money?(rs)
           tcr = ThingClassRef.new(nil, "lib/Gold/default")
-          if !find_by_class(tcr)
+          unless find_by_class(tcr)
             thing = world.instantiate_gold(rs)
             if thing; thing.move_to(self) end
           end
         else
           tcr = ThingClassRef.new(wizard, rs)
+          p tcr.to_s
           if tcr.singleton?
             thing = world.find_singleton(tcr.key)
             if !thing

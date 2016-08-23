@@ -206,7 +206,6 @@ class World
     data.each { |vs|
       id = vs[:_id]
       t = by_persistence_key[id]
-      p vs
       t.restore(vs, by_persistence_key) if t
     }
     # if we didn't have a record of something, tell it has just been created

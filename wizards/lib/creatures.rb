@@ -211,7 +211,7 @@ class Bast < SingletonCreature
     quest = killed_by.find_quest("lib/BastQuest/default")
     if quest
       if witnesses.length > 0
-        killed_by.tell("Your murder of Bast was witnessed by #{witnesses[0].short}")
+        killed_by.tell("Your murder of Bast was witnessed by #{witnesses[0].short}.")
       else
         quest.record_kill(killed_by)
         killed_by.tell(quest.status)

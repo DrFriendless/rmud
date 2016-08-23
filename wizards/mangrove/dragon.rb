@@ -96,10 +96,6 @@ class DragonLair < Outdoor
     dragon = world.find_singleton(DRAGON)
     return false unless dragon && dragon.location == self
     contents.each { |c|
-      # the dragon currently has guests so he won't leave.
-      if (c.is_a? Body) && c != dragon
-        p "dragon's guest is #{c.name}"
-      end
       return false if (c.is_a? Body) && c != dragon
     }
     true

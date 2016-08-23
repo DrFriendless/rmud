@@ -132,11 +132,9 @@ class Body < Thing
     if @victim
       weapon = wielded_weapon
       attacks = weapon&.create_attacks || weaponless_attacks
-      p "attacks are #{attacks}"
       attacks.each { |attack|
         break unless @victim
         if @victim.dead?
-          p "Victim is dead."
           @victim = find_new_victim
         elsif @victim.location != location
           @victim = find_new_victim
@@ -219,10 +217,8 @@ class Body < Thing
     Array.new(contents).each { |c|
       if c.short
         c.move_to(corpse)
-        p "move #{c.persistence_key} to corpse"
       else
         c.destroy
-        p "destroy #{c.persistence_key}"
       end
     }
     if gp > 0
