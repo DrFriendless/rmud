@@ -154,31 +154,31 @@ end
 
 class DropEffect < ActorItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} drops a #{@item.short}.")
+    Observation.new("#{@actor.name} drops #{@item.short}.")
   end
 end
 
 class WearEffect < ActorItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} wears a #{@item.short}.")
+    Observation.new("#{@actor.name} wears #{@item.short}.")
   end
 end
 
 class RemoveEffect < ActorItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} removes a #{@item.short}.")
+    Observation.new("#{@actor.name} removes #{@item.short}.")
   end
 end
 
 class BuyEffect < ActorItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} buys a #{@item.short}.")
+    Observation.new("#{@actor.name} buys #{@item.short}.")
   end
 end
 
 class SellEffect < ActorItemEffect
   def message_for_others
-    Observation.new("#{@actor.name} sells a #{@item.short}.")
+    Observation.new("#{@actor.name} sells #{@item.short}.")
   end
 end
 

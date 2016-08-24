@@ -1,3 +1,5 @@
+require_relative './item'
+
 module Openable
   def initialize_openable
     @open = true
